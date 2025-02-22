@@ -83,9 +83,9 @@ uint8_t analogOut[2]={0};
 union Byte portFlag;
 union Byte relayOut;
 PIDController pid;
-//#ifdef MANUAL_CHECK
+#ifdef MANUAL_CHECK
   float flT0=320, dpv0;
-//#endif
+#endif
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -263,6 +263,7 @@ int main(void)
     else if(displ_num){displ_num = 0; NEWBUTT = 1; displOff=DISPLAYOFF;}  // возврат к главному дисплею
     else if(displOff) --displOff;
     else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+    
     #ifndef MANUAL_CHECK
       temperature_check();
     #endif
@@ -328,9 +329,10 @@ int main(void)
           i16 = Relay(set[T0]*10 - ds.pvT[0], set[HIST]);   // величина ошибки температуры воздуха
         }
         if(ds18b20_amount>1 && ds.pvT[1]<1999){             // величина ошибки температурs среды
-          if(i16==ON) i16 = Relay(set[T1]*10 - ds.pvT[1], set[HIST]/2);
+          u16 = Relay(set[T1]*10 - ds.pvT[1], 0);
         }
-        if(i16==ON) pwTriac = UpdatePID(&pid,0);            // ПИД нагреватель
+        if(u16==ON) pwTriac = UpdatePID(&pid,0);            // ПИД нагреватель
+        else i16 = OFF;
         if(pwTriac) TRIAC = ON;                             // включить (SSR-25DA)
         dsplPW = pwTriac;
         if(dsplPW>100) dsplPW = 100;
