@@ -209,35 +209,35 @@ void displ_1(void){
     if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; // Ì‡ÔˇÊÂÌËÂ ÔÓ‰‡ÌÓ
     GUI_FillRectangle(X_left+150,Y_str,30,18,color_box);
 //--------------------------------------------------------------------------------------------------------------
-    Y_str = Y_str+25+5;
-    sprintf(buffTFT,"ArhCount=%u", arhCount);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"E0=%2x; E1=%2x; E2=%2x; E3=%2x;",
-      arhErrors[0], arhErrors[1], arhErrors[2], arhErrors[3]);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"E4=%2x; E5=%2x; E6=%2x; E7=%2x;",
-      arhErrors[4], arhErrors[5], arhErrors[6], arhErrors[7]);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"E8=%2x; E9=%2x; E0=%2x; E1=%2x;",
-      arhErrors[8], arhErrors[9], arhErrors[10], arhErrors[11]);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"E2=%2x; E3=%2x; E4=%2x; E5=%2x;",
-      arhErrors[12], arhErrors[13], arhErrors[14], arhErrors[15]);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"D1%2x; D2%2x; D3%2x; D4%2x;",
-      ds.err[0], ds.err[1], ds.err[2], ds.err[3]);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+25+5;
+//    sprintf(buffTFT,"ArhCount=%u", arhCount);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"E0=%2x; E1=%2x; E2=%2x; E3=%2x;",
+//      arhErrors[0], arhErrors[1], arhErrors[2], arhErrors[3]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"E4=%2x; E5=%2x; E6=%2x; E7=%2x;",
+//      arhErrors[4], arhErrors[5], arhErrors[6], arhErrors[7]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"E8=%2x; E9=%2x; E0=%2x; E1=%2x;",
+//      arhErrors[8], arhErrors[9], arhErrors[10], arhErrors[11]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"E2=%2x; E3=%2x; E4=%2x; E5=%2x;",
+//      arhErrors[12], arhErrors[13], arhErrors[14], arhErrors[15]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"D1%2x; D2%2x; D3%2x; D4%2x;",
+//      ds.err[0], ds.err[1], ds.err[2], ds.err[3]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
 //==============================================================================================================
 #ifdef MANUAL_CHECK
     Y_str = Y_str+25+5;
     sprintf(buffTFT,"flT0=%2.3f; dpv0=%2.3f", flT0, dpv0);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-
+#endif
     Y_str = Y_str+18+5;
     sprintf(buffTFT,"Out=%+5d; T=%3.1f; E=%+3d", pid.output, (float)ds.pvT[0]/10, pid.prev_error);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
@@ -250,7 +250,6 @@ void displ_1(void){
     Y_str = Y_str+18+5;
     sprintf(buffTFT,"dPart=%+5d", pid.dPart);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-#endif
 }
 
 //--------- Õ¿À¿ÿ“”¬¿ÕÕﬂ ----------------------------------

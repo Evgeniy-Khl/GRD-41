@@ -13,12 +13,6 @@ extern uint8_t familycode[MAX_SENSOR][8], ds18b20_amount, Y_str, Y_top;
 extern int16_t pvTH, pvRH;
 extern uint16_t fillScreen, errors;
 
-//__STATIC_INLINE void DelayMicro(__IO uint32_t microseconds) {
-//    for (volatile uint32_t i = 0; i < microseconds * (SystemCoreClock / 1000000); i++) {
-//        __NOP(); // Нет операции (NOP)
-//    }
-//}
-
 //--------------------------------------------------
 __STATIC_INLINE void DelayMicro(__IO uint32_t micros){
 micros *= (SystemCoreClock / 1000000) / 8;

@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#define DISPLAYOFF 300
+
 void displ_0(void);
 void displ_1(void);
 void displ_2(void);

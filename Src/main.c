@@ -71,12 +71,12 @@ const char* relayName[7]={"ПЫД","НАГРЫВ","ТАЙМЕР","ВОЛОГА","ЕЛЕКТРО","Кл.ДИМА","
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x655},{1600,0x804},{1800,0x9B6},{2000,0xB65},{2200,0xD14},{2400,0xFFF}};//d=434+коррекция
 struct Ds ds;
 uint16_t speedData[MAX_SPEED][2], errors, arhCount, arhErrors[15];
-int16_t pvTH, pvRH, tmrCounter;
+int16_t pvTH, pvRH, tmrCounter, resetDispl=0, displOff=DISPLAYOFF;
 uint16_t set[INDEX], touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
 uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost;
 uint8_t timer10ms, tmrVent, ticBeep, pwTriac, invers, dsplPW;
 uint8_t familycode[MAX_SENSOR][8];
-int8_t ds18b20_amount, numSet=0, resetDispl=0, tmrWater;
+int8_t ds18b20_amount, numSet=0, tmrWater;
 int8_t relaySet[8]={-1,-1,-1,-1,-1,-1,-1,-1};
 int8_t analogSet[2]={-1,-1};
 uint8_t analogOut[2]={0};
@@ -111,7 +111,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
       invers = ~relayOut.value;
       HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
     }
-    if(ticBeep){ --ticBeep; HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_SET);}// индикация нажатия
+    if(ticBeep){ --ticBeep; HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_SET);}// бипер
     else {HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_RESET);}
   }
 }
@@ -234,6 +234,8 @@ int main(void)
     if(XPT2046_TouchPressed()&& checkTime>40){
       uint8_t butt_num;
       if(XPT2046_TouchGetCoordinates(&touch_x, &touch_y)){
+        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+        displOff=DISPLAYOFF;
         for (butt_num=0; butt_num<buttonAmount; butt_num++){
             if(contains(touch_x, touch_y, butt_num)) break; // проверка попадания новой координаты в область кнопки
         }
@@ -257,7 +259,10 @@ int main(void)
     //-------------- Начало проверки каждую 1 сек. -----------------------
     if(CHECK){ CHECK = OFF; errors=0;  //if(++temp>10) {temp=0; ++pvspeed; pvspeed&=7; ds.pvT[1] = speedData[pvspeed][0]; sendToI2c(speedData[pvspeed][1]);}
     dsplPW = 0;  
-    if(resetDispl) --resetDispl; else if(displ_num){displ_num = 0; NEWBUTT = 1;}  // возврат к главному дисплею
+    if(resetDispl) --resetDispl; 
+    else if(displ_num){displ_num = 0; NEWBUTT = 1; displOff=DISPLAYOFF;}  // возврат к главному дисплею
+    else if(displOff) --displOff;
+    else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
     #ifndef MANUAL_CHECK
       temperature_check();
     #endif
@@ -321,14 +326,14 @@ int main(void)
         //------ работает как нагреватель
         if(ds.pvT[0]<1999 && ds.pvT[0]>1){
           i16 = Relay(set[T0]*10 - ds.pvT[0], set[HIST]);   // величина ошибки температуры воздуха
-          pwTriac = UpdatePID(&pid,0);                      // ПИД нагреватель
         }
         if(ds18b20_amount>1 && ds.pvT[1]<1999){             // величина ошибки температурs среды
           if(i16==ON) i16 = Relay(set[T1]*10 - ds.pvT[1], set[HIST]/2);
-//          if(i16==OFF) pwTriac = OFF;                       // температура среды достигла заданной величины
         }
-        dsplPW = pwTriac;
+        if(i16==ON) pwTriac = UpdatePID(&pid,0);            // ПИД нагреватель
         if(pwTriac) TRIAC = ON;                             // включить (SSR-25DA)
+        dsplPW = pwTriac;
+        if(dsplPW>100) dsplPW = 100;
         //------ работает как охладитель
         if(set[CHILL]&1){  
           i16 = Relay(ds.pvT[0] - set[T0]*10, set[HIST]);

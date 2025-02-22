@@ -64,26 +64,6 @@ uint8_t ignition(uint8_t value){
   return value;
 }
 
-//uint8_t UpdatePID(uint8_t cn){
-// int err;
-// float pPart, Ud;
-// static float iPart;
-//  err = set[cn]*10 - ds.pvT[cn];
-//  pPart = (float) err * dataRAM.config.koff[0];                  // расчет пропорциональной части
-////---- функци€ ограничени€ pPart ---------------
-//  if (pPart < 0) pPart = 0;
-//  else if (pPart > 100) pPart = 100;             // функци€ ограничени€
-////----------------------------------------------
-//  iPart += (float) dataRAM.config.koff[0] / dataRAM.config.koff[1] * err;      // приращение интегральной части
-//  Ud = pPart + iPart;                            // выход регул€тора до ограничени€
-////---- функци€ ограничени€ Ud ------------------
-//  if (Ud < 0) Ud = 0;
-//  else if (Ud > 100) Ud = 100;                   // функци€ ограничени€
-//  iPart = Ud - pPart;                            // "антинасыщ€юща€" поправка
-//  err = Ud;
-//  return err;
-//};
-
 uint8_t UpdatePID(PIDController *pid, uint8_t cn){
  int16_t error, derivative;
   // ¬ычисление ошибки
@@ -100,10 +80,10 @@ uint8_t UpdatePID(PIDController *pid, uint8_t cn){
   // —уммарное управл€ющее воздействие
   pid->output = pid->pPart + pid->iPart + pid->dPart;
   // ќграничение выходного значени€ и антивиндовинг
-  if (pid->output > 100) pid->output = 100;
+  if (pid->output > 100) pid->output = 110;
   else if (pid->output < 0) pid->output = 0;
   if (pid->pPart >= 100) pid->iPart = 0; // —брос интеграла
-  else if (pid->pPart <= -100) pid->iPart = 0; // —брос интеграла
+  else if (pid->pPart <= -50) pid->iPart = 0; // —брос интеграла
 
   error = pid->output;
   return error;
