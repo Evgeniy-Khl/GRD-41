@@ -70,7 +70,7 @@ const char* relayName[7]={"œ€ƒ","Õ¿√–€¬","“¿…Ã≈–","¬ŒÀŒ√¿","≈À≈ “–Œ"," Î.ƒ»Ã¿","
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x655},{1600,0x804},{1800,0x9B6},{2000,0xB65},{2200,0xD14},{2400,0xFFF}};//d=434+ÍÓÂÍˆËˇ
 struct Ds ds;
-uint16_t speedData[MAX_SPEED][2], errors;
+uint16_t speedData[MAX_SPEED][2], errors, arhCount, arhErrors[15];
 int16_t pvTH, pvRH, tmrCounter;
 uint16_t set[INDEX], touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
 uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost;
@@ -449,6 +449,8 @@ int main(void)
 //        if(analogSet[i16]>-1) analogOut[i16]=analogSet[i16];
 //      }
       if(errors && (set[CHILL]&2)==0){    // 2-ÓÚÍÎ˛˜ÂÌ˚ ‡‚‡ËÈÌ˚Â Á‚ÛÍÓ‚˚Â ÒË„Ì‡Î˚
+        arhErrors[arhCount] = errors;
+        if(++arhCount>15) arhCount = 0;
         switch (errors){
           case 0x01: ticBeep = 80; break; // œŒÃ»À ¿ ƒ¿“◊» ¿ N1
           case 0x02: ticBeep = 80; break; // œŒÃ»À ¿ ƒ¿“◊» ¿ N2
@@ -761,12 +763,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(TFT_RST_GPIO_Port, &GPIO_InitStruct);
 
-//  /*Configure GPIO pin : TFT_DC_Pin */
-//  GPIO_InitStruct.Pin = TFT_DC_Pin;
-//  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//  GPIO_InitStruct.Pull = GPIO_NOPULL;
-//  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//  HAL_GPIO_Init(TFT_DC_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin : TFT_DC_Pin */
+  GPIO_InitStruct.Pin = TFT_DC_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(TFT_DC_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Beep_Pin */
   GPIO_InitStruct.Pin = Beep_Pin;

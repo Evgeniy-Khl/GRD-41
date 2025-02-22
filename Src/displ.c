@@ -14,7 +14,7 @@ extern const char* otherName[];
 extern const char* relayName[];
 extern const char* analogName[];
 extern uint8_t displ_num, modeCell, ds18b20_amount, ds18b20_num, familycode[][8], newDate, ticBeep, dsplPW;
-extern uint16_t speedData[MAX_SPEED][2], errors;
+extern uint16_t speedData[MAX_SPEED][2], errors, arhCount, arhErrors[];
 extern uint16_t fillScreen, Y_str, X_left, Y_top, Y_bottom, color0, color1, set[INDEX], mainTimer, tmrCounter, checkSmoke;
 extern int8_t numSet, numDate;
 extern RTC_HandleTypeDef hrtc;
@@ -208,6 +208,30 @@ void displ_1(void){
     GUI_WriteString(X_left+40,Y_str, "ВХЫД N2:", Font_11x18, WHITE, BLACK);
     if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; // напряжение подано
     GUI_FillRectangle(X_left+150,Y_str,30,18,color_box);
+//--------------------------------------------------------------------------------------------------------------
+    Y_str = Y_str+25+5;
+    sprintf(buffTFT,"ArhCount=%u", arhCount);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"E0=%2x; E1=%2x; E2=%2x; E3=%2x;",
+      arhErrors[0], arhErrors[1], arhErrors[2], arhErrors[3]);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"E4=%2x; E5=%2x; E6=%2x; E7=%2x;",
+      arhErrors[4], arhErrors[5], arhErrors[6], arhErrors[7]);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"E8=%2x; E9=%2x; E0=%2x; E1=%2x;",
+      arhErrors[8], arhErrors[9], arhErrors[10], arhErrors[11]);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"E2=%2x; E3=%2x; E4=%2x; E5=%2x;",
+      arhErrors[12], arhErrors[13], arhErrors[14], arhErrors[15]);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"D1%2x; D2%2x; D3%2x; D4%2x;",
+      ds.err[0], ds.err[1], ds.err[2], ds.err[3]);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
 //==============================================================================================================
 #ifdef MANUAL_CHECK
     Y_str = Y_str+25+5;

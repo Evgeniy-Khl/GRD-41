@@ -13,6 +13,12 @@ extern uint8_t familycode[MAX_SENSOR][8], ds18b20_amount, Y_str, Y_top;
 extern int16_t pvTH, pvRH;
 extern uint16_t fillScreen, errors;
 
+//__STATIC_INLINE void DelayMicro(__IO uint32_t microseconds) {
+//    for (volatile uint32_t i = 0; i < microseconds * (SystemCoreClock / 1000000); i++) {
+//        __NOP(); // Ќет операции (NOP)
+//    }
+//}
+
 //--------------------------------------------------
 __STATIC_INLINE void DelayMicro(__IO uint32_t micros){
 micros *= (SystemCoreClock / 1000000) / 8;
@@ -93,24 +99,26 @@ uint8_t ds18b20_Reset(void){
   uint8_t status;
   GPIOB->BSRR =GPIO_BSRR_BR11;//низкий уровень (—бросили 11 бит порта B )
   //GPIOB->ODR &= ~GPIO_ODR_ODR11;//низкий уровень
-  DelayMicro(485);//задержка как минимум на 480 микросекунд
+  DelayMicro(300);//задержка как минимум на 480 микросекунд
   GPIOB->BSRR =GPIO_BSRR_BS11;//высокий уровень (”становили 11 бит порта B )
   //GPIOB->ODR |= GPIO_ODR_ODR11;//высокий уровень
-  DelayMicro(65);//задержка как минимум на 60 микросекунд
+  DelayMicro(40);//задержка как минимум на 60 микросекунд
   status = (GPIOB->IDR & GPIO_IDR_IDR11 ? 1 : 0);//провер€ем уровень
-  DelayMicro(500);//задержка как минимум на 480 микросекунд
+  DelayMicro(300);//задержка как минимум на 480 микросекунд
   //(на вс€кий случай подождЄм побольше, так как могут быть неточности в задержке)
   return (status ? 1 : 0);//вернЄм результат
 }
 //--------------------------------------------------
 uint8_t ds18b20_ReadBit(void){
   uint8_t bit = 0;
+  __disable_irq();  // «апрет прерываний
   GPIOB->BSRR =GPIO_BSRR_BR11;//низкий уровень
-  DelayMicro(2);
+  DelayMicro(1);
   GPIOB->BSRR =GPIO_BSRR_BS11;//высокий уровень
-  DelayMicro(13);
+  DelayMicro(10);
   bit = (GPIOB->IDR & GPIO_IDR_IDR11 ? 1 : 0);//провер€ем уровень
-  DelayMicro(45);
+  DelayMicro(30);
+  __enable_irq();  // –азрешение прерываний
   return bit;
 }
 //-----------------------------------------------
@@ -122,17 +130,19 @@ uint8_t ds18b20_ReadByte(void){
 }
 //-----------------------------------------------
 void ds18b20_WriteBit(uint8_t bit){
+  __disable_irq();  // «апрет прерываний
   GPIOB->BSRR =GPIO_BSRR_BR11;//низкий уровень
-  DelayMicro(bit ? 3 : 65);
+  DelayMicro(bit ? 1 : 45);
   GPIOB->BSRR =GPIO_BSRR_BS11;//высокий уровень
-  DelayMicro(bit ? 65 : 3);
+  DelayMicro(bit ? 45 : 1);
+  __enable_irq();  // –азрешение прерываний
 }
 //-----------------------------------------------
 void ds18b20_WriteByte(uint8_t dt){
   for (uint8_t i = 0; i < 8; i++){
     ds18b20_WriteBit(dt >> i & 1);
     //Delay Protection
-    DelayMicro(5);
+    DelayMicro(2);
   }
 }
 //-----------------------------------------------
