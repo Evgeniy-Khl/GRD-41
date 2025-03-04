@@ -75,7 +75,7 @@ void displ_0(void){
   X_left = 35;
   if(errors & 0x01) GUI_WriteString(X_left, Y_str, "  онлхкйю дюрвхйю N1  ", Font_11x18, YELLOW, RED);
   else if(errors & ERR3) GUI_WriteString(X_left, Y_str, "  оепецпIб б йюлепI   ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR5) GUI_WriteString(X_left, Y_str, "бIдуIкеммъ релоепюрспх", Font_11x18, YELLOW, RED);
+  else if(errors & ERR5) GUI_WriteString(X_left, Y_str, "бIдухкеммъ релоепюрспх", Font_11x18, YELLOW, RED);
   else GUI_WriteString(X_left, Y_str, " релоепюрспю б йюлепI ", Font_11x18, YELLOW, fillScreen);
   Y_str = Y_str+18+15; //89
   

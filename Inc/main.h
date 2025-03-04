@@ -80,8 +80,8 @@ void Error_Handler(void);
 #define Input1_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define DIAGONAL    28          // 24 -> ��� �������� 2,4"; 28 -> ��� �������� 2,8"; 32 -> ��� �������� 3,2"
-#define TOUCHMODE   0           // 0 ��� 1
+#define DIAGONAL    28          // 24 -> for 2.4" displays; 28 -> for 2.8" displays; 32 -> for 3.2" displays
+#define TOUCHMODE   0           // 0 or 1
 #define MAX_SENSOR  4
 #define MAX_MODE    4
 #define MAX_SET     8
@@ -90,27 +90,27 @@ void Error_Handler(void);
 #define ON          1
 #define OFF         0
 
-#define T0    0 // ������� T1 ���. 
-#define T1    1 // ������� T2 ���. 
-#define T2    2 // ������� T3 ���. (���)
-#define T3    3 // ������� T4 ���. (�������)
-#define TMR0  4 // ������������ ������ ���.
-#define VENT  5 // �������� ����������� %
-#define TMON  6 // ������ ON ���.
-#define TMOFF 7 // ������ OFF ���.
-#define TMR1  8 // ������������ �������� ���.
-#define ALRM  9 // ������ ���.
-#define HIST  10 // ���������� ���/10
-#define CHILL 11 // ����������
+#define T0    0 // Setting T1 deg. 
+#define T1    1 // Setting T2 deg. 
+#define T2    2 // Setting T3 deg. (���)
+#define T3    3 // Setting T4 deg. (�������)
+#define TMR0  4 // Cooking time minutes
+#define VENT  5 // Fan speed
+#define TMON  6 // Timer ON sec.
+#define TMOFF 7 // Timer OFF sec.
+#define TMR1  8 // Blow-off duration sec.
+#define ALRM  9 // Alarm deg.
+#define HIST  10 // Hysteresis deg./10
+#define CHILL 11 // Cooling
 
 #define ERR1  0x0010  //
 #define ERR2  0x0020  //
-#define ERR3  0x0040  // �������� � �����I
-#define ERR4  0x0080  // �������� � �������I
-#define ERR5  0x0100  // �I��I����� ����������� � �����I
-#define ERR6  0x0200  // �I��I����� ����������� ���A
+#define ERR3  0x0040  // OVERHEATING IN THE CHAMBER
+#define ERR4  0x0080  // OVERHEATING IN THE PRODUCT
+#define ERR5  0x0100  // TEMPERATURE DEVIATIONS IN THE CHAMBER
+#define ERR6  0x0200  // SMOKE TEMPERATURE DEVIATION
 #define ERR7  0x0400  //
-#define ERR8  0x0800  // �� ������ ����������
+#define ERR8  0x0800  // FAN IS NOT WORKING
 
 
 
