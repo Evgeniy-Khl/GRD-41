@@ -1,3 +1,4 @@
+#include "main.h"
 
 extern union Byte portFlag;
 extern struct Ds ds;
@@ -6,6 +7,20 @@ extern uint16_t speedData[][2];
 extern uint8_t modeCell;
 extern uint8_t errors;
 extern const char* modeName[];
+extern UART_HandleTypeDef huart1;
+
+uint8_t RXBuffer[2];
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
+  if (huart == &huart1) {
+    // Здесь обрабатываем принятые данные из RXBuffer
+    uint8_t first, second;
+    first = RXBuffer[0]; second = RXBuffer[1];  // Receive 2 bytes
+    
+    // Запускаем прием следующей порции данных
+    HAL_UART_Receive_IT(&huart1, RXBuffer, 2);
+  }
+}
 
 // Функция для передачи данных по UART
 void transmitDataUART(UART_HandleTypeDef *huart) {

@@ -63,6 +63,7 @@ RTC_TimeTypeDef sTime;
 RTC_DateTypeDef sDate;
 
 char buffTFT[40];
+extern uint8_t RXBuffer[2];
 const char* modeName[4]={"ясьшммъ","нафюпйю","бюпшммъ","йновеммъ"};
 const char* setName[MAX_SET]={"t йюлепх","t опндсйрю","t дхлю","рпхбюкшярэ","ьбхдйшярэ","рюил.ON","рюил.OFF","шмье"};
 const char* otherName[MAX_OTHER]={"опндсбюммъ","юбюпшъ","цшярепег","нункндф.","Prop","Integ","Diff"};
@@ -213,6 +214,7 @@ int main(void)
   
   HAL_RTCEx_SetSecond_IT(&hrtc);          /* ------  РЮИЛЕП 1цЖ.  ОЕПХНД  1 ЯЕЙ.    ----*/
   HAL_TIM_Base_Start_IT(&htim1);          /* ------  РЮИЛЕП 100цЖ.  ОЕПХНД  10 ЛЯ.  ----*/
+  HAL_UART_Receive_IT(&huart1,RXBuffer,2);
   
   NEWBUTT = ON;
   #ifdef MANUAL_CHECK
@@ -810,11 +812,11 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(TFT_RST_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : TFT_DC_Pin */
-  GPIO_InitStruct.Pin = TFT_DC_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(TFT_DC_GPIO_Port, &GPIO_InitStruct);
+//  GPIO_InitStruct.Pin = TFT_DC_Pin;
+//  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+//  GPIO_InitStruct.Pull = GPIO_NOPULL;
+//  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+//  HAL_GPIO_Init(TFT_DC_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : Beep_Pin */
   GPIO_InitStruct.Pin = Beep_Pin;
