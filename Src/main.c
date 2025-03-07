@@ -28,6 +28,7 @@
 #include "procedure.h"
 #include "displ.h"
 #include "nvRam.h"
+#include "strings.h"
 
 /* USER CODE END Includes */
 
@@ -64,10 +65,10 @@ RTC_DateTypeDef sDate;
 
 char buffTFT[40];
 extern uint8_t RXBuffer[2];
-const char* modeName[4]={"ÑÓØÛÍÍß","ÎÁÆÀĞÊÀ","ÂÀĞÛÍÍß","ÊÎÏ×ÅÍÍß"};
-const char* setName[MAX_SET]={"t ÊÀÌÅĞÈ","t ÏĞÎÄÓÊÒÀ","t ÄÈÌÀ","ÒĞÈÂÀËÛÑÒÜ","ØÂÈÄÊÛÑÒÜ","ÒÀÉÌ.ON","ÒÀÉÌ.OFF","ÛÍØÅ"};
-const char* otherName[MAX_OTHER]={"ÏĞÎÄÓÂÀÍÍß","ÀÂÀĞÛß","ÃÛÑÒÅĞÅÇ","ÎÕÎËÎÄÆ.","Prop","Integ","Diff"};
-const char* relayName[7]={"ÏÛÄ","ÍÀÃĞÛÂ","ÒÀÉÌÅĞ","ÂÎËÎÃÀ","ÅËÅÊÒĞÎ","Êë.ÄÈÌÀ","Êë.ÂÎÄÈ"};
+//const char* modeName[4]={"ÑÓØÛÍÍß","ÎÁÆÀĞÊÀ","ÂÀĞÛÍÍß","ÊÎÏ×ÅÍÍß"};
+//const char* setName[MAX_SET]={"t ÊÀÌÅĞÈ","t ÏĞÎÄÓÊÒÀ","t ÄÈÌÀ","ÒĞÈÂÀËÛÑÒÜ","ØÂÈÄÊÛÑÒÜ","ÒÀÉÌ.ON","ÒÀÉÌ.OFF","ÛÍØÅ"};
+//const char* otherName[MAX_OTHER]={"ÏĞÎÄÓÂÀÍÍß","ÀÂÀĞÛß","ÃÛÑÒÅĞÅÇ","ÎÕÎËÎÄÆ.","Prop","Integ","Diff"};
+//const char* relayName[7]={"ÏÛÄ","ÍÀÃĞÛÂ","ÒÀÉÌÅĞ","ÂÎËÎÃÀ","ÅËÅÊÒĞÎ","Êë.ÄÈÌÀ","Êë.ÂÎÄÈ"};
 //const char* analogName[2]={"ÂÅÍÒÈË.","ÛÍØÅ"};
 //        2.00V        3.15V        4.30V        5.45V        6.60V        7.75V        8.90V        10.00V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
@@ -178,12 +179,20 @@ int main(void)
   ds18b20_port_init();      // ëèíèÿ 1-Wire
   ds18b20_checkSensor(4);   // check DS18B20 sensors
  
-  switch (i16){
-  	case 0: GUI_WriteString(5, Y_str, "Ûíûöûàëûçàöûÿ óñïûøíà.", Font_11x18, GREEN, BLACK);	break;
-  	case 1: GUI_WriteString(5, Y_str, "Ïåğâèííà ûíûöûàëûçàöûÿ.", Font_11x18, YELLOW, BLACK);	break;
-    case 3: GUI_WriteString(5, Y_str, "Ïîìèëêè ÷èòàííÿ FLASH!", Font_11x18, YELLOW, RED);	break;
-  	default:GUI_WriteString(5, Y_str, "Íåâûäîìà ïîìèëêà!", Font_11x18, MAGENTA, BLACK);	break;
-  }
+//  switch (i16){
+//  	case 0: GUI_WriteString(5, Y_str, "Ûíûöûàëûçàöûÿ óñïûøíà.", Font_11x18, GREEN, BLACK);	break;
+//  	case 1: GUI_WriteString(5, Y_str, "Ïåğâèííà ûíûöûàëûçàöûÿ.", Font_11x18, YELLOW, BLACK);	break;
+//    case 3: GUI_WriteString(5, Y_str, "Ïîìèëêè ÷èòàííÿ FLASH!", Font_11x18, YELLOW, RED);	break;
+//  	default:GUI_WriteString(5, Y_str, "Íåâûäîìà ïîìèëêà!", Font_11x18, MAGENTA, BLACK);	break;
+//  }
+
+switch (i16){
+    case 0: GUI_WriteString(5, Y_str, (char*)guiMessages[0], Font_11x18, GREEN, BLACK); break;
+    case 1: GUI_WriteString(5, Y_str, (char*)guiMessages[1], Font_11x18, YELLOW, BLACK); break;
+    case 3: GUI_WriteString(5, Y_str, (char*)guiMessages[2], Font_11x18, YELLOW, RED); break;
+    default: GUI_WriteString(5, Y_str, (char*)guiMessages[3], Font_11x18, MAGENTA, BLACK); break;
+}
+
   Y_str = Y_str+18+5;
   
   if(i16){
