@@ -209,7 +209,7 @@ switch (i16){
     for(uint8_t i=0;i<ds18b20_amount;i++) ds.pvT[i]=1999;
     ds18b20_Convert_T();
   }
-  sprintf(buffTFT,"Датчикыв температури: %d шт.",ds18b20_amount);
+  sprintf(buffTFT,(char*)numberOfSensors,ds18b20_amount);
   GUI_WriteString(5, Y_str, buffTFT, Font_11x18, CYAN, BLACK);
   Y_str = Y_str+18+5;
   

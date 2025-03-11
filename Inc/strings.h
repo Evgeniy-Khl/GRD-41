@@ -8,7 +8,7 @@ extern const char* modeName[4];
 extern const char* setName[MAX_SET];
 extern const char* otherName[MAX_OTHER];
 extern const char* relayName[7];
-
+extern const char* numberOfSensors;
 #define GUI_MESSAGES_COUNT 4 // Определяем количество строк
 extern const char* guiMessages[GUI_MESSAGES_COUNT];
 

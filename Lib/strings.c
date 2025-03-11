@@ -4,6 +4,7 @@ const char* modeName[4] = {"ясьшммъ", "нафюпйю", "бюпшммъ", "йновеммъ"};
 const char* setName[MAX_SET] = {"t йюлепх", "t опндсйрю", "t дхлю", "рпхбюкшярэ", "ьбхдйшярэ", "рюил.ON", "рюил.OFF", "шмье"};
 const char* otherName[MAX_OTHER] = {"опндсбюммъ", "юбюпшъ", "цшярепег", "нункндф.", "Prop", "Integ", "Diff"};
 const char* relayName[7] = {"ошд", "мюцпшб", "рюилеп", "бнкнцю", "екейрпн", "йК.дхлю", "йК.бндх"};
+const char* numberOfSensors = "дЮРВХЙШБ РЕЛОЕПЮРСПХ: %d ЬР.";
 
 const char* guiMessages[GUI_MESSAGES_COUNT] = {
     "шМШЖШЮКШГЮЖШЪ СЯОШЬМЮ.",
