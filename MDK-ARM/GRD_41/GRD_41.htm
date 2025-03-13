@@ -3,7 +3,7 @@
 <title>Static Call Graph - [GRD_41\GRD_41.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image GRD_41\GRD_41.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Thu Mar 13 06:29:09 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Thu Mar 13 06:38:49 2025
 <BR><P>
 <H3>Maximum Stack Usage =        408 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1580,7 +1580,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[102]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;display
 </UL>
 
-<P><STRONG><a name="[f8]"></a>displ_1</STRONG> (Thumb, 772 bytes, Stack size 64 bytes, displ.o(i.displ_1))
+<P><STRONG><a name="[f8]"></a>displ_1</STRONG> (Thumb, 498 bytes, Stack size 64 bytes, displ.o(i.displ_1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 392 + Unknown Stack Size
 <LI>Call Chain = displ_1 &rArr; drawButton &rArr; GUI_WriteString &rArr; GUI_WriteChar &rArr; LCD_SetWindow &rArr; LCD_WriteData &rArr; HAL_SPI_Transmit &rArr; SPI_EndRxTxTransaction &rArr; SPI_WaitFlagStateUntilTimeout
 </UL>
@@ -1590,9 +1590,6 @@ Global Symbols
 <LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_FillRectangle
 <LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_WriteString
 <LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GUI_Clear
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2f
-<LI><a href="#[db]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[f9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strcat
 <LI><a href="#[5b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
 </UL>
@@ -1982,12 +1979,12 @@ Global Symbols
 <P><STRONG><a name="[f1]"></a>writeData</STRONG> (Thumb, 302 bytes, Stack size 40 bytes, nvram.o(i.writeData))
 <BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = writeData &rArr; HAL_FLASH_Program &rArr; FLASH_WaitForLastOperation
 </UL>
-<BR>[Calls]<UL><LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_Erase
+<BR>[Calls]<UL><LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Lock
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASHEx_Erase
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;calcChecksum
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;setData
 <LI><a href="#[119]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Unlock
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Program
-<LI><a href="#[11a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_FLASH_Lock
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;checkButtons
 <LI><a href="#[10f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ds18b20_checkSensor
@@ -2012,7 +2009,6 @@ Global Symbols
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_5
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_3
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_2
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_1
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_0
 </UL>
 
@@ -2041,7 +2037,6 @@ Global Symbols
 <LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_5
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_3
 <LI><a href="#[fa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_2
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_1
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_0
 </UL>
 
@@ -2063,7 +2058,6 @@ Global Symbols
 <P><STRONG><a name="[e2]"></a>__aeabi_i2f</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, fflt_clz.o(x$fpl$fflt))
 <BR><BR>[Called By]<UL><LI><a href="#[ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_6
 <LI><a href="#[fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_3
-<LI><a href="#[f8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_1
 <LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;displ_0
 <LI><a href="#[e1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UpdatePID
 </UL>

@@ -223,11 +223,6 @@ Section Cross References
     displ.o(i.displ_1) refers to _printf_str.o(.text) for _printf_str
     displ.o(i.displ_1) refers to _printf_u.o(.ARM.Collect$$_printf_percent$$0000000A) for _printf_u
     displ.o(i.displ_1) refers to _printf_dec.o(.text) for _printf_int_dec
-    displ.o(i.displ_1) refers to _printf_x.o(.ARM.Collect$$_printf_percent$$0000000C) for _printf_x
-    displ.o(i.displ_1) refers to _printf_hex_int.o(.text) for _printf_longlong_hex
-    displ.o(i.displ_1) refers to _printf_d.o(.ARM.Collect$$_printf_percent$$00000009) for _printf_d
-    displ.o(i.displ_1) refers to _printf_f.o(.ARM.Collect$$_printf_percent$$00000003) for _printf_f
-    displ.o(i.displ_1) refers to printf1.o(x$fpl$printf1) for _printf_fp_dec
     displ.o(i.displ_1) refers to mygui.o(i.GUI_Clear) for GUI_Clear
     displ.o(i.displ_1) refers to mygui.o(i.GUI_WriteString) for GUI_WriteString
     displ.o(i.displ_1) refers to tft_proc.o(i.initializeButtons) for initializeButtons
@@ -236,9 +231,6 @@ Section Cross References
     displ.o(i.displ_1) refers to strcat.o(.text) for strcat
     displ.o(i.displ_1) refers to mygui.o(i.GUI_FillRectangle) for GUI_FillRectangle
     displ.o(i.displ_1) refers to stm32f1xx_hal_gpio.o(i.HAL_GPIO_ReadPin) for HAL_GPIO_ReadPin
-    displ.o(i.displ_1) refers to fflt_clz.o(x$fpl$fflt) for __aeabi_i2f
-    displ.o(i.displ_1) refers to fdiv.o(x$fpl$fdiv) for __aeabi_fdiv
-    displ.o(i.displ_1) refers to f2d.o(x$fpl$f2d) for __aeabi_f2d
     displ.o(i.displ_1) refers to main.o(.data) for Y_top
     displ.o(i.displ_1) refers to main.o(.data) for Y_str
     displ.o(i.displ_1) refers to fonts.o(.data) for Font_11x18
@@ -2299,92 +2291,92 @@ Image Symbol Table
     i.dallas_crc8                            0x08004ca0   Section        0  ds18b20.o(i.dallas_crc8)
     i.displ_0                                0x08004cd8   Section        0  displ.o(i.displ_0)
     i.displ_1                                0x080056a4   Section        0  displ.o(i.displ_1)
-    i.displ_2                                0x08005ab4   Section        0  displ.o(i.displ_2)
-    i.displ_3                                0x08005d64   Section        0  displ.o(i.displ_3)
-    i.displ_4                                0x08005fd0   Section        0  displ.o(i.displ_4)
-    i.displ_5                                0x08006110   Section        0  displ.o(i.displ_5)
-    i.displ_6                                0x080062a4   Section        0  displ.o(i.displ_6)
-    i.displ_7                                0x0800645c   Section        0  displ.o(i.displ_7)
-    i.displ_8                                0x08006568   Section        0  displ.o(i.displ_8)
-    i.display                                0x08006650   Section        0  displ.o(i.display)
-    i.down_relay                             0x08006690   Section        0  tft_proc.o(i.down_relay)
-    i.drawButton                             0x080066b4   Section        0  tft_proc.o(i.drawButton)
-    i.ds18b20_Convert_T                      0x080067c0   Section        0  ds18b20.o(i.ds18b20_Convert_T)
-    i.ds18b20_ReadBit                        0x080067d8   Section        0  ds18b20.o(i.ds18b20_ReadBit)
-    i.ds18b20_ReadByte                       0x08006810   Section        0  ds18b20.o(i.ds18b20_ReadByte)
-    i.ds18b20_ReadStratcpad                  0x08006830   Section        0  ds18b20.o(i.ds18b20_ReadStratcpad)
-    i.ds18b20_Reset                          0x0800688c   Section        0  ds18b20.o(i.ds18b20_Reset)
-    i.ds18b20_SearhRom                       0x080068c8   Section        0  ds18b20.o(i.ds18b20_SearhRom)
-    i.ds18b20_WriteBit                       0x080069a4   Section        0  ds18b20.o(i.ds18b20_WriteBit)
-    i.ds18b20_WriteByte                      0x080069d8   Section        0  ds18b20.o(i.ds18b20_WriteByte)
-    i.ds18b20_addCode                        0x080069fc   Section        0  ds18b20.o(i.ds18b20_addCode)
-    i.ds18b20_checkSensor                    0x08006a34   Section        0  ds18b20.o(i.ds18b20_checkSensor)
-    i.ds18b20_port_init                      0x08006fb4   Section        0  ds18b20.o(i.ds18b20_port_init)
-    i.humidifier                             0x08006fe4   Section        0  procedure.o(i.humidifier)
-    i.ignition                               0x0800702c   Section        0  procedure.o(i.ignition)
-    i.initData                               0x08007068   Section        0  nvram.o(i.initData)
-    i.initializeButtons                      0x08007230   Section        0  tft_proc.o(i.initializeButtons)
-    i.main                                   0x080072d8   Section        0  main.o(i.main)
-    i.sendToI2c                              0x08007c24   Section        0  procedure.o(i.sendToI2c)
-    i.setData                                0x08007c60   Section        0  nvram.o(i.setData)
-    i.startPrg                               0x08007d70   Section        0  procedure.o(i.startPrg)
-    i.temperature_check                      0x08007e2c   Section        0  ds18b20.o(i.temperature_check)
-    i.up_relay                               0x08007f44   Section        0  tft_proc.o(i.up_relay)
-    i.writeData                              0x08007f68   Section        0  nvram.o(i.writeData)
-    locale$$code                             0x080080a8   Section       44  lc_numeric_c.o(locale$$code)
-    x$fpl$dretinf                            0x080080d4   Section       12  dretinf.o(x$fpl$dretinf)
-    x$fpl$f2d                                0x080080e0   Section       86  f2d.o(x$fpl$f2d)
-    x$fpl$fadd                               0x08008138   Section      196  faddsub_clz.o(x$fpl$fadd)
-    _fadd1                                   0x08008147   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
-    x$fpl$fdiv                               0x080081fc   Section      388  fdiv.o(x$fpl$fdiv)
-    _fdiv1                                   0x080081fd   Thumb Code     0  fdiv.o(x$fpl$fdiv)
-    x$fpl$ffix                               0x08008380   Section       54  ffix.o(x$fpl$ffix)
-    x$fpl$fflt                               0x080083b8   Section       48  fflt_clz.o(x$fpl$fflt)
-    x$fpl$ffltu                              0x080083e8   Section       38  fflt_clz.o(x$fpl$ffltu)
-    x$fpl$fmul                               0x08008410   Section      258  fmul.o(x$fpl$fmul)
-    x$fpl$fnaninf                            0x08008512   Section      140  fnaninf.o(x$fpl$fnaninf)
-    x$fpl$fretinf                            0x0800859e   Section       10  fretinf.o(x$fpl$fretinf)
-    x$fpl$fsub                               0x080085a8   Section      234  faddsub_clz.o(x$fpl$fsub)
-    _fsub1                                   0x080085b7   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
-    x$fpl$printf1                            0x08008692   Section        4  printf1.o(x$fpl$printf1)
-    .constdata                               0x08008696   Section     5724  fonts.o(.constdata)
-    x$fpl$usenofp                            0x08008696   Section        0  usenofp.o(x$fpl$usenofp)
-    Font11x18                                0x08008696   Data        5724  fonts.o(.constdata)
-    .constdata                               0x08009cf2   Section     4940  fonts.o(.constdata)
-    Font16x26                                0x08009cf2   Data        4940  fonts.o(.constdata)
-    .constdata                               0x0800b03e   Section        4  xpt2046_touch.o(.constdata)
-    cmd_read_x                               0x0800b03e   Data           1  xpt2046_touch.o(.constdata)
-    cmd_read_y                               0x0800b03f   Data           1  xpt2046_touch.o(.constdata)
-    zeroes_tx                                0x0800b040   Data           2  xpt2046_touch.o(.constdata)
-    .constdata                               0x0800b044   Section       12  displ.o(.constdata)
-    .constdata                               0x0800b050   Section       18  stm32f1xx_hal_rcc.o(.constdata)
-    aPredivFactorTable                       0x0800b050   Data           2  stm32f1xx_hal_rcc.o(.constdata)
-    aPLLMULFactorTable                       0x0800b052   Data          16  stm32f1xx_hal_rcc.o(.constdata)
-    .constdata                               0x0800b062   Section       18  stm32f1xx_hal_rcc_ex.o(.constdata)
-    aPredivFactorTable                       0x0800b062   Data           2  stm32f1xx_hal_rcc_ex.o(.constdata)
-    aPLLMULFactorTable                       0x0800b064   Data          16  stm32f1xx_hal_rcc_ex.o(.constdata)
-    .constdata                               0x0800b074   Section       16  system_stm32f1xx.o(.constdata)
-    .constdata                               0x0800b084   Section        8  system_stm32f1xx.o(.constdata)
-    .constdata                               0x0800b08c   Section       40  _printf_hex_int.o(.constdata)
-    uc_hextab                                0x0800b08c   Data          20  _printf_hex_int.o(.constdata)
-    lc_hextab                                0x0800b0a0   Data          20  _printf_hex_int.o(.constdata)
-    .constdata                               0x0800b0b4   Section       17  __printf_flags_wp.o(.constdata)
-    maptable                                 0x0800b0b4   Data          17  __printf_flags_wp.o(.constdata)
-    .constdata                               0x0800b0c8   Section      148  bigflt0.o(.constdata)
-    tenpwrs_x                                0x0800b0c8   Data          60  bigflt0.o(.constdata)
-    tenpwrs_i                                0x0800b104   Data          64  bigflt0.o(.constdata)
-    .conststring                             0x0800b15c   Section        3  displ.o(.conststring)
-    .conststring                             0x0800b160   Section       36  main.o(.conststring)
-    .conststring                             0x0800b184   Section       83  main.o(.conststring)
-    .conststring                             0x0800b1d8   Section       67  main.o(.conststring)
-    .conststring                             0x0800b21c   Section       51  main.o(.conststring)
-    locale$$data                             0x0800b270   Section       28  lc_numeric_c.o(locale$$data)
-    __lcnum_c_name                           0x0800b274   Data           2  lc_numeric_c.o(locale$$data)
-    __lcnum_c_start                          0x0800b27c   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_point                          0x0800b288   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_thousands                      0x0800b28a   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_grouping                       0x0800b28b   Data           0  lc_numeric_c.o(locale$$data)
-    __lcnum_c_end                            0x0800b28c   Data           0  lc_numeric_c.o(locale$$data)
+    i.displ_2                                0x0800593c   Section        0  displ.o(i.displ_2)
+    i.displ_3                                0x08005bec   Section        0  displ.o(i.displ_3)
+    i.displ_4                                0x08005e58   Section        0  displ.o(i.displ_4)
+    i.displ_5                                0x08005f98   Section        0  displ.o(i.displ_5)
+    i.displ_6                                0x0800612c   Section        0  displ.o(i.displ_6)
+    i.displ_7                                0x080062e4   Section        0  displ.o(i.displ_7)
+    i.displ_8                                0x080063f0   Section        0  displ.o(i.displ_8)
+    i.display                                0x080064d8   Section        0  displ.o(i.display)
+    i.down_relay                             0x08006518   Section        0  tft_proc.o(i.down_relay)
+    i.drawButton                             0x0800653c   Section        0  tft_proc.o(i.drawButton)
+    i.ds18b20_Convert_T                      0x08006648   Section        0  ds18b20.o(i.ds18b20_Convert_T)
+    i.ds18b20_ReadBit                        0x08006660   Section        0  ds18b20.o(i.ds18b20_ReadBit)
+    i.ds18b20_ReadByte                       0x08006698   Section        0  ds18b20.o(i.ds18b20_ReadByte)
+    i.ds18b20_ReadStratcpad                  0x080066b8   Section        0  ds18b20.o(i.ds18b20_ReadStratcpad)
+    i.ds18b20_Reset                          0x08006714   Section        0  ds18b20.o(i.ds18b20_Reset)
+    i.ds18b20_SearhRom                       0x08006750   Section        0  ds18b20.o(i.ds18b20_SearhRom)
+    i.ds18b20_WriteBit                       0x0800682c   Section        0  ds18b20.o(i.ds18b20_WriteBit)
+    i.ds18b20_WriteByte                      0x08006860   Section        0  ds18b20.o(i.ds18b20_WriteByte)
+    i.ds18b20_addCode                        0x08006884   Section        0  ds18b20.o(i.ds18b20_addCode)
+    i.ds18b20_checkSensor                    0x080068bc   Section        0  ds18b20.o(i.ds18b20_checkSensor)
+    i.ds18b20_port_init                      0x08006e3c   Section        0  ds18b20.o(i.ds18b20_port_init)
+    i.humidifier                             0x08006e6c   Section        0  procedure.o(i.humidifier)
+    i.ignition                               0x08006eb4   Section        0  procedure.o(i.ignition)
+    i.initData                               0x08006ef0   Section        0  nvram.o(i.initData)
+    i.initializeButtons                      0x080070b8   Section        0  tft_proc.o(i.initializeButtons)
+    i.main                                   0x08007160   Section        0  main.o(i.main)
+    i.sendToI2c                              0x08007aac   Section        0  procedure.o(i.sendToI2c)
+    i.setData                                0x08007ae8   Section        0  nvram.o(i.setData)
+    i.startPrg                               0x08007bf8   Section        0  procedure.o(i.startPrg)
+    i.temperature_check                      0x08007cb4   Section        0  ds18b20.o(i.temperature_check)
+    i.up_relay                               0x08007dcc   Section        0  tft_proc.o(i.up_relay)
+    i.writeData                              0x08007df0   Section        0  nvram.o(i.writeData)
+    locale$$code                             0x08007f30   Section       44  lc_numeric_c.o(locale$$code)
+    x$fpl$dretinf                            0x08007f5c   Section       12  dretinf.o(x$fpl$dretinf)
+    x$fpl$f2d                                0x08007f68   Section       86  f2d.o(x$fpl$f2d)
+    x$fpl$fadd                               0x08007fc0   Section      196  faddsub_clz.o(x$fpl$fadd)
+    _fadd1                                   0x08007fcf   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
+    x$fpl$fdiv                               0x08008084   Section      388  fdiv.o(x$fpl$fdiv)
+    _fdiv1                                   0x08008085   Thumb Code     0  fdiv.o(x$fpl$fdiv)
+    x$fpl$ffix                               0x08008208   Section       54  ffix.o(x$fpl$ffix)
+    x$fpl$fflt                               0x08008240   Section       48  fflt_clz.o(x$fpl$fflt)
+    x$fpl$ffltu                              0x08008270   Section       38  fflt_clz.o(x$fpl$ffltu)
+    x$fpl$fmul                               0x08008298   Section      258  fmul.o(x$fpl$fmul)
+    x$fpl$fnaninf                            0x0800839a   Section      140  fnaninf.o(x$fpl$fnaninf)
+    x$fpl$fretinf                            0x08008426   Section       10  fretinf.o(x$fpl$fretinf)
+    x$fpl$fsub                               0x08008430   Section      234  faddsub_clz.o(x$fpl$fsub)
+    _fsub1                                   0x0800843f   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
+    x$fpl$printf1                            0x0800851a   Section        4  printf1.o(x$fpl$printf1)
+    .constdata                               0x0800851e   Section     5724  fonts.o(.constdata)
+    x$fpl$usenofp                            0x0800851e   Section        0  usenofp.o(x$fpl$usenofp)
+    Font11x18                                0x0800851e   Data        5724  fonts.o(.constdata)
+    .constdata                               0x08009b7a   Section     4940  fonts.o(.constdata)
+    Font16x26                                0x08009b7a   Data        4940  fonts.o(.constdata)
+    .constdata                               0x0800aec6   Section        4  xpt2046_touch.o(.constdata)
+    cmd_read_x                               0x0800aec6   Data           1  xpt2046_touch.o(.constdata)
+    cmd_read_y                               0x0800aec7   Data           1  xpt2046_touch.o(.constdata)
+    zeroes_tx                                0x0800aec8   Data           2  xpt2046_touch.o(.constdata)
+    .constdata                               0x0800aecc   Section       12  displ.o(.constdata)
+    .constdata                               0x0800aed8   Section       18  stm32f1xx_hal_rcc.o(.constdata)
+    aPredivFactorTable                       0x0800aed8   Data           2  stm32f1xx_hal_rcc.o(.constdata)
+    aPLLMULFactorTable                       0x0800aeda   Data          16  stm32f1xx_hal_rcc.o(.constdata)
+    .constdata                               0x0800aeea   Section       18  stm32f1xx_hal_rcc_ex.o(.constdata)
+    aPredivFactorTable                       0x0800aeea   Data           2  stm32f1xx_hal_rcc_ex.o(.constdata)
+    aPLLMULFactorTable                       0x0800aeec   Data          16  stm32f1xx_hal_rcc_ex.o(.constdata)
+    .constdata                               0x0800aefc   Section       16  system_stm32f1xx.o(.constdata)
+    .constdata                               0x0800af0c   Section        8  system_stm32f1xx.o(.constdata)
+    .constdata                               0x0800af14   Section       40  _printf_hex_int.o(.constdata)
+    uc_hextab                                0x0800af14   Data          20  _printf_hex_int.o(.constdata)
+    lc_hextab                                0x0800af28   Data          20  _printf_hex_int.o(.constdata)
+    .constdata                               0x0800af3c   Section       17  __printf_flags_wp.o(.constdata)
+    maptable                                 0x0800af3c   Data          17  __printf_flags_wp.o(.constdata)
+    .constdata                               0x0800af50   Section      148  bigflt0.o(.constdata)
+    tenpwrs_x                                0x0800af50   Data          60  bigflt0.o(.constdata)
+    tenpwrs_i                                0x0800af8c   Data          64  bigflt0.o(.constdata)
+    .conststring                             0x0800afe4   Section        3  displ.o(.conststring)
+    .conststring                             0x0800afe8   Section       36  main.o(.conststring)
+    .conststring                             0x0800b00c   Section       83  main.o(.conststring)
+    .conststring                             0x0800b060   Section       67  main.o(.conststring)
+    .conststring                             0x0800b0a4   Section       51  main.o(.conststring)
+    locale$$data                             0x0800b0f8   Section       28  lc_numeric_c.o(locale$$data)
+    __lcnum_c_name                           0x0800b0fc   Data           2  lc_numeric_c.o(locale$$data)
+    __lcnum_c_start                          0x0800b104   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_point                          0x0800b110   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_thousands                      0x0800b112   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_grouping                       0x0800b113   Data           0  lc_numeric_c.o(locale$$data)
+    __lcnum_c_end                            0x0800b114   Data           0  lc_numeric_c.o(locale$$data)
     .data                                    0x20000000   Section       11  ds18b20.o(.data)
     .data                                    0x2000000c   Section        8  fonts.o(.data)
     .data                                    0x20000014   Section        8  fonts.o(.data)
@@ -2713,65 +2705,65 @@ Image Symbol Table
     contains                                 0x08004c55   Thumb Code    68  tft_proc.o(i.contains)
     dallas_crc8                              0x08004ca1   Thumb Code    54  ds18b20.o(i.dallas_crc8)
     displ_0                                  0x08004cd9   Thumb Code  2176  displ.o(i.displ_0)
-    displ_1                                  0x080056a5   Thumb Code   772  displ.o(i.displ_1)
-    displ_2                                  0x08005ab5   Thumb Code   480  displ.o(i.displ_2)
-    displ_3                                  0x08005d65   Thumb Code   450  displ.o(i.displ_3)
-    displ_4                                  0x08005fd1   Thumb Code   252  displ.o(i.displ_4)
-    displ_5                                  0x08006111   Thumb Code   276  displ.o(i.displ_5)
-    displ_6                                  0x080062a5   Thumb Code   314  displ.o(i.displ_6)
-    displ_7                                  0x0800645d   Thumb Code   190  displ.o(i.displ_7)
-    displ_8                                  0x08006569   Thumb Code   148  displ.o(i.displ_8)
-    display                                  0x08006651   Thumb Code    58  displ.o(i.display)
-    down_relay                               0x08006691   Thumb Code    26  tft_proc.o(i.down_relay)
-    drawButton                               0x080066b5   Thumb Code   256  tft_proc.o(i.drawButton)
-    ds18b20_Convert_T                        0x080067c1   Thumb Code    22  ds18b20.o(i.ds18b20_Convert_T)
-    ds18b20_ReadBit                          0x080067d9   Thumb Code    50  ds18b20.o(i.ds18b20_ReadBit)
-    ds18b20_ReadByte                         0x08006811   Thumb Code    30  ds18b20.o(i.ds18b20_ReadByte)
-    ds18b20_ReadStratcpad                    0x08006831   Thumb Code    88  ds18b20.o(i.ds18b20_ReadStratcpad)
-    ds18b20_Reset                            0x0800688d   Thumb Code    56  ds18b20.o(i.ds18b20_Reset)
-    ds18b20_SearhRom                         0x080068c9   Thumb Code   216  ds18b20.o(i.ds18b20_SearhRom)
-    ds18b20_WriteBit                         0x080069a5   Thumb Code    48  ds18b20.o(i.ds18b20_WriteBit)
-    ds18b20_WriteByte                        0x080069d9   Thumb Code    36  ds18b20.o(i.ds18b20_WriteByte)
-    ds18b20_addCode                          0x080069fd   Thumb Code    52  ds18b20.o(i.ds18b20_addCode)
-    ds18b20_checkSensor                      0x08006a35   Thumb Code  1408  ds18b20.o(i.ds18b20_checkSensor)
-    ds18b20_port_init                        0x08006fb5   Thumb Code    42  ds18b20.o(i.ds18b20_port_init)
-    humidifier                               0x08006fe5   Thumb Code    58  procedure.o(i.humidifier)
-    ignition                                 0x0800702d   Thumb Code    50  procedure.o(i.ignition)
-    initData                                 0x08007069   Thumb Code   440  nvram.o(i.initData)
-    initializeButtons                        0x08007231   Thumb Code   150  tft_proc.o(i.initializeButtons)
-    main                                     0x080072d9   Thumb Code  2368  main.o(i.main)
-    sendToI2c                                0x08007c25   Thumb Code    52  procedure.o(i.sendToI2c)
-    setData                                  0x08007c61   Thumb Code   248  nvram.o(i.setData)
-    startPrg                                 0x08007d71   Thumb Code   136  procedure.o(i.startPrg)
-    temperature_check                        0x08007e2d   Thumb Code   262  ds18b20.o(i.temperature_check)
-    up_relay                                 0x08007f45   Thumb Code    26  tft_proc.o(i.up_relay)
-    writeData                                0x08007f69   Thumb Code   302  nvram.o(i.writeData)
-    _get_lc_numeric                          0x080080a9   Thumb Code    44  lc_numeric_c.o(locale$$code)
-    __fpl_dretinf                            0x080080d5   Thumb Code    12  dretinf.o(x$fpl$dretinf)
-    __aeabi_f2d                              0x080080e1   Thumb Code     0  f2d.o(x$fpl$f2d)
-    _f2d                                     0x080080e1   Thumb Code    86  f2d.o(x$fpl$f2d)
-    __aeabi_fadd                             0x08008139   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
-    _fadd                                    0x08008139   Thumb Code   196  faddsub_clz.o(x$fpl$fadd)
-    __aeabi_fdiv                             0x080081fd   Thumb Code     0  fdiv.o(x$fpl$fdiv)
-    _fdiv                                    0x080081fd   Thumb Code   384  fdiv.o(x$fpl$fdiv)
-    __aeabi_f2iz                             0x08008381   Thumb Code     0  ffix.o(x$fpl$ffix)
-    _ffix                                    0x08008381   Thumb Code    54  ffix.o(x$fpl$ffix)
-    __aeabi_i2f                              0x080083b9   Thumb Code     0  fflt_clz.o(x$fpl$fflt)
-    _fflt                                    0x080083b9   Thumb Code    48  fflt_clz.o(x$fpl$fflt)
-    __aeabi_ui2f                             0x080083e9   Thumb Code     0  fflt_clz.o(x$fpl$ffltu)
-    _ffltu                                   0x080083e9   Thumb Code    38  fflt_clz.o(x$fpl$ffltu)
-    __aeabi_fmul                             0x08008411   Thumb Code     0  fmul.o(x$fpl$fmul)
-    _fmul                                    0x08008411   Thumb Code   258  fmul.o(x$fpl$fmul)
-    __fpl_fnaninf                            0x08008513   Thumb Code   140  fnaninf.o(x$fpl$fnaninf)
-    __fpl_fretinf                            0x0800859f   Thumb Code    10  fretinf.o(x$fpl$fretinf)
-    __aeabi_fsub                             0x080085a9   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
-    _fsub                                    0x080085a9   Thumb Code   234  faddsub_clz.o(x$fpl$fsub)
-    _printf_fp_dec                           0x08008693   Thumb Code     4  printf1.o(x$fpl$printf1)
-    __I$use$fp                               0x08008696   Number         0  usenofp.o(x$fpl$usenofp)
-    AHBPrescTable                            0x0800b074   Data          16  system_stm32f1xx.o(.constdata)
-    APBPrescTable                            0x0800b084   Data           8  system_stm32f1xx.o(.constdata)
-    Region$$Table$$Base                      0x0800b250   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0800b270   Number         0  anon$$obj.o(Region$$Table)
+    displ_1                                  0x080056a5   Thumb Code   498  displ.o(i.displ_1)
+    displ_2                                  0x0800593d   Thumb Code   480  displ.o(i.displ_2)
+    displ_3                                  0x08005bed   Thumb Code   450  displ.o(i.displ_3)
+    displ_4                                  0x08005e59   Thumb Code   252  displ.o(i.displ_4)
+    displ_5                                  0x08005f99   Thumb Code   276  displ.o(i.displ_5)
+    displ_6                                  0x0800612d   Thumb Code   314  displ.o(i.displ_6)
+    displ_7                                  0x080062e5   Thumb Code   190  displ.o(i.displ_7)
+    displ_8                                  0x080063f1   Thumb Code   148  displ.o(i.displ_8)
+    display                                  0x080064d9   Thumb Code    58  displ.o(i.display)
+    down_relay                               0x08006519   Thumb Code    26  tft_proc.o(i.down_relay)
+    drawButton                               0x0800653d   Thumb Code   256  tft_proc.o(i.drawButton)
+    ds18b20_Convert_T                        0x08006649   Thumb Code    22  ds18b20.o(i.ds18b20_Convert_T)
+    ds18b20_ReadBit                          0x08006661   Thumb Code    50  ds18b20.o(i.ds18b20_ReadBit)
+    ds18b20_ReadByte                         0x08006699   Thumb Code    30  ds18b20.o(i.ds18b20_ReadByte)
+    ds18b20_ReadStratcpad                    0x080066b9   Thumb Code    88  ds18b20.o(i.ds18b20_ReadStratcpad)
+    ds18b20_Reset                            0x08006715   Thumb Code    56  ds18b20.o(i.ds18b20_Reset)
+    ds18b20_SearhRom                         0x08006751   Thumb Code   216  ds18b20.o(i.ds18b20_SearhRom)
+    ds18b20_WriteBit                         0x0800682d   Thumb Code    48  ds18b20.o(i.ds18b20_WriteBit)
+    ds18b20_WriteByte                        0x08006861   Thumb Code    36  ds18b20.o(i.ds18b20_WriteByte)
+    ds18b20_addCode                          0x08006885   Thumb Code    52  ds18b20.o(i.ds18b20_addCode)
+    ds18b20_checkSensor                      0x080068bd   Thumb Code  1408  ds18b20.o(i.ds18b20_checkSensor)
+    ds18b20_port_init                        0x08006e3d   Thumb Code    42  ds18b20.o(i.ds18b20_port_init)
+    humidifier                               0x08006e6d   Thumb Code    58  procedure.o(i.humidifier)
+    ignition                                 0x08006eb5   Thumb Code    50  procedure.o(i.ignition)
+    initData                                 0x08006ef1   Thumb Code   440  nvram.o(i.initData)
+    initializeButtons                        0x080070b9   Thumb Code   150  tft_proc.o(i.initializeButtons)
+    main                                     0x08007161   Thumb Code  2368  main.o(i.main)
+    sendToI2c                                0x08007aad   Thumb Code    52  procedure.o(i.sendToI2c)
+    setData                                  0x08007ae9   Thumb Code   248  nvram.o(i.setData)
+    startPrg                                 0x08007bf9   Thumb Code   136  procedure.o(i.startPrg)
+    temperature_check                        0x08007cb5   Thumb Code   262  ds18b20.o(i.temperature_check)
+    up_relay                                 0x08007dcd   Thumb Code    26  tft_proc.o(i.up_relay)
+    writeData                                0x08007df1   Thumb Code   302  nvram.o(i.writeData)
+    _get_lc_numeric                          0x08007f31   Thumb Code    44  lc_numeric_c.o(locale$$code)
+    __fpl_dretinf                            0x08007f5d   Thumb Code    12  dretinf.o(x$fpl$dretinf)
+    __aeabi_f2d                              0x08007f69   Thumb Code     0  f2d.o(x$fpl$f2d)
+    _f2d                                     0x08007f69   Thumb Code    86  f2d.o(x$fpl$f2d)
+    __aeabi_fadd                             0x08007fc1   Thumb Code     0  faddsub_clz.o(x$fpl$fadd)
+    _fadd                                    0x08007fc1   Thumb Code   196  faddsub_clz.o(x$fpl$fadd)
+    __aeabi_fdiv                             0x08008085   Thumb Code     0  fdiv.o(x$fpl$fdiv)
+    _fdiv                                    0x08008085   Thumb Code   384  fdiv.o(x$fpl$fdiv)
+    __aeabi_f2iz                             0x08008209   Thumb Code     0  ffix.o(x$fpl$ffix)
+    _ffix                                    0x08008209   Thumb Code    54  ffix.o(x$fpl$ffix)
+    __aeabi_i2f                              0x08008241   Thumb Code     0  fflt_clz.o(x$fpl$fflt)
+    _fflt                                    0x08008241   Thumb Code    48  fflt_clz.o(x$fpl$fflt)
+    __aeabi_ui2f                             0x08008271   Thumb Code     0  fflt_clz.o(x$fpl$ffltu)
+    _ffltu                                   0x08008271   Thumb Code    38  fflt_clz.o(x$fpl$ffltu)
+    __aeabi_fmul                             0x08008299   Thumb Code     0  fmul.o(x$fpl$fmul)
+    _fmul                                    0x08008299   Thumb Code   258  fmul.o(x$fpl$fmul)
+    __fpl_fnaninf                            0x0800839b   Thumb Code   140  fnaninf.o(x$fpl$fnaninf)
+    __fpl_fretinf                            0x08008427   Thumb Code    10  fretinf.o(x$fpl$fretinf)
+    __aeabi_fsub                             0x08008431   Thumb Code     0  faddsub_clz.o(x$fpl$fsub)
+    _fsub                                    0x08008431   Thumb Code   234  faddsub_clz.o(x$fpl$fsub)
+    _printf_fp_dec                           0x0800851b   Thumb Code     4  printf1.o(x$fpl$printf1)
+    __I$use$fp                               0x0800851e   Number         0  usenofp.o(x$fpl$usenofp)
+    AHBPrescTable                            0x0800aefc   Data          16  system_stm32f1xx.o(.constdata)
+    APBPrescTable                            0x0800af0c   Data           8  system_stm32f1xx.o(.constdata)
+    Region$$Table$$Base                      0x0800b0d8   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0800b0f8   Number         0  anon$$obj.o(Region$$Table)
     LastDeviceFlag                           0x20000000   Data           1  ds18b20.o(.data)
     LastDiscrepancy                          0x20000001   Data           1  ds18b20.o(.data)
     LastFamilyDiscrepancy                    0x20000002   Data           1  ds18b20.o(.data)
@@ -2851,9 +2843,9 @@ Memory Map of the image
 
   Image Entry point : 0x080000ed
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000b378, Max: 0x00010000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000b200, Max: 0x00010000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000b28c, Max: 0x00010000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000b114, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -3105,117 +3097,117 @@ Memory Map of the image
     0x08004ca0   0x08004ca0   0x00000036   Code   RO           14    i.dallas_crc8       ds18b20.o
     0x08004cd6   0x08004cd6   0x00000002   PAD
     0x08004cd8   0x08004cd8   0x000009cc   Code   RO          537    i.displ_0           displ.o
-    0x080056a4   0x080056a4   0x00000410   Code   RO          538    i.displ_1           displ.o
-    0x08005ab4   0x08005ab4   0x000002b0   Code   RO          539    i.displ_2           displ.o
-    0x08005d64   0x08005d64   0x0000026c   Code   RO          540    i.displ_3           displ.o
-    0x08005fd0   0x08005fd0   0x00000140   Code   RO          541    i.displ_4           displ.o
-    0x08006110   0x08006110   0x00000194   Code   RO          542    i.displ_5           displ.o
-    0x080062a4   0x080062a4   0x000001b8   Code   RO          543    i.displ_6           displ.o
-    0x0800645c   0x0800645c   0x0000010c   Code   RO          544    i.displ_7           displ.o
-    0x08006568   0x08006568   0x000000e8   Code   RO          545    i.displ_8           displ.o
-    0x08006650   0x08006650   0x00000040   Code   RO          546    i.display           displ.o
-    0x08006690   0x08006690   0x00000024   Code   RO          410    i.down_relay        tft_proc.o
-    0x080066b4   0x080066b4   0x0000010c   Code   RO          411    i.drawButton        tft_proc.o
-    0x080067c0   0x080067c0   0x00000016   Code   RO           15    i.ds18b20_Convert_T  ds18b20.o
-    0x080067d6   0x080067d6   0x00000002   PAD
-    0x080067d8   0x080067d8   0x00000038   Code   RO           16    i.ds18b20_ReadBit   ds18b20.o
-    0x08006810   0x08006810   0x0000001e   Code   RO           17    i.ds18b20_ReadByte  ds18b20.o
-    0x0800682e   0x0800682e   0x00000002   PAD
-    0x08006830   0x08006830   0x0000005c   Code   RO           18    i.ds18b20_ReadStratcpad  ds18b20.o
-    0x0800688c   0x0800688c   0x0000003c   Code   RO           19    i.ds18b20_Reset     ds18b20.o
-    0x080068c8   0x080068c8   0x000000dc   Code   RO           20    i.ds18b20_SearhRom  ds18b20.o
-    0x080069a4   0x080069a4   0x00000034   Code   RO           21    i.ds18b20_WriteBit  ds18b20.o
-    0x080069d8   0x080069d8   0x00000024   Code   RO           22    i.ds18b20_WriteByte  ds18b20.o
-    0x080069fc   0x080069fc   0x00000038   Code   RO           24    i.ds18b20_addCode   ds18b20.o
-    0x08006a34   0x08006a34   0x00000580   Code   RO           25    i.ds18b20_checkSensor  ds18b20.o
-    0x08006fb4   0x08006fb4   0x00000030   Code   RO           27    i.ds18b20_port_init  ds18b20.o
-    0x08006fe4   0x08006fe4   0x00000048   Code   RO          692    i.humidifier        procedure.o
-    0x0800702c   0x0800702c   0x0000003c   Code   RO          693    i.ignition          procedure.o
-    0x08007068   0x08007068   0x000001c8   Code   RO          638    i.initData          nvram.o
-    0x08007230   0x08007230   0x000000a8   Code   RO          412    i.initializeButtons  tft_proc.o
-    0x080072d8   0x080072d8   0x0000094c   Code   RO          764    i.main              main.o
-    0x08007c24   0x08007c24   0x0000003c   Code   RO          695    i.sendToI2c         procedure.o
-    0x08007c60   0x08007c60   0x00000110   Code   RO          639    i.setData           nvram.o
-    0x08007d70   0x08007d70   0x000000bc   Code   RO          696    i.startPrg          procedure.o
-    0x08007e2c   0x08007e2c   0x00000118   Code   RO           28    i.temperature_check  ds18b20.o
-    0x08007f44   0x08007f44   0x00000024   Code   RO          413    i.up_relay          tft_proc.o
-    0x08007f68   0x08007f68   0x00000140   Code   RO          640    i.writeData         nvram.o
-    0x080080a8   0x080080a8   0x0000002c   Code   RO         4330    locale$$code        c_w.l(lc_numeric_c.o)
-    0x080080d4   0x080080d4   0x0000000c   Code   RO         4271    x$fpl$dretinf       fz_ws.l(dretinf.o)
-    0x080080e0   0x080080e0   0x00000056   Code   RO         4233    x$fpl$f2d           fz_ws.l(f2d.o)
-    0x08008136   0x08008136   0x00000002   PAD
-    0x08008138   0x08008138   0x000000c4   Code   RO         4235    x$fpl$fadd          fz_ws.l(faddsub_clz.o)
-    0x080081fc   0x080081fc   0x00000184   Code   RO         4242    x$fpl$fdiv          fz_ws.l(fdiv.o)
-    0x08008380   0x08008380   0x00000036   Code   RO         4245    x$fpl$ffix          fz_ws.l(ffix.o)
-    0x080083b6   0x080083b6   0x00000002   PAD
-    0x080083b8   0x080083b8   0x00000030   Code   RO         4250    x$fpl$fflt          fz_ws.l(fflt_clz.o)
-    0x080083e8   0x080083e8   0x00000026   Code   RO         4249    x$fpl$ffltu         fz_ws.l(fflt_clz.o)
-    0x0800840e   0x0800840e   0x00000002   PAD
-    0x08008410   0x08008410   0x00000102   Code   RO         4255    x$fpl$fmul          fz_ws.l(fmul.o)
-    0x08008512   0x08008512   0x0000008c   Code   RO         4273    x$fpl$fnaninf       fz_ws.l(fnaninf.o)
-    0x0800859e   0x0800859e   0x0000000a   Code   RO         4275    x$fpl$fretinf       fz_ws.l(fretinf.o)
-    0x080085a8   0x080085a8   0x000000ea   Code   RO         4237    x$fpl$fsub          fz_ws.l(faddsub_clz.o)
-    0x08008692   0x08008692   0x00000004   Code   RO         4257    x$fpl$printf1       fz_ws.l(printf1.o)
-    0x08008696   0x08008696   0x00000000   Code   RO         4277    x$fpl$usenofp       fz_ws.l(usenofp.o)
-    0x08008696   0x08008696   0x0000165c   Data   RO          262    .constdata          fonts.o
-    0x08009cf2   0x08009cf2   0x0000134c   Data   RO          263    .constdata          fonts.o
-    0x0800b03e   0x0800b03e   0x00000004   Data   RO          486    .constdata          xpt2046_touch.o
-    0x0800b042   0x0800b042   0x00000002   PAD
-    0x0800b044   0x0800b044   0x0000000c   Data   RO          549    .constdata          displ.o
-    0x0800b050   0x0800b050   0x00000012   Data   RO         1311    .constdata          stm32f1xx_hal_rcc.o
-    0x0800b062   0x0800b062   0x00000012   Data   RO         1403    .constdata          stm32f1xx_hal_rcc_ex.o
-    0x0800b074   0x0800b074   0x00000010   Data   RO         4124    .constdata          system_stm32f1xx.o
-    0x0800b084   0x0800b084   0x00000008   Data   RO         4125    .constdata          system_stm32f1xx.o
-    0x0800b08c   0x0800b08c   0x00000028   Data   RO         4177    .constdata          c_w.l(_printf_hex_int.o)
-    0x0800b0b4   0x0800b0b4   0x00000011   Data   RO         4207    .constdata          c_w.l(__printf_flags_wp.o)
-    0x0800b0c5   0x0800b0c5   0x00000003   PAD
-    0x0800b0c8   0x0800b0c8   0x00000094   Data   RO         4305    .constdata          c_w.l(bigflt0.o)
-    0x0800b15c   0x0800b15c   0x00000003   Data   RO          550    .conststring        displ.o
-    0x0800b15f   0x0800b15f   0x00000001   PAD
-    0x0800b160   0x0800b160   0x00000024   Data   RO          768    .conststring        main.o
-    0x0800b184   0x0800b184   0x00000053   Data   RO          769    .conststring        main.o
-    0x0800b1d7   0x0800b1d7   0x00000001   PAD
-    0x0800b1d8   0x0800b1d8   0x00000043   Data   RO          770    .conststring        main.o
-    0x0800b21b   0x0800b21b   0x00000001   PAD
-    0x0800b21c   0x0800b21c   0x00000033   Data   RO          771    .conststring        main.o
-    0x0800b24f   0x0800b24f   0x00000001   PAD
-    0x0800b250   0x0800b250   0x00000020   Data   RO         4475    Region$$Table       anon$$obj.o
-    0x0800b270   0x0800b270   0x0000001c   Data   RO         4329    locale$$data        c_w.l(lc_numeric_c.o)
+    0x080056a4   0x080056a4   0x00000298   Code   RO          538    i.displ_1           displ.o
+    0x0800593c   0x0800593c   0x000002b0   Code   RO          539    i.displ_2           displ.o
+    0x08005bec   0x08005bec   0x0000026c   Code   RO          540    i.displ_3           displ.o
+    0x08005e58   0x08005e58   0x00000140   Code   RO          541    i.displ_4           displ.o
+    0x08005f98   0x08005f98   0x00000194   Code   RO          542    i.displ_5           displ.o
+    0x0800612c   0x0800612c   0x000001b8   Code   RO          543    i.displ_6           displ.o
+    0x080062e4   0x080062e4   0x0000010c   Code   RO          544    i.displ_7           displ.o
+    0x080063f0   0x080063f0   0x000000e8   Code   RO          545    i.displ_8           displ.o
+    0x080064d8   0x080064d8   0x00000040   Code   RO          546    i.display           displ.o
+    0x08006518   0x08006518   0x00000024   Code   RO          410    i.down_relay        tft_proc.o
+    0x0800653c   0x0800653c   0x0000010c   Code   RO          411    i.drawButton        tft_proc.o
+    0x08006648   0x08006648   0x00000016   Code   RO           15    i.ds18b20_Convert_T  ds18b20.o
+    0x0800665e   0x0800665e   0x00000002   PAD
+    0x08006660   0x08006660   0x00000038   Code   RO           16    i.ds18b20_ReadBit   ds18b20.o
+    0x08006698   0x08006698   0x0000001e   Code   RO           17    i.ds18b20_ReadByte  ds18b20.o
+    0x080066b6   0x080066b6   0x00000002   PAD
+    0x080066b8   0x080066b8   0x0000005c   Code   RO           18    i.ds18b20_ReadStratcpad  ds18b20.o
+    0x08006714   0x08006714   0x0000003c   Code   RO           19    i.ds18b20_Reset     ds18b20.o
+    0x08006750   0x08006750   0x000000dc   Code   RO           20    i.ds18b20_SearhRom  ds18b20.o
+    0x0800682c   0x0800682c   0x00000034   Code   RO           21    i.ds18b20_WriteBit  ds18b20.o
+    0x08006860   0x08006860   0x00000024   Code   RO           22    i.ds18b20_WriteByte  ds18b20.o
+    0x08006884   0x08006884   0x00000038   Code   RO           24    i.ds18b20_addCode   ds18b20.o
+    0x080068bc   0x080068bc   0x00000580   Code   RO           25    i.ds18b20_checkSensor  ds18b20.o
+    0x08006e3c   0x08006e3c   0x00000030   Code   RO           27    i.ds18b20_port_init  ds18b20.o
+    0x08006e6c   0x08006e6c   0x00000048   Code   RO          692    i.humidifier        procedure.o
+    0x08006eb4   0x08006eb4   0x0000003c   Code   RO          693    i.ignition          procedure.o
+    0x08006ef0   0x08006ef0   0x000001c8   Code   RO          638    i.initData          nvram.o
+    0x080070b8   0x080070b8   0x000000a8   Code   RO          412    i.initializeButtons  tft_proc.o
+    0x08007160   0x08007160   0x0000094c   Code   RO          764    i.main              main.o
+    0x08007aac   0x08007aac   0x0000003c   Code   RO          695    i.sendToI2c         procedure.o
+    0x08007ae8   0x08007ae8   0x00000110   Code   RO          639    i.setData           nvram.o
+    0x08007bf8   0x08007bf8   0x000000bc   Code   RO          696    i.startPrg          procedure.o
+    0x08007cb4   0x08007cb4   0x00000118   Code   RO           28    i.temperature_check  ds18b20.o
+    0x08007dcc   0x08007dcc   0x00000024   Code   RO          413    i.up_relay          tft_proc.o
+    0x08007df0   0x08007df0   0x00000140   Code   RO          640    i.writeData         nvram.o
+    0x08007f30   0x08007f30   0x0000002c   Code   RO         4330    locale$$code        c_w.l(lc_numeric_c.o)
+    0x08007f5c   0x08007f5c   0x0000000c   Code   RO         4271    x$fpl$dretinf       fz_ws.l(dretinf.o)
+    0x08007f68   0x08007f68   0x00000056   Code   RO         4233    x$fpl$f2d           fz_ws.l(f2d.o)
+    0x08007fbe   0x08007fbe   0x00000002   PAD
+    0x08007fc0   0x08007fc0   0x000000c4   Code   RO         4235    x$fpl$fadd          fz_ws.l(faddsub_clz.o)
+    0x08008084   0x08008084   0x00000184   Code   RO         4242    x$fpl$fdiv          fz_ws.l(fdiv.o)
+    0x08008208   0x08008208   0x00000036   Code   RO         4245    x$fpl$ffix          fz_ws.l(ffix.o)
+    0x0800823e   0x0800823e   0x00000002   PAD
+    0x08008240   0x08008240   0x00000030   Code   RO         4250    x$fpl$fflt          fz_ws.l(fflt_clz.o)
+    0x08008270   0x08008270   0x00000026   Code   RO         4249    x$fpl$ffltu         fz_ws.l(fflt_clz.o)
+    0x08008296   0x08008296   0x00000002   PAD
+    0x08008298   0x08008298   0x00000102   Code   RO         4255    x$fpl$fmul          fz_ws.l(fmul.o)
+    0x0800839a   0x0800839a   0x0000008c   Code   RO         4273    x$fpl$fnaninf       fz_ws.l(fnaninf.o)
+    0x08008426   0x08008426   0x0000000a   Code   RO         4275    x$fpl$fretinf       fz_ws.l(fretinf.o)
+    0x08008430   0x08008430   0x000000ea   Code   RO         4237    x$fpl$fsub          fz_ws.l(faddsub_clz.o)
+    0x0800851a   0x0800851a   0x00000004   Code   RO         4257    x$fpl$printf1       fz_ws.l(printf1.o)
+    0x0800851e   0x0800851e   0x00000000   Code   RO         4277    x$fpl$usenofp       fz_ws.l(usenofp.o)
+    0x0800851e   0x0800851e   0x0000165c   Data   RO          262    .constdata          fonts.o
+    0x08009b7a   0x08009b7a   0x0000134c   Data   RO          263    .constdata          fonts.o
+    0x0800aec6   0x0800aec6   0x00000004   Data   RO          486    .constdata          xpt2046_touch.o
+    0x0800aeca   0x0800aeca   0x00000002   PAD
+    0x0800aecc   0x0800aecc   0x0000000c   Data   RO          549    .constdata          displ.o
+    0x0800aed8   0x0800aed8   0x00000012   Data   RO         1311    .constdata          stm32f1xx_hal_rcc.o
+    0x0800aeea   0x0800aeea   0x00000012   Data   RO         1403    .constdata          stm32f1xx_hal_rcc_ex.o
+    0x0800aefc   0x0800aefc   0x00000010   Data   RO         4124    .constdata          system_stm32f1xx.o
+    0x0800af0c   0x0800af0c   0x00000008   Data   RO         4125    .constdata          system_stm32f1xx.o
+    0x0800af14   0x0800af14   0x00000028   Data   RO         4177    .constdata          c_w.l(_printf_hex_int.o)
+    0x0800af3c   0x0800af3c   0x00000011   Data   RO         4207    .constdata          c_w.l(__printf_flags_wp.o)
+    0x0800af4d   0x0800af4d   0x00000003   PAD
+    0x0800af50   0x0800af50   0x00000094   Data   RO         4305    .constdata          c_w.l(bigflt0.o)
+    0x0800afe4   0x0800afe4   0x00000003   Data   RO          550    .conststring        displ.o
+    0x0800afe7   0x0800afe7   0x00000001   PAD
+    0x0800afe8   0x0800afe8   0x00000024   Data   RO          768    .conststring        main.o
+    0x0800b00c   0x0800b00c   0x00000053   Data   RO          769    .conststring        main.o
+    0x0800b05f   0x0800b05f   0x00000001   PAD
+    0x0800b060   0x0800b060   0x00000043   Data   RO          770    .conststring        main.o
+    0x0800b0a3   0x0800b0a3   0x00000001   PAD
+    0x0800b0a4   0x0800b0a4   0x00000033   Data   RO          771    .conststring        main.o
+    0x0800b0d7   0x0800b0d7   0x00000001   PAD
+    0x0800b0d8   0x0800b0d8   0x00000020   Data   RO         4475    Region$$Table       anon$$obj.o
+    0x0800b0f8   0x0800b0f8   0x0000001c   Data   RO         4329    locale$$data        c_w.l(lc_numeric_c.o)
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800b28c, Size: 0x00000da0, Max: 0x00005000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800b114, Size: 0x00000da0, Max: 0x00005000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x0800b28c   0x0000000b   Data   RW           29    .data               ds18b20.o
-    0x2000000b   0x0800b297   0x00000001   PAD
-    0x2000000c   0x0800b298   0x00000008   Data   RW          265    .data               fonts.o
-    0x20000014   0x0800b2a0   0x00000008   Data   RW          266    .data               fonts.o
-    0x2000001c   0x0800b2a8   0x00000004   Data   RW          415    .data               tft_proc.o
-    0x20000020   0x0800b2ac   0x00000002   Data   RW          697    .data               procedure.o
-    0x20000022   0x0800b2ae   0x00000002   PAD
-    0x20000024   0x0800b2b0   0x00000010   Data   RW          772    .data               main.o
-    0x20000034   0x0800b2c0   0x00000020   Data   RW          773    .data               main.o
-    0x20000054   0x0800b2e0   0x0000001c   Data   RW          774    .data               main.o
-    0x20000070   0x0800b2fc   0x0000001c   Data   RW          775    .data               main.o
-    0x2000008c   0x0800b318   0x00000044   Data   RW          776    .data               main.o
-    0x200000d0   0x0800b35c   0x00000001   Data   RW          777    .data               main.o
-    0x200000d1   0x0800b35d   0x00000004   Data   RW          780    .data               main.o
-    0x200000d5   0x0800b361   0x00000001   PAD
-    0x200000d6   0x0800b362   0x00000002   Data   RW          783    .data               main.o
-    0x200000d8   0x0800b364   0x00000002   Data   RW          784    .data               main.o
-    0x200000da   0x0800b366   0x00000001   Data   RW          785    .data               main.o
-    0x200000db   0x0800b367   0x00000001   PAD
-    0x200000dc   0x0800b368   0x0000000c   Data   RW         1148    .data               stm32f1xx_hal.o
-    0x200000e8   0x0800b374   0x00000004   Data   RW         4126    .data               system_stm32f1xx.o
+    0x20000000   0x0800b114   0x0000000b   Data   RW           29    .data               ds18b20.o
+    0x2000000b   0x0800b11f   0x00000001   PAD
+    0x2000000c   0x0800b120   0x00000008   Data   RW          265    .data               fonts.o
+    0x20000014   0x0800b128   0x00000008   Data   RW          266    .data               fonts.o
+    0x2000001c   0x0800b130   0x00000004   Data   RW          415    .data               tft_proc.o
+    0x20000020   0x0800b134   0x00000002   Data   RW          697    .data               procedure.o
+    0x20000022   0x0800b136   0x00000002   PAD
+    0x20000024   0x0800b138   0x00000010   Data   RW          772    .data               main.o
+    0x20000034   0x0800b148   0x00000020   Data   RW          773    .data               main.o
+    0x20000054   0x0800b168   0x0000001c   Data   RW          774    .data               main.o
+    0x20000070   0x0800b184   0x0000001c   Data   RW          775    .data               main.o
+    0x2000008c   0x0800b1a0   0x00000044   Data   RW          776    .data               main.o
+    0x200000d0   0x0800b1e4   0x00000001   Data   RW          777    .data               main.o
+    0x200000d1   0x0800b1e5   0x00000004   Data   RW          780    .data               main.o
+    0x200000d5   0x0800b1e9   0x00000001   PAD
+    0x200000d6   0x0800b1ea   0x00000002   Data   RW          783    .data               main.o
+    0x200000d8   0x0800b1ec   0x00000002   Data   RW          784    .data               main.o
+    0x200000da   0x0800b1ee   0x00000001   Data   RW          785    .data               main.o
+    0x200000db   0x0800b1ef   0x00000001   PAD
+    0x200000dc   0x0800b1f0   0x0000000c   Data   RW         1148    .data               stm32f1xx_hal.o
+    0x200000e8   0x0800b1fc   0x00000004   Data   RW         4126    .data               system_stm32f1xx.o
     0x200000ec        -       0x0000000e   Zero   RW          343    .bss                mylcd.o
-    0x200000fa   0x0800b378   0x00000002   PAD
+    0x200000fa   0x0800b200   0x00000002   PAD
     0x200000fc        -       0x00000040   Zero   RW          414    .bss                tft_proc.o
     0x2000013c        -       0x00000410   Zero   RW          641    .bss                nvram.o
     0x2000054c        -       0x00000190   Zero   RW          765    .bss                main.o
     0x200006dc        -       0x00000020   Zero   RW          766    .bss                main.o
     0x200006fc        -       0x00000020   Zero   RW          767    .bss                main.o
-    0x2000071c   0x0800b378   0x00000004   PAD
+    0x2000071c   0x0800b200   0x00000004   PAD
     0x20000720        -       0x00000020   Zero   RW         1854    .bss                stm32f1xx_hal_flash.o
     0x20000740        -       0x00000060   Zero   RW         4337    .bss                c_w.l(libspace.o)
     0x200007a0        -       0x00000200   Zero   RW            2    HEAP                startup_stm32f103xb.o
@@ -3229,7 +3221,7 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
-      6584       1872         15          0          0       8112   displ.o
+      6208       1770         15          0          0       8044   displ.o
       2454        454          0         11          0     460682   ds18b20.o
          0          0      10664         16          0       1010   fonts.o
       3024        290        237        182        464       9853   main.o
@@ -3260,7 +3252,7 @@ Image component sizes
        456         34          4          0          0       3361   xpt2046_touch.o
 
     ----------------------------------------------------------------------
-     27410       3694      11254        236       3156     618853   Object Totals
+     27034       3592      11254        236       3156     618785   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         32          0          6          5          6          0   (incl. Padding)
 
@@ -3355,15 +3347,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     34218       4008      11490        236       3252     612329   Grand Totals
-     34218       4008      11490        236       3252     612329   ELF Image Totals
-     34218       4008      11490        236          0          0   ROM Totals
+     33842       3906      11490        236       3252     612261   Grand Totals
+     33842       3906      11490        236       3252     612261   ELF Image Totals
+     33842       3906      11490        236          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                45708 (  44.64kB)
+    Total RO  Size (Code + RO Data)                45332 (  44.27kB)
     Total RW  Size (RW Data + ZI Data)              3488 (   3.41kB)
-    Total ROM Size (Code + RO Data + RW Data)      45944 (  44.87kB)
+    Total ROM Size (Code + RO Data + RW Data)      45568 (  44.50kB)
 
 ==============================================================================
 

@@ -5,7 +5,8 @@
   * @brief          : GRD 4.0 inch 22.01.2025
   ******************************************************************************
   *
-  * Program Size: Code=31148 RO-data=11208 RW-data=232 ZI-data=2584  
+  * Program Size: Code=34218 RO-data=11490 RW-data=236 ZI-data=3252
+  * checksum : 0x00414EA5 
   * certutil -hashfile e:\!PROJECTS\!STM32\2025\GRD_40\MDK-ARM\GRD_40\GRD_40.hex SHA1
   * d4f86b9297aaa9c98f087b2d9cfff38c926e7753
   *

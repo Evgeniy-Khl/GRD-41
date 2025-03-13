@@ -237,7 +237,7 @@ void displ_1(void){
     Y_str = Y_str+25+5;
     sprintf(buffTFT,"flT0=%2.3f; dpv0=%2.3f", flT0, dpv0);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-#endif
+
     Y_str = Y_str+18+5;
     sprintf(buffTFT,"D1%2x; D2%2x; D3%2x; D4%2x;", ds.err[0], ds.err[1], ds.err[2], ds.err[3]);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
@@ -253,6 +253,7 @@ void displ_1(void){
     Y_str = Y_str+18+5;
     sprintf(buffTFT,"dPart=%+5d", pid.dPart);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+#endif
 }
 
 //--------- Õ¿À¿ÿ“”¬¿ÕÕﬂ ----------------------------------
