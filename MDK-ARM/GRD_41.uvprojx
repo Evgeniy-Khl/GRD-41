@@ -420,11 +420,6 @@
               <FileType>1</FileType>
               <FilePath>..\Lib\Touch\XPT2046_touch.c</FilePath>
             </File>
-            <File>
-              <FileName>strings.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\strings.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -459,11 +454,6 @@
               <FileName>stm32f1xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f1xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>UART_Transmit.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\UART_Transmit.c</FilePath>
             </File>
           </Files>
         </Group>
