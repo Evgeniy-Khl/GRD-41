@@ -491,8 +491,9 @@ switch (i16){
         }
       }
       if(errors) ALARM = ON; else ALARM = OFF;  // световой сигнал ошибки
-
+      transmitDataUART(&huart1); // Передача данных по UART1
       display();
+      //-------------- Конец проверки каждую 1 сек. -----------------------
     }
     /* USER CODE END WHILE */
 
