@@ -5,8 +5,8 @@
   * @brief          : GRD 4.0 inch 22.01.2025
   ******************************************************************************
   *
-  * Program Size: Code=34218 RO-data=11490 RW-data=236 ZI-data=3252
-  * checksum : 0x00414EA5 
+  * Program Size: Code=33842 RO-data=11490 RW-data=236 ZI-data=3252  
+  * checksum : 0x0040BAA1 
   * certutil -hashfile e:\!PROJECTS\!STM32\2025\GRD_40\MDK-ARM\GRD_40\GRD_40.hex SHA1
   * d4f86b9297aaa9c98f087b2d9cfff38c926e7753
   *
@@ -71,9 +71,9 @@ const char* relayName[7]={"ПЫД","НАГРЫВ","ТАЙМЕР","ВОЛОГА","ЕЛЕКТРО","Кл.ДИМА","
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x655},{1600,0x804},{1800,0x9B6},{2000,0xB65},{2200,0xD14},{2400,0xFFF}};//d=434+коррекция
 struct Ds ds;
-uint16_t speedData[MAX_SPEED][2], errors, arhCount, arhErrors[15];
+uint16_t set[INDEX], speedData[MAX_SPEED][2], errors;
 int16_t pvTH, pvRH, tmrCounter, resetDispl=0, displOff=DISPLAYOFF;
-uint16_t set[INDEX], touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
+uint16_t touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
 uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost;
 uint8_t timer10ms, tmrVent, ticBeep, pwTriac, invers, dsplPW;
 uint8_t familycode[MAX_SENSOR][8];
@@ -112,7 +112,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
       invers = ~relayOut.value;
       HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
     }
-    if(ticBeep){ --ticBeep; HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_SET);}// бипер
+    if(ticBeep){ --ticBeep; HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_RESET);}// бипер ???????????????????????????????????????????????????????
     else {HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_RESET);}
   }
 }
@@ -263,7 +263,7 @@ int main(void)
     if(resetDispl) --resetDispl; 
     else if(displ_num){displ_num = 0; NEWBUTT = 1; displOff=DISPLAYOFF;}  // возврат к главному дисплею
     else if(displOff) --displOff;
-    else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+    else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);       // отключение дисплея через 5 минут
     
     #ifndef MANUAL_CHECK
       temperature_check();
@@ -457,8 +457,6 @@ int main(void)
 //        if(analogSet[i16]>-1) analogOut[i16]=analogSet[i16];
 //      }
       if(errors && (set[CHILL]&2)==0){    // 2-отключены аварийные звуковые сигналы
-        arhErrors[arhCount] = errors;
-        if(++arhCount>15) arhCount = 0;
         switch (errors){
           case 0x01: ticBeep = 80; break; // ПОМИЛКА ДАТЧИКА N1
           case 0x02: ticBeep = 80; break; // ПОМИЛКА ДАТЧИКА N2
