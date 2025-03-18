@@ -5,8 +5,8 @@
   * @brief          : GRD 4.0 inch 22.01.2025
   ******************************************************************************
   *
-  * Program Size: Code=33842 RO-data=11490 RW-data=236 ZI-data=3252  
-  * checksum : 0x0040BAA1 
+  * Program Size: Code=33894 RO-data=11490 RW-data=236 ZI-data=3220  
+  * checksum : 0x0040CA39 
   * certutil -hashfile e:\!PROJECTS\!STM32\2025\GRD_40\MDK-ARM\GRD_40\GRD_40.hex SHA1
   * d4f86b9297aaa9c98f087b2d9cfff38c926e7753
   *
@@ -71,7 +71,7 @@ const char* relayName[7]={"ÏÛÄ","ÍÀÃÐÛÂ","ÒÀÉÌÅÐ","ÂÎËÎÃÀ","ÅËÅÊÒÐÎ","Êë.ÄÈÌÀ","
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x655},{1600,0x804},{1800,0x9B6},{2000,0xB65},{2200,0xD14},{2400,0xFFF}};//d=434+êîððåêöèÿ
 struct Ds ds;
-uint16_t set[INDEX], speedData[MAX_SPEED][2], errors;
+uint16_t set[INDEX], speedData[MAX_SPEED][2], errors, arhErrors[15];
 int16_t pvTH, pvRH, tmrCounter, resetDispl=0, displOff=DISPLAYOFF;
 uint16_t touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
 uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost;
@@ -112,7 +112,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
       invers = ~relayOut.value;
       HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
     }
-    if(ticBeep){ --ticBeep; HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_RESET);}// áèïåð ???????????????????????????????????????????????????????
+    if(ticBeep){ --ticBeep; HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_SET);}// áèïåð
     else {HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_RESET);}
   }
 }
