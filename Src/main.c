@@ -65,11 +65,6 @@ RTC_DateTypeDef sDate;
 
 char buffTFT[40];
 extern uint8_t RXBuffer[2];
-//const char* modeName[4]={"СУШЫННЯ","ОБЖАРКА","ВАРЫННЯ","КОПЧЕННЯ"};
-//const char* setName[MAX_SET]={"t КАМЕРИ","t ПРОДУКТА","t ДИМА","ТРИВАЛЫСТЬ","ШВИДКЫСТЬ","ТАЙМ.ON","ТАЙМ.OFF","ЫНШЕ"};
-//const char* otherName[MAX_OTHER]={"ПРОДУВАННЯ","АВАРЫЯ","ГЫСТЕРЕЗ","ОХОЛОДЖ.","Prop","Integ","Diff"};
-//const char* relayName[7]={"ПЫД","НАГРЫВ","ТАЙМЕР","ВОЛОГА","ЕЛЕКТРО","Кл.ДИМА","Кл.ВОДИ"};
-//const char* analogName[2]={"ВЕНТИЛ.","ЫНШЕ"};
 //        2.00V        3.15V        4.30V        5.45V        6.60V        7.75V        8.90V        10.00V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x655},{1600,0x804},{1800,0x9B6},{2000,0xB65},{2200,0xD14},{2400,0xFFF}};//d=434+коррекция
@@ -107,12 +102,12 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-//-------- Обратный вызов с истекшим периодом --------------
+//-------- Callback --------------
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
   if(htim->Instance == TIM1){ //check if the interrupt comes from TIM1 (10 ms)
     checkTime++; timer10ms++;
     if(pwTriac) --pwTriac; else {
-      TRIAC = OFF;                    // отключить (SSR-25DA)
+      TRIAC = OFF;                    // turning OFF (SSR-25DA)
       invers = ~relayOut.value;
       HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
     }
@@ -160,7 +155,7 @@ int main(void)
   MX_SPI2_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-  u16 = sendToI2c(0);//  отключение вентилятора
+  u16 = sendToI2c(0);//  turning OFF the fan
   
   HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_SET);
   HAL_Delay(200);
@@ -176,15 +171,8 @@ int main(void)
   Y_str = Y_str+18+35;
   
   i16 = initData();
-  ds18b20_port_init();      // линия 1-Wire
+  ds18b20_port_init();      // 1-Wire
   ds18b20_checkSensor(4);   // check DS18B20 sensors
- 
-//  switch (i16){
-//  	case 0: GUI_WriteString(5, Y_str, "Ыныцыалызацыя успышна.", Font_11x18, GREEN, BLACK);	break;
-//  	case 1: GUI_WriteString(5, Y_str, "Первинна ыныцыалызацыя.", Font_11x18, YELLOW, BLACK);	break;
-//    case 3: GUI_WriteString(5, Y_str, "Помилки читання FLASH!", Font_11x18, YELLOW, RED);	break;
-//  	default:GUI_WriteString(5, Y_str, "Невыдома помилка!", Font_11x18, MAGENTA, BLACK);	break;
-//  }
 
 switch (i16){
     case 0: GUI_WriteString(5, Y_str, (char*)guiMessages[0], Font_11x18, GREEN, BLACK); break;
@@ -204,7 +192,7 @@ switch (i16){
     Y_str = Y_str+18+5;
     HAL_Delay(1000);
   }
-  //---------------------------- линия 1-Wire -----------------------------------
+  //---------------------------- 1-Wire -----------------------------------
   if(ds18b20_amount){
     for(uint8_t i=0;i<ds18b20_amount;i++) ds.pvT[i]=1999;
     ds18b20_Convert_T();
@@ -221,8 +209,8 @@ switch (i16){
   HAL_Delay(200);
   HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_RESET);
   
-  HAL_RTCEx_SetSecond_IT(&hrtc);          /* ------  таймер 1Гц.  период  1 сек.    ----*/
-  HAL_TIM_Base_Start_IT(&htim1);          /* ------  таймер 100Гц.  период  10 мс.  ----*/
+  HAL_RTCEx_SetSecond_IT(&hrtc);          /* ------  timer 1 Hz. period 1 sec.    ----*/
+  HAL_TIM_Base_Start_IT(&htim1);          /* ------  timer 100 Hz. period 10 ms.  ----*/
   HAL_UART_Receive_IT(&huart1,RXBuffer,2);
   
   NEWBUTT = ON;
@@ -245,58 +233,58 @@ switch (i16){
   while (1)
   {
     Y_str = 5; X_left = 5;
-    //-------------------------- ТАЧСКРИН ---------------------------------------
+    //-------------------------- TOUCHSCREEN ---------------------------------------
     if(XPT2046_TouchPressed()&& checkTime>40){
       uint8_t butt_num;
       if(XPT2046_TouchGetCoordinates(&touch_x, &touch_y)){
         HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
         displOff=DISPLAYOFF;
         for (butt_num=0; butt_num<buttonAmount; butt_num++){
-            if(contains(touch_x, touch_y, butt_num)) break; // проверка попадания новой координаты в область кнопки
+            if(contains(touch_x, touch_y, butt_num)) break; // checking if the new coordinate falls within the button area
         }
       }
-      checkButtons(butt_num);                           // проверка нажатой кнопки
+      checkButtons(butt_num);                           // button press check
       checkTime = 0; CHECK = ON;
     }
     
-    // ----------- УВЛАЖНИТЕЛЬ только в режиме варка modeCell==2 и TMON && TMOFF !=0 --------------------
+    // ----------- HUMIDIFIER only in modeCell==2 и TMON && TMOFF !=0 --------------------
     if(WORK && modeCell==2){
       if(set[TMON]!=0 && set[TMOFF]!=0){
-        if(timer10ms){                  // шаг отсчета интервала таймера 10 милисек.
+        if(timer10ms){                  // The timer interval counting step is 10 milliseconds.
           timer10ms=0; 
-          HUMIDI=humidifier(HUMIDI);    // проверим выход на увлажнитель
+          HUMIDI=humidifier(HUMIDI);    // let's check the output to the humidifier
           invers = ~relayOut.value;
           HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
         }
       }
     }
     
-    //-------------- Начало проверки каждую 1 сек. -----------------------
+    //-------------- Start checking every 1 sec. -----------------------
     if(CHECK){ CHECK = OFF; errors=0;  //if(++temp>10) {temp=0; ++pvspeed; pvspeed&=7; ds.pvT[1] = speedData[pvspeed][0]; sendToI2c(speedData[pvspeed][1]);}
     dsplPW = 0;  
     if(resetDispl) --resetDispl; 
-    else if(displ_num){displ_num = 0; NEWBUTT = 1; displOff=DISPLAYOFF;}  // возврат к главному дисплею
+    else if(displ_num){displ_num = 0; NEWBUTT = 1; displOff=DISPLAYOFF;}  // return to main display
     else if(displOff) --displOff;
     else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
     
     #ifndef MANUAL_CHECK
       temperature_check();
     #endif
-      //---------------------------------- Проверка работы вентилятора -------------------------------------
+      //---------------------------------- Checking the operation of the fan -------------------------------------
       if(VENTIL){
-        if(HAL_GPIO_ReadPin(Input0_GPIO_Port, Input0_Pin) == GPIO_PIN_RESET) {SPEED=ON; tmrVent=0;} // если контакт замкнут
+        if(HAL_GPIO_ReadPin(Input0_GPIO_Port, Input0_Pin) == GPIO_PIN_RESET) {SPEED=ON; tmrVent=0;} // if the contact is closed
         else SPEED=OFF;
     #ifdef MANUAL_CHECK
         SPEED=ON; tmrVent=0;
     #endif
-        if(tmrVent) --tmrVent;    // ожидаем замыкания контакта частотного преобразователя
+        if(tmrVent) --tmrVent;    // we are waiting for the frequency converter contact to close
         else if(SPEED) WORK=ON;
-        else {errors |= ERR8; WORK=OFF; relayOut.value=OFF;}  // НЕ ПРАЦЮЭ ВЕНТИЛЯТОР
+        else {errors |= ERR8; WORK=OFF; relayOut.value=OFF;}  // FAN IS NOT WORKING
       }
-      //------------------------------------------- В РАБОТЕ -----------------------------------------------
+      //------------------------------------------- IN WORK -----------------------------------------------
       if(WORK){
-        TIMER=ON;         // всегда включен в работу
-        if(modeCell==2){  // только в режиме варка modeCell==2
+        TIMER=ON;         // always ON
+        if(modeCell==2){  // only in modeCell==2
           if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET){
             if(++tmrWater>5) {tmrWater=5; WATER=ON;}
           }
@@ -305,83 +293,83 @@ switch (i16){
           }
         }
         else WATER=OFF;
-        //------------ устанавливаем color0 в соответсвии с отклонением ------------------------
-        i16 = set[T0]*10 - ds.pvT[0];           // величина ошибки регулирования датчика 0
+        //------------ set color0 according to deviation ------------------------
+        i16 = set[T0]*10 - ds.pvT[0];           // sensor control error value 0
         uint16_t abs16 = abs(i16);
-        if(abs16<set[HIST]) PERFECT=ON;         // Вышли на заданную температуру
-        u16 = set[ALRM]*10;                     // привяжем к аварии
+        if(abs16<set[HIST]) PERFECT=ON;         // Reached the set temperature
+        u16 = set[ALRM]*10;                     // deviation value
         
         if(i16<=0){
           if(abs16<u16) color0 = GREEN;         // норма
-          else if(abs16>=u16 && abs16<u16*2){errors|=ERR5; color0 = MAGENTA;} // ВІДХІЛЕННЯ ТЕМПЕРАТУРИ
-          else {errors|=ERR3; color0 = RED;}    // ПЕРЕГРЕВ В КАМЕРЕ
+          else if(abs16>=u16 && abs16<u16*2){errors|=ERR5; color0 = MAGENTA;} // TEMPERATURE DEVIATION
+          else {errors|=ERR3; color0 = RED;}    // OVERHEATING IN THE CHAMBER
         }
         else {
-          if(abs16<u16) color0 = GREEN;         // норма
+          if(abs16<u16) color0 = GREEN;         // norm
           else if(abs16>=u16*2){
-            color0 = CYAN;                      // НИЖЕ нормы
-            if(PERFECT) errors|=ERR5;           // ВІДХІЛЕННЯ ТЕМПЕРАТУРИ
+            color0 = CYAN;                      // BELOW normal
+            if(PERFECT) errors|=ERR5;           // TEMPERATURE DEVIATION
           }
         }
         
-        //------------ устанавливаем color1 в соответсвии с отклонением -------------------------
-        i16 = set[T1]*10 - ds.pvT[1];           // величина ошибки регулирования датчика 1
+        //------------ set color1 according to deviation -------------------------
+        i16 = set[T1]*10 - ds.pvT[1];           // sensor control error value 1
         abs16 = abs(i16);
         
         if(i16<=0){
           if(abs16<u16/2)color1 = GREEN;        // норма
-          else if(abs16>=u16/2 && abs16<u16) color1 = MAGENTA;  // ВІДХІЛЕННЯ ТЕМПЕРАТУРИ
-          else {errors|=ERR4; color1 = RED;}    // ПЕРЕГРЕВ В ПРОДУКТЕ
+          else if(abs16>=u16/2 && abs16<u16) color1 = MAGENTA;  // TEMPERATURE DEVIATION
+          else {errors|=ERR4; color1 = RED;}    // OVERHEATING IN THE PRODUCT
         }
         else {
-          if(abs16<u16/2)color1 = GREEN;        // норма
-          else if(abs16>=u16) color1 = CYAN;    // НИЖЕ нормы
+          if(abs16<u16/2)color1 = GREEN;        // norm
+          else if(abs16>=u16) color1 = CYAN;    // BELOW normal
         }
         
-        // ---------------------------------------- НАГРЕВАТЕЛЬ / ОХЛАДИТЕЛЬ -------------------------------------
+        // ---------------------------------------- HEATER / COOLER -------------------------------------
         //------ работает как нагреватель
         if(ds.pvT[0]<1999 && ds.pvT[0]>1){
-          i16 = Relay(set[T0]*10 - ds.pvT[0], set[HIST]);   // величина ошибки температуры воздуха
+          i16 = Relay(set[T0]*10 - ds.pvT[0], set[HIST]);   // air temperature error value
         }
-        if(ds18b20_amount>1 && ds.pvT[1]<1999){             // величина ошибки температурs среды
+        if(ds18b20_amount>1 && ds.pvT[1]<1999){             // the magnitude of the error in the ambient temperature
           u16 = Relay(set[T1]*10 - ds.pvT[1], 0);
         }
-        if(u16==ON) pwTriac = UpdatePID(&pid,0);            // ПИД нагреватель
+        if(u16==ON) pwTriac = UpdatePID(&pid,0);            // PID heater
         else i16 = OFF;
-        if(pwTriac) TRIAC = ON;                             // включить (SSR-25DA)
+        if(pwTriac) TRIAC = ON;                             // turning OFF (SSR-25DA)
         dsplPW = pwTriac;
         if(dsplPW>100) dsplPW = 100;
         //------ работает как охладитель
         if(set[CHILL]&1){  
           i16 = Relay(ds.pvT[0] - set[T0]*10, set[HIST]);
-          if(ds.pvT[0] > BEGINCOOL) i16 = OFF;              // температура выше которой ЗАПРЕЩЕНО включение охлаждения
+          if(ds.pvT[0] > BEGINCOOL) i16 = OFF;              // temperature above which it is PROHIBITED to turn on cooling
         }
         switch (i16){
           case ON:  HEATER = ON;  break;
           case OFF: HEATER = OFF; break;
         }
         
-        //-------------------------- Только для режима КОПЧЕНИЯ ---------------------------------
+        //-------------------------- Only for modeCell==3 ---------------------------------
         if(modeCell==3){
           ELECTRO = ignition(ELECTRO);
-          i16 = set[T2]*10 - ds.pvT[2];   // величина ошибки регулирования датчика 2 (Дым)
-          if(++checkSmoke>CHKSMOKE){      // (відхилення 2 грд.Ц) ТЕМПЕРАТУРЫ ДЫМА
+          i16 = set[T2]*10 - ds.pvT[2];   // sensor 2 regulation error value (Smoke)
+          if(++checkSmoke>CHKSMOKE){      // (reduction of 2 degrees Celsius) SMOKE TEMPERATURES
             checkSmoke=CHKSMOKE;
             if(abs(i16)>set[ALRM]*10*2) errors|=ERR6;
           }
-          u16 = Relay(i16, set[HIST]);  // величина ошибки температуры дыма
+          u16 = Relay(i16, set[HIST]);  // smoke temperature error value
           switch (u16){
             case ON:  SMOKE = ON;  break;
             case OFF: SMOKE = OFF; break;
           }
         }
         
-        //-------------------------- Только для режима ВАРЕНИЯ ---------------------------------
+        //-------------------------- Only for modeCell==2 ---------------------------------
         if(modeCell==2){
           if(set[TMON]==0 || set[TMOFF]==0){
-            i16 = set[T3]*10 - ds.pvT[3];     // величина ошибки регулирования датчика 3 (Влажность)
-            u16 = Relay(i16, set[HIST]);      // ЧЕТВЕРТЫЙ датчик - датчик влажности
-            if(ds.pvT[0] < BEGINHUM) u16=OFF; // запрет увлажнения при температуре ниже 40 грд.
+            i16 = set[T3]*10 - ds.pvT[3];     // sensor 4 (Humidity) control error value
+            u16 = Relay(i16, set[HIST]);      // 4 sensor - humidity sensor
+            if(ds.pvT[0] < BEGINHUM) u16=OFF; // prohibition of humidification at temperatures below 40 degrees.
             switch (u16){
               case ON:  HUMIDI = ON;  break;
               case OFF: HUMIDI = OFF; break;
@@ -391,14 +379,14 @@ switch (i16){
 //        else HUMIDI = OFF;
 
 #ifdef MANUAL_CHECK
-        //?????? Програмное задание температур ??????????
+        //?????? Software setting of temperatures ??????????
         count++;
-        //-----температура воздуха------
+        //-----air temperature------
         dpv0 = (float)pid.pPart/500 + (float)(pid.output-5)/100;
         flT0+=dpv0;
         ds.pvT[0] = flT0;
         int16_t pverr = set[T0]*10 - ds.pvT[0];
-        //----температура среды------
+        //----ambient temperature------
         if(count>3){ count=0;
           pverr = set[T1]*10 - ds.pvT[1];
           dpv1 =-1;
@@ -408,14 +396,14 @@ switch (i16){
           else if(pverr>10) dpv1 = 1;
           ds.pvT[1]+=dpv1;
         }
-        //-----температура дыма---------
+        //-----smoke temperature---------
         pverr = set[T2]*10 - ds.pvT[2];
         if(pverr>50) dpv2 = 5;
         else if(pverr>25) dpv2 = 1;
         else if(pverr<-25) dpv2 = -1;
         if(i16==OFF) dpv2=0;
         ds.pvT[2]+=dpv2;
-        //----влажный датчик--------
+        //----wet sensor--------
         pverr = set[T3]*10 - ds.pvT[3];
         if(pverr>150) dpv3 = 5;
         else if(HUMIDI==ON) dpv3 = 1;
@@ -424,20 +412,20 @@ switch (i16){
         //????????????????????????????????????????????????
 #endif
         
-        //------------------------- ЗВЕРШЕНИЕ текущего режима ----------------------------------
-        if(set[TMR0]>0){                                // если TMR0>0 то завершение режима по таймеру
-          u16 = sTime.Hours*60 + sTime.Minutes;         // всего в минутах
-          i16 = (set[TMR0] - u16)*60 - sTime.Seconds;   // осталось до выключения в секундах
-          if(i16<30) ticBeep = 5;                       // включить сигнал
-          if(i16<=0){                                   // завершение режима
+        //------------------------- END of the current mode ----------------------------------
+        if(set[TMR0]>0){                                // if TMR0>0 then the mode ends by timer
+          u16 = sTime.Hours*60 + sTime.Minutes;         // total minutes
+          i16 = (set[TMR0] - u16)*60 - sTime.Seconds;   // time left until shutdown in seconds
+          if(i16<30) ticBeep = 5;                       // turn ON the signal
+          if(i16<=0){                                   // ending the mode
             portFlag.value = OFF; PURGING=ON; relayOut.value=OFF; ticBeep=200;
             //------- далее продувка ---------
               sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
               HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
           }
         }
-        else if(ds18b20_amount==1){      // если только 1 датчик и продолжительность 0 то завершение по температуре камеры.          
-          i16 = Relay(set[T0]*10 - ds.pvT[0], 0);   // температура камеры
+        else if(ds18b20_amount==1){      // if only 1 sensor and duration 0 then termination by chamber temperature.          
+          i16 = Relay(set[T0]*10 - ds.pvT[0], 0);   // chamber temperature
           if(i16==OFF){
             portFlag.value = OFF; PURGING=ON; relayOut.value=OFF; ticBeep=200;
             //------- далее продувка ---------
@@ -445,8 +433,8 @@ switch (i16){
             HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
           }
         }
-        else if(ds18b20_amount>1){      // если датчиков много и продолжительность 0 то завершение по температуре среды.          
-          i16 = Relay(set[T1]*10 - ds.pvT[1], 0);   // температура камеры
+        else if(ds18b20_amount>1){      // if there are many sensors and the duration is 0, then the termination is based on the ambient temperature.          
+          i16 = Relay(set[T1]*10 - ds.pvT[1], 0);   // chamber temperature
           if(i16==OFF){
             portFlag.value = OFF; PURGING=ON; relayOut.value=OFF; ticBeep=200;
             //------- далее продувка ---------
@@ -455,45 +443,45 @@ switch (i16){
           }
         }
         
-      } //--------------------------- КОНЕЦ в работе -----------------------------------------------
+      } //--------------------------- END in work -----------------------------------------------
       else if(PURGING){
-        u16 = sTime.Minutes*60+sTime.Seconds;           // всего в секундах
+        u16 = sTime.Minutes*60+sTime.Seconds;           // total seconds
         if(u16>=set[TMR1]) {PURGING=OFF; sendToI2c(0); NEWBUTT=ON; ticBeep=200;}
       }
-      //------ Проверка на ручное управление ---------------------------------------
+      //------ Checking for manual control ---------------------------------------
       for (i16=0;i16<7;i16++){
-          if(relaySet[i16]==1) relayOut.value |= (1<<(i16)); // ручной On
-          if(relaySet[i16]==0) relayOut.value &= ~(1<<(i16));// ручной Off
+          if(relaySet[i16]==1) relayOut.value |= (1<<(i16)); // hand On
+          if(relaySet[i16]==0) relayOut.value &= ~(1<<(i16));// hand Off
       }
       invers = ~relayOut.value;
       HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
-//      for (i16=0;i16<2;i16++){  // ручное управление аналоговыми выводами
+//      for (i16=0;i16<2;i16++){  // manual control of analog outputs
 //        if(analogSet[i16]>-1) analogOut[i16]=analogSet[i16];
 //      }
-      if(errors && (set[CHILL]&2)==0){    // 2-отключены аварийные звуковые сигналы
+      if(errors && (set[CHILL]&2)==0){    // 2-emergency sound signals are disabled
         arhErrors[arhCount] = errors;
         if(++arhCount>15) arhCount = 0;
         switch (errors){
-          case 0x01: ticBeep = 80; break; // ПОМИЛКА ДАТЧИКА N1
-          case 0x02: ticBeep = 80; break; // ПОМИЛКА ДАТЧИКА N2
-          case 0x04: ticBeep = 80; break; // ПОМИЛКА ДАТЧИКА N3
-          case 0x08: ticBeep = 80; break; // ПОМИЛКА ДАТЧИКА N4
-          case ERR3: ticBeep = 80; break; // ПЕРЕГРЫВ В КАМЕРI
-          case ERR4: ticBeep =120; break; // ПЕРЕГРЫВ В ПРОДУКТI
-          case ERR5: ticBeep = 10; break; // ВЫДХЫЛЕННЯ ТЕМПЕРАТУРИ
-          case ERR6: ticBeep = 20; break; // ВЫДХЫЛЕННЯ ТЕМПЕРАТУРИ ДИМA
+          case 0x01: ticBeep = 80; break; // SENSOR ERROR N1
+          case 0x02: ticBeep = 80; break; // SENSOR ERROR N2
+          case 0x04: ticBeep = 80; break; // SENSOR ERROR N3
+          case 0x08: ticBeep = 80; break; // SENSOR ERROR N4
+          case ERR3: ticBeep = 80; break; // OVERHEATING IN THE CHAMBER
+          case ERR4: ticBeep =120; break; // OVERHEATING IN THE PRODUCT
+          case ERR5: ticBeep = 10; break; // TEMPERATURE DEVIATION
+          case ERR6: ticBeep = 20; break; // SMOKE TEMPERATURE DEVIATION
           case ERR7: ticBeep = 60; break; //
-          case ERR8: ticBeep = 60; break; // НЕ ПРАЦЮЭ ВЕНТИЛЯТОР
+          case ERR8: ticBeep = 60; break; // FAN IS NOT WORKING
           default: 
             if(errors==0x0C) ticBeep = 80;
             else ticBeep =200;
           break;
         }
       }
-      if(errors) ALARM = ON; else ALARM = OFF;  // световой сигнал ошибки
-      transmitDataUART(&huart1); // Передача данных по UART1
+      if(errors) ALARM = ON; else ALARM = OFF;  // error light
+      transmitDataUART(&huart1); // Data transfer by UART1
       display();
-      //-------------- Конец проверки каждую 1 сек. -----------------------
+      //-------------- End of check every 1 sec. -----------------------
     }
     /* USER CODE END WHILE */
 
