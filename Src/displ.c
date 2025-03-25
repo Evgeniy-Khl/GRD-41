@@ -13,15 +13,15 @@ extern const char* modeName[];
 extern const char* otherName[];
 extern const char* relayName[];
 extern const char* analogName[];
-extern uint8_t displ_num, modeCell, ds18b20_amount, ds18b20_num, familycode[][8], newDate, ticBeep, dsplPW;
-extern uint16_t speedData[MAX_SPEED][2], errors, arhCount, arhErrors[];
+extern uint8_t displ_num, modeCell, ds18b20_amount, ds18b20_num, familycode[][8], newDate, ticBeep, dsplPW, first, second, countUart;
+extern uint16_t speedData[MAX_SPEED][2], errors;
 extern uint16_t fillScreen, Y_str, X_left, Y_top, Y_bottom, color0, color1, set[INDEX], mainTimer, tmrCounter, checkSmoke;
 extern int8_t numSet, numDate;
 extern RTC_HandleTypeDef hrtc;
 extern RTC_TimeTypeDef sTime;
 extern RTC_DateTypeDef sDate;
 extern union DataRam dataRAM;
-
+extern uint8_t myIp[6], RXBuffer[];
 extern int8_t relaySet[8],analogSet[2],analogOut[2];
 
 extern float flT0, dpv0;
@@ -161,7 +161,7 @@ void displ_0(void){
   }
   else GUI_FillRectangle(40, Y_str, lcddev.width - 80, 56, fillScreen); 
 //*********************************************
-//  sprintf(buffTFT,"onoff: 0x%04x ", onoff);
+//  sprintf(buffTFT,"f:0x%02x; s:0x%02x; c:%u", first, second, countUart);
 //  GUI_WriteString(10, Y_bottom-20, buffTFT, Font_11x18, YELLOW, fillScreen);
 //*********************************************
 }
@@ -209,50 +209,31 @@ void displ_1(void){
     if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; // Ì‡ÔˇÊÂÌËÂ ÔÓ‰‡ÌÓ
     GUI_FillRectangle(X_left+150,Y_str,30,18,color_box);
 //--------------------------------------------------------------------------------------------------------------
-//    Y_str = Y_str+25+5;
-//    sprintf(buffTFT,"ArhCount=%u", arhCount);
-//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-//    Y_str = Y_str+18+5;
-//    sprintf(buffTFT,"E0=%2x; E1=%2x; E2=%2x; E3=%2x;",
-//      arhErrors[0], arhErrors[1], arhErrors[2], arhErrors[3]);
-//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-//    Y_str = Y_str+18+5;
-//    sprintf(buffTFT,"E4=%2x; E5=%2x; E6=%2x; E7=%2x;",
-//      arhErrors[4], arhErrors[5], arhErrors[6], arhErrors[7]);
-//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-//    Y_str = Y_str+18+5;
-//    sprintf(buffTFT,"E8=%2x; E9=%2x; E0=%2x; E1=%2x;",
-//      arhErrors[8], arhErrors[9], arhErrors[10], arhErrors[11]);
-//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-//    Y_str = Y_str+18+5;
-//    sprintf(buffTFT,"E2=%2x; E3=%2x; E4=%2x; E5=%2x;",
-//      arhErrors[12], arhErrors[13], arhErrors[14], arhErrors[15]);
-//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-//    Y_str = Y_str+18+5;
-//    sprintf(buffTFT,"D1%2x; D2%2x; D3%2x; D4%2x;",
-//      ds.err[0], ds.err[1], ds.err[2], ds.err[3]);
-//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"IP:%u.%u.%u.%u;Bt:%u;Id:%u", myIp[0], myIp[1], myIp[2], myIp[3], myIp[4], myIp[5]);
+    GUI_WriteString(0, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
 //==============================================================================================================
-#ifdef MANUAL_CHECK
-    Y_str = Y_str+25+5;
-    sprintf(buffTFT,"flT0=%2.3f; dpv0=%2.3f", flT0, dpv0);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-#endif
     Y_str = Y_str+18+5;
-    sprintf(buffTFT,"D1%2x; D2%2x; D3%2x; D4%2x;", ds.err[0], ds.err[1], ds.err[2], ds.err[3]);
+    sprintf(buffTFT,"%3u;%3u;%3u;%3u;%3u;%3u", RXBuffer[0], RXBuffer[1], RXBuffer[2], RXBuffer[3], RXBuffer[4], RXBuffer[5]);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
     Y_str = Y_str+18+5;
-    sprintf(buffTFT,"Out=%+5d; T=%3.1f; E=%+3d", pid.output, (float)ds.pvT[0]/10, pid.prev_error);
+    sprintf(buffTFT,"%3u;%3u;%3u;%3u;%3u;%3u", RXBuffer[6], RXBuffer[7], RXBuffer[8], RXBuffer[9], RXBuffer[10], RXBuffer[11]);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
     Y_str = Y_str+18+5;
-    sprintf(buffTFT,"pPart=%+5d", pid.pPart);
+    sprintf(buffTFT,"%3u;%3u;%3u;%3u;%3u;%3u", RXBuffer[12], RXBuffer[13], RXBuffer[14], RXBuffer[15], RXBuffer[16], RXBuffer[17]);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
     Y_str = Y_str+18+5;
-    sprintf(buffTFT,"iPart=%6.3f", pid.iPart);
+    sprintf(buffTFT,"%3u;%3u;%3u;%3u;%3u;%3u", RXBuffer[18], RXBuffer[19], RXBuffer[20], RXBuffer[21], RXBuffer[22], RXBuffer[23]);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
     Y_str = Y_str+18+5;
-    sprintf(buffTFT,"dPart=%+5d", pid.dPart);
+    sprintf(buffTFT,"%3u;%3u;%3u;%3u", RXBuffer[24], RXBuffer[25], RXBuffer[26], RXBuffer[27]);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"S0%3u;S1%3u;S2%3u;S3%3u", set[0], set[1], set[2], set[3]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+//    Y_str = Y_str+18+5;
+//    sprintf(buffTFT,"S4%3u;S5%3u;S6%3u;S7%3u", set[4], set[5], set[6], set[7]);
+//    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
 }
 
 //--------- Õ¿À¿ÿ“”¬¿ÕÕﬂ ----------------------------------

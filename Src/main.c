@@ -64,17 +64,17 @@ RTC_TimeTypeDef sTime;
 RTC_DateTypeDef sDate;
 
 char buffTFT[40];
-extern uint8_t RXBuffer[2];
+
 //        2.00V        3.15V        4.30V        5.45V        6.60V        7.75V        8.90V        10.00V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x655},{1600,0x804},{1800,0x9B6},{2000,0xB65},{2200,0xD14},{2400,0xFFF}};//d=434+коррекция
 struct Ds ds;
-uint16_t speedData[MAX_SPEED][2], errors, arhCount, arhErrors[15];
+uint16_t speedData[MAX_SPEED][2], errors;
 int16_t pvTH, pvRH, tmrCounter, resetDispl=0, displOff=DISPLAYOFF;
 uint16_t set[INDEX], touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
-uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost;
+uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost, command, first, second, countUart;
 uint8_t timer10ms, tmrVent, ticBeep, pwTriac, invers, dsplPW;
-uint8_t familycode[MAX_SENSOR][8];
+uint8_t familycode[MAX_SENSOR][8], myIp[6], RXBuffer[30];
 int8_t ds18b20_amount, numSet=0, tmrWater;
 int8_t relaySet[8]={-1,-1,-1,-1,-1,-1,-1,-1};
 int8_t analogSet[2]={-1,-1};
@@ -211,7 +211,7 @@ switch (i16){
   
   HAL_RTCEx_SetSecond_IT(&hrtc);          /* ------  timer 1 Hz. period 1 sec.    ----*/
   HAL_TIM_Base_Start_IT(&htim1);          /* ------  timer 100 Hz. period 10 ms.  ----*/
-  HAL_UART_Receive_IT(&huart1,RXBuffer,2);
+  HAL_UART_Receive_IT(&huart1, RXBuffer, 28);
   
   NEWBUTT = ON;
   #ifdef MANUAL_CHECK
@@ -264,8 +264,8 @@ switch (i16){
     dsplPW = 0;  
     if(resetDispl) --resetDispl; 
     else if(displ_num){displ_num = 0; NEWBUTT = 1; displOff=DISPLAYOFF;}  // return to main display
-    else if(displOff) --displOff;
-    else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+//    else if(displOff) --displOff;
+//    else HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
     
     #ifndef MANUAL_CHECK
       temperature_check();
@@ -459,8 +459,6 @@ switch (i16){
 //        if(analogSet[i16]>-1) analogOut[i16]=analogSet[i16];
 //      }
       if(errors && (set[CHILL]&2)==0){    // 2-emergency sound signals are disabled
-        arhErrors[arhCount] = errors;
-        if(++arhCount>15) arhCount = 0;
         switch (errors){
           case 0x01: ticBeep = 80; break; // SENSOR ERROR N1
           case 0x02: ticBeep = 80; break; // SENSOR ERROR N2
@@ -479,7 +477,7 @@ switch (i16){
         }
       }
       if(errors) ALARM = ON; else ALARM = OFF;  // error light
-      transmitDataUART(&huart1); // Data transfer by UART1
+
       display();
       //-------------- End of check every 1 sec. -----------------------
     }

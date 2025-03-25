@@ -13,23 +13,27 @@ extern uint8_t familycode[MAX_SENSOR][8], ds18b20_amount, ticBeep, errors, tmrVe
 union b2{
     uint16_t val;
     uint8_t data[2];
-  } mcp;
+} mcp;
 
-void startPrg(void)
-{
-  if(WORK|VENTIL|PURGING){
+void setOFF(void){
     portFlag.value = OFF; CHECK = ON; NEWBUTT=ON;   // если был в работе - все отключаем.
     sendToI2c(0);
     relayOut.value=OFF; color0 = WHITE; color1 = WHITE; ticBeep=100;
-  }
-  else {          // после нажатия кнопки ПУСК
+}
+
+void setON(void){
     VENTIL=ON; sendToI2c(speedData[set[VENT]][1]); tmrVent=20;// 20 сек. ожидания запуска вентилятора
     ticBeep=100; errors=0; tmrCounter=2; checkSmoke=0; // (2сек.) произвольное значение задержки больше 0
 //    if(set[TMR0]){INSIDE=OFF;}
 //    else if(ds18b20_amount>1) INSIDE=ON; // если есть датчик устанавливаем отсчет по температуре продукта.
     sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
     HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
-  }
+}
+
+void startPrg(void)// после нажатия кнопки ПУСК
+{
+  if(WORK|VENTIL|PURGING) setOFF();
+  else setON();
 }
 
 uint8_t Relay(int16_t err, uint8_t hst) // [n] канал № 1 или 2

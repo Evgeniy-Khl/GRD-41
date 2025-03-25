@@ -4,6 +4,8 @@
 #include <main.h>
 
 void startPrg(void);
+void setON(void);
+void setOFF(void);
 uint8_t Relay(int16_t err, uint8_t hst);
 uint8_t humidifier(uint8_t value);
 uint8_t UpdatePID(PIDController *pid, uint8_t cn);

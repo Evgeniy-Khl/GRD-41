@@ -54,7 +54,6 @@ extern "C" {
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-void transmitDataUART(UART_HandleTypeDef *huart);
 
 /* USER CODE END EFP */
 
@@ -81,8 +80,8 @@ void transmitDataUART(UART_HandleTypeDef *huart);
 #define Input1_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define DIAGONAL    28          // 24 -> for 2.4" displays; 28 -> for 2.8" displays; 32 -> for 3.2" displays
-#define TOUCHMODE   0           // 0 or 1
+//#define DIAGONAL    28          // 24 -> for 2.4" displays; 28 -> for 2.8" displays; 32 -> for 3.2" displays
+//#define TOUCHMODE   0           // 0 or 1
 #define MAX_SENSOR  4
 #define MAX_MODE    4
 #define MAX_SET     8
@@ -91,18 +90,18 @@ void transmitDataUART(UART_HandleTypeDef *huart);
 #define ON          1
 #define OFF         0
 
-#define T0    0 // Setting T1 deg. 
-#define T1    1 // Setting T2 deg. 
-#define T2    2 // Setting T3 deg. (���)
-#define T3    3 // Setting T4 deg. (�������)
-#define TMR0  4 // Cooking time minutes
-#define VENT  5 // Fan speed
-#define TMON  6 // Timer ON sec.
-#define TMOFF 7 // Timer OFF sec.
-#define TMR1  8 // Blow-off duration sec.
-#define ALRM  9 // Alarm deg.
-#define HIST  10 // Hysteresis deg./10
-#define CHILL 11 // Cooling
+#define T0          0 // Setting T1 deg. 
+#define T1          1 // Setting T2 deg. 
+#define T2          2 // Setting T3 deg. (smoke)
+#define T3          3 // Setting T4 deg. (humidity)
+#define TMR0        4 // Cooking time minutes
+#define VENT        5 // Fan speed
+#define TMON        6 // Timer ON sec.
+#define TMOFF       7 // Timer OFF sec.
+#define TMR1        8 // Blow-off duration sec.
+#define ALRM        9 // Alarm deg.
+#define HIST        10 // Hysteresis deg./10
+#define CHILL       11 // Cooling
 
 #define ERR1  0x0010  //
 #define ERR2  0x0020  //
@@ -124,11 +123,10 @@ void transmitDataUART(UART_HandleTypeDef *huart);
 #else
   #define CHKSMOKE  1500 // (25 min.) waiting for smoke temperature check in sec.
 #endif
-#define BEGINCOOL 400 // ����������� 40 ���. ���� ������� ��������� ��������� ����������
-#define BEGINHUM  400 // ������ ���������� ��� ����������� ���� 40 ���.
+#define BEGINCOOL 400 // temperature 40 degrees above which turning on the cooling is PROHIBITED
+#define BEGINHUM  400 // prohibition of humidification at temperatures below 40 degrees.
 
-
-/* ---��������� � �������� ������ -----*/
+/* --- structure with bit fields -----*/
 struct byte {
     unsigned a0: 1;
     unsigned a1: 1;
@@ -153,7 +151,7 @@ struct Ds{
 extern struct Ds ds;
 
 typedef struct {
-    float Ki, iPart;  // ������������ PID
+    float Ki, iPart;  // Coefficients PID
     int32_t pPart, dPart, prev_error, output;
     uint16_t Kp, Kd;
 } PIDController;
@@ -165,18 +163,18 @@ extern PIDController pid;
 #define WORK 	  portFlag.bitfield.a2  // At work flag
 #define NEWBUTT portFlag.bitfield.a3  // New screen flag
 #define VENTIL	portFlag.bitfield.a4  // Fan speed flag
-#define PERFECT	portFlag.bitfield.a5  // �������� �������� �����������
-#define RESERVE portFlag.bitfield.a6  // ������
-#define PURGING portFlag.bitfield.a7  // ��������
+#define PERFECT	portFlag.bitfield.a5  // Reached the desired temperature
+#define RESERVE portFlag.bitfield.a6  // reserve
+#define PURGING portFlag.bitfield.a7  // Blowdown
 
 #define TRIAC   relayOut.bitfield.a0  // SSR-25DA
-#define HEATER  relayOut.bitfield.a1  // �����������
-#define TIMER 	relayOut.bitfield.a2  // ������
-#define HUMIDI	relayOut.bitfield.a3  // �����������
-#define ELECTRO	relayOut.bitfield.a4  // �������������
-#define SMOKE   relayOut.bitfield.a5  // ������ ����
-#define WATER 	relayOut.bitfield.a6  // ������ ����
-#define ALARM   relayOut.bitfield.a7  // �������
+#define HEATER  relayOut.bitfield.a1  // HEATER
+#define TIMER 	relayOut.bitfield.a2  // TIMER
+#define HUMIDI	relayOut.bitfield.a3  // HUMIDIFIER
+#define ELECTRO	relayOut.bitfield.a4  // Electric ignition
+#define SMOKE   relayOut.bitfield.a5  // Smoke damper
+#define WATER 	relayOut.bitfield.a6  // Water valve
+#define ALARM   relayOut.bitfield.a7  // Alarm
 
 extern union Byte portFlag;
 extern union Byte relayOut;
