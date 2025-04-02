@@ -6,7 +6,7 @@
   ******************************************************************************
   *
   * Program Size: Code=33894 RO-data=11490 RW-data=236 ZI-data=3220  
-  * checksum : 0x0040CA39 
+  * [0x08000000:0x0800B234] Memory Checksum: 0x0040CA39
   * certutil -hashfile e:\!PROJECTS\!STM32\2025\GRD_40\MDK-ARM\GRD_40\GRD_40.hex SHA1
   * d4f86b9297aaa9c98f087b2d9cfff38c926e7753
   *
