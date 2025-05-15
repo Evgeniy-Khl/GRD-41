@@ -180,7 +180,7 @@ for(uint8_t i = 0; i < 16; i++){
   }
 //------------------------------ Uncomment this line to calibrate touchscreen ----------------------
 //    sprintf(buffTFT,"X=%6d Y=%6d",*x, *y);
-//    GUI_WriteString(5, lcddev.height-40, buffTFT, Font_11x18, point_color, back_color);
+//    GUI_WriteString(5, lcddev.height-40, buffTFT, Font_11x18, WHITE, BLACK);
 //------- Красная точка ---------------------
     GUI_DrawPixel(*x, *y, RED);
 //--------------------------------------------------------------------------------------------------

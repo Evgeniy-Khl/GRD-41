@@ -131,6 +131,13 @@ uint8_t contains(uint16_t touch_X, uint16_t touch_Y, uint8_t b){
    return 1;
  }
 
+// проверка попадания в верхнию часть экрана.
+uint8_t topDispl(uint16_t touch_Y){
+   if (touch_Y > 100) return 0;
+   else ticBeep = 30;
+   return 1;
+ }
+
 void up_relay(){
   if(++relaySet[numSet]>1) relaySet[numSet]=-1;
 }

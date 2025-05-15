@@ -242,6 +242,9 @@ int main(void)
         }
       }
       checkButtons(butt_num);                           // проверка нажатой кнопки
+      if(displ_num==0 && !(WORK|VENTIL|PURGING)){
+        if(topDispl(touch_y)) {newval[0] = modeCell; newval[1]=10; displ_num = 4; butt_num = 10; numSet = 0; resetDispl = 180; NEWBUTT = 1;} // ЗМІНА РЕЖИМУ
+      }
       checkTime = 0; CHECK = ON;
     }
     
