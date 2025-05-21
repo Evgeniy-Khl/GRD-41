@@ -234,7 +234,11 @@ void checkButtons(uint8_t item){
         break;
       case 4://--------- ÇÌ²ÍÀ ÐÅÆÈÌÓ ----------------------------------
         switch (item){
-          case 0: displ_num = 2; NEWBUTT = 1; break;
+          case 0: 
+          if(newval[2]==-1) {displ_num = 0; newval[2] = 0;}
+            else displ_num = 2;  
+            NEWBUTT = 1; 
+          break;
           case 1: if(++newval[0]>MAX_MODE-1) newval[0] = 0;	break;
           case 2: if(--newval[0]<0) newval[0] = MAX_MODE-1;	break;
           case 3: 
