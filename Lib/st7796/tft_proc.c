@@ -246,7 +246,10 @@ void checkButtons(uint8_t item){
             if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "œŒÃ»À ¿!", Font_11x18, YELLOW, RED);
             else GUI_WriteString(lcddev.width/2-10,lcddev.height/2+20, "OK", Font_11x18, GREEN, BLACK);
             HAL_Delay(1000);
-            displ_num = 2; NEWBUTT = 1; break;
+            if(newval[2]==-1) {displ_num = 0; newval[2] = 0;}
+            else displ_num = 2;
+            NEWBUTT = 1; 
+          break;
         }
         item = 10;
         break;
