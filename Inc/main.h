@@ -160,7 +160,7 @@ extern PIDController pid;
 
 #define CHECK   portFlag.bitfield.a0  // Start of all checks
 #define SPEED   portFlag.bitfield.a1  // Speed Ok.
-#define WORK 	  portFlag.bitfield.a2  // At work flag
+#define WORK 	  portFlag.bitfield.a2  // Shutdown flag
 #define NEWBUTT portFlag.bitfield.a3  // New screen flag
 #define VENTIL	portFlag.bitfield.a4  // Fan speed flag
 #define PERFECT	portFlag.bitfield.a5  // Reached the desired temperature
