@@ -336,7 +336,7 @@ int main(void)
           u16 = Relay(set[T1]*10 - ds.pvT[1], 0);
         }
         if(u16==ON) pwTriac = UpdatePID(&pid,0);            // ПИД нагреватель
-        else i16 = OFF;
+        else {i16 = OFF; errors &= ~ERR5;}
         if(pwTriac) TRIAC = ON;                             // включить (SSR-25DA)
         dsplPW = pwTriac;
         if(dsplPW>100) dsplPW = 100;
