@@ -2,7 +2,7 @@
 /**
   ******************************************************************************
   * @file           : main.c
-  * @brief          : GRD 4.0 inch 22.01.2025
+  * @brief          : GRD 4.1 inch 22.01.2025
   ******************************************************************************
   *
   * Program Size: Code=33894 RO-data=11490 RW-data=236 ZI-data=3220  
@@ -167,7 +167,7 @@ int main(void)
   GUI_Clear(fillScreen);
   if((lcddev.dir&1)==0) X_left = 20; else X_left = 100;
   GUI_WriteString(35, Y_str, "GRD Max", Font_16x26, WHITE, fillScreen);
-  GUI_WriteString(165, Y_str+5, " v 4.2", Font_11x18, WHITE, fillScreen);
+  GUI_WriteString(165, Y_str+5, " v 4.1.3", Font_11x18, WHITE, fillScreen);
   Y_str = Y_str+18+35;
   
   i16 = initData();

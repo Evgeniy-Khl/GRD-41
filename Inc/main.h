@@ -80,8 +80,8 @@ void Error_Handler(void);
 #define Input1_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define DIAGONAL    28          // 24 -> ��� �������� 2,4"; 28 -> ��� �������� 2,8"; 32 -> ��� �������� 3,2"
-#define TOUCHMODE   0           // 0 ��� 1
+#define DIAGONAL    28          // 24 -> для дисплеев 2,4"; 28 -> для дисплеев 2,8"; 32 -> для дисплеев 3,2"
+#define TOUCHMODE   0           // 0 или 1
 #define MAX_SENSOR  4
 #define MAX_MODE    4
 #define MAX_SET     8
@@ -90,27 +90,27 @@ void Error_Handler(void);
 #define ON          1
 #define OFF         0
 
-#define T0    0 // ������� T1 ���. 
-#define T1    1 // ������� T2 ���. 
-#define T2    2 // ������� T3 ���. (���)
-#define T3    3 // ������� T4 ���. (�������)
-#define TMR0  4 // ������������ ������ ���.
-#define VENT  5 // �������� ����������� %
-#define TMON  6 // ������ ON ���.
-#define TMOFF 7 // ������ OFF ���.
-#define TMR1  8 // ������������ �������� ���.
-#define ALRM  9 // ������ ���.
-#define HIST  10 // ���������� ���/10
-#define CHILL 11 // ����������
+#define T0    0 // Уставка T1 грд. 
+#define T1    1 // Уставка T2 грд. 
+#define T2    2 // Уставка T3 грд. (Дым)
+#define T3    3 // Уставка T4 грд. (Влажный)
+#define TMR0  4 // Длительность режима мин.
+#define VENT  5 // Скорость вентилятора %
+#define TMON  6 // Таймер ON сек.
+#define TMOFF 7 // Таймер OFF сек.
+#define TMR1  8 // Длительность продувки сек.
+#define ALRM  9 // Авария грд.
+#define HIST  10 // Гистерезис грд/10
+#define CHILL 11 // Охлаждение
 
 #define ERR1  0x0010  //
 #define ERR2  0x0020  //
-#define ERR3  0x0040  // �������� � �����I
-#define ERR4  0x0080  // �������� � �������I
-#define ERR5  0x0100  // �I��I����� ����������� � �����I
-#define ERR6  0x0200  // �I��I����� ����������� ���A
+#define ERR3  0x0040  // ПЕРЕГРЫВ В КАМЕРI
+#define ERR4  0x0080  // ПЕРЕГРЫВ В ПРОДУКТI
+#define ERR5  0x0100  // ВIДХIЛЕННЯ ТЕМПЕРАТУРИ В КАМЕРI
+#define ERR6  0x0200  // ВIДХIЛЕННЯ ТЕМПЕРАТУРИ ДИМA
 #define ERR7  0x0400  //
-#define ERR8  0x0800  // �� ������ ����������
+#define ERR8  0x0800  // НЕ ПРАЦЮЭ ВЕНТИЛЯТОР
 
 
 
@@ -123,11 +123,11 @@ void Error_Handler(void);
 #else
   #define CHKSMOKE  1500 // (25 min.) waiting for smoke temperature check in sec.
 #endif
-#define BEGINCOOL 400 // ����������� 40 ���. ���� ������� ��������� ��������� ����������
-#define BEGINHUM  400 // ������ ���������� ��� ����������� ���� 40 ���.
+#define BEGINCOOL 400 // температура 40 грд. выше которой ЗАПРЕЩЕНО включение охлаждения
+#define BEGINHUM  400 // запрет увлажнения при температуре ниже 40 грд.
 
 
-/* ---��������� � �������� ������ -----*/
+/* ---структура с битовыми полями -----*/
 struct byte {
     unsigned a0: 1;
     unsigned a1: 1;
@@ -152,7 +152,7 @@ struct Ds{
 extern struct Ds ds;
 
 typedef struct {
-    float Ki, iPart;  // ������������ PID
+    float Ki, iPart;  // Коэффициенты PID
     int32_t pPart, dPart, prev_error, output;
     uint16_t Kp, Kd;
 } PIDController;
@@ -164,18 +164,18 @@ extern PIDController pid;
 #define WORK 	  portFlag.bitfield.a2  // At work flag
 #define NEWBUTT portFlag.bitfield.a3  // New screen flag
 #define VENTIL	portFlag.bitfield.a4  // Fan speed flag
-#define PERFECT	portFlag.bitfield.a5  // �������� �������� �����������
-#define RESERVE portFlag.bitfield.a6  // ������
-#define PURGING portFlag.bitfield.a7  // ��������
+#define PERFECT	portFlag.bitfield.a5  // Достигли желаемой температуры
+#define RESERVE portFlag.bitfield.a6  // резерв
+#define PURGING portFlag.bitfield.a7  // Продувка
 
 #define TRIAC   relayOut.bitfield.a0  // SSR-25DA
-#define HEATER  relayOut.bitfield.a1  // �����������
-#define TIMER 	relayOut.bitfield.a2  // ������
-#define HUMIDI	relayOut.bitfield.a3  // �����������
-#define ELECTRO	relayOut.bitfield.a4  // �������������
-#define SMOKE   relayOut.bitfield.a5  // ������ ����
-#define WATER 	relayOut.bitfield.a6  // ������ ����
-#define ALARM   relayOut.bitfield.a7  // �������
+#define HEATER  relayOut.bitfield.a1  // НАГРЕВАТЕЛЬ
+#define TIMER 	relayOut.bitfield.a2  // ТАЙМЕР
+#define HUMIDI	relayOut.bitfield.a3  // УВЛАЖНИТЕЛЬ
+#define ELECTRO	relayOut.bitfield.a4  // Электроподжиг
+#define SMOKE   relayOut.bitfield.a5  // Клапан дыма
+#define WATER 	relayOut.bitfield.a6  // Клапан воды
+#define ALARM   relayOut.bitfield.a7  // Тревога
 
 extern union Byte portFlag;
 extern union Byte relayOut;
