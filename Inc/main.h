@@ -113,7 +113,8 @@ void Error_Handler(void);
 #define ERR8  0x0800  // НЕ ПРАЦЮЭ ВЕНТИЛЯТОР
 
 
-
+#include <stdio.h>
+#include <stdlib.h>
 
 
 //#define MANUAL_CHECK

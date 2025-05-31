@@ -1,5 +1,6 @@
 #include "main.h"
 #include "nvRam.h"
+#include "tftArcFill.h"
 
 extern uint8_t familycode[MAX_SENSOR][8], modeCell;
 extern uint16_t speedData[MAX_SPEED][2];
@@ -49,6 +50,8 @@ void setData(uint8_t m){
     }
   }
   PID_Init(&pid, dataRAM.config.koff[0], dataRAM.config.koff[1], dataRAM.config.koff[2]);
+  grafDispl[0].sp = set[T0];
+  grafDispl[1].sp = set[T1];
 }
 
 uint8_t initData(void){

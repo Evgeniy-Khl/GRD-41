@@ -19,8 +19,6 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include <stdio.h>
-#include <stdlib.h>
 #include "..\Lib\st7796\myLCD.h"
 #include "..\Lib\st7796\myGUI.h"
 #include "..\Lib\Touch\XPT2046_touch.h"
@@ -29,6 +27,7 @@
 #include "procedure.h"
 #include "displ.h"
 #include "nvRam.h"
+#include "tftArcFill.h"
 
 /* USER CODE END Includes */
 
@@ -87,6 +86,17 @@ PIDController pid;
 #ifdef MANUAL_CHECK
   float flT0=320, dpv0;
 #endif
+
+//uint16_t xpos; 
+//uint16_t ypos; 
+//uint8_t radius; 
+//int16_t value; 
+//int16_t sp;
+
+GrafDispl grafDispl[2] = {
+    { 80,160,80, 0, 0},    // Инициализация grafDispl[0]
+    {240,160,80, 0, 0},    // Инициализация grafDispl[1]
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

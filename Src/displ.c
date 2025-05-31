@@ -6,6 +6,7 @@
 #include "displ.h"
 #include "rtc.h"
 #include "nvRam.h"
+#include "tftArcFill.h"
 
 extern char buffTFT[];
 extern const char* setName[];
@@ -45,7 +46,7 @@ void displ_0(void){
     if(set[TMR0]) point[2] = "->";
     else  point[0] = "->";
   }
-  if(NEWBUTT){ NEWBUTT = OFF;
+  if(NEWBUTT){
     GUI_Clear(fillScreen);
     initializeButtons(3,1,40);// 3 ЙНКНМЙХ; НДМЮ ЯРПНЙЮ; БШЯНРЮ 40
     if(WORK|VENTIL|PURGING) drawButton(MAGENTA, 0, "ярно");
@@ -72,38 +73,29 @@ void displ_0(void){
 //  sprintf(buffTFT,"%3u",checkSmoke);
 //  GUI_WriteString(3, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
   //----------------------
-  X_left = 35;
-  if(errors & 0x01) GUI_WriteString(X_left, Y_str, "  онлхкйю дюрвхйю N1  ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR3) GUI_WriteString(X_left, Y_str, "  оепецпIб б йюлепI   ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR5) GUI_WriteString(X_left, Y_str, "бIдуIкеммъ релоепюрспх", Font_11x18, YELLOW, RED);
-  else GUI_WriteString(X_left, Y_str, " релоепюрспю б йюлепI ", Font_11x18, YELLOW, fillScreen);
-  Y_str = Y_str+18+15; //89
+  X_left = 20;
+  if(errors & 0x01) GUI_WriteString(X_left, Y_str, " онлхкйю  ", Font_11x18, YELLOW, RED);
+  else if(errors & ERR3) GUI_WriteString(X_left, Y_str, " оепецпIб ", Font_11x18, YELLOW, RED);
+  else if(errors & ERR5) GUI_WriteString(X_left, Y_str, "бIдуIкеммъ", Font_11x18, YELLOW, RED);
+  else GUI_WriteString(X_left, Y_str, " б йюлепI ", Font_11x18, YELLOW, fillScreen);
   
-  GUI_WriteString(15, Y_str, point[0], Font_16x26, WHITE, BLACK); // ->
+  X_left = 180;
+  if(errors & 0x02) GUI_WriteString(X_left, Y_str, " онлхкйю  ", Font_11x18, YELLOW, RED);
+  else if(errors & ERR4) GUI_WriteString(X_left, Y_str, " оепецпIб ", Font_11x18, YELLOW, RED);
+  else GUI_WriteString(X_left, Y_str, "б опндсйрI", Font_11x18, YELLOW, fillScreen);
   
-  if(ds.pvT[0]<1000) sprintf(buffTFT,"%3.1f$ ",(float)ds.pvT[0]/10);
-  else if(ds.pvT[0]<1270) sprintf(buffTFT,"%5d$ ", ds.pvT[0]/10);
-  else sprintf(buffTFT," ---  ");
-  GUI_WriteString(55, Y_str, buffTFT, Font_16x26, color0, BLACK);
-  sprintf(buffTFT,"%3i.0$ ", set[T0]);
-  GUI_WriteString(175, Y_str, buffTFT, Font_16x26, BLACK, WHITE);
-  Y_str = Y_str+26+15; //130
-  //-------------------------------------------------------------------------------------------------
-  X_left = 35;
-  if(errors & 0x02) GUI_WriteString(X_left, Y_str, "  онлхкйю дюрвхйю N2  ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR4) GUI_WriteString(X_left, Y_str, " оепецпIб б опндсйрI  ", Font_11x18, YELLOW, RED);
-  else GUI_WriteString(X_left, Y_str, "релоепюрспю б опндсйрI", Font_11x18, YELLOW, fillScreen);
-  Y_str = Y_str+18+15; // 128
-  
-  GUI_WriteString(15, Y_str, point[1], Font_16x26, WHITE, BLACK); // ->
-  
-  if(ds.pvT[1]<1000) sprintf(buffTFT,"%3.1f$ ",(float)ds.pvT[1]/10);
-  else if(ds.pvT[1]<1270) sprintf(buffTFT,"%5d$ ", ds.pvT[1]/10);
-  else sprintf(buffTFT," ---  ");
-  GUI_WriteString(55, Y_str, buffTFT, Font_16x26, color1, BLACK);
-  sprintf(buffTFT,"%3i.0$ ", set[T1]);
-  GUI_WriteString(175, Y_str, buffTFT, Font_16x26, BLACK, WHITE);
-  Y_str = Y_str+26+15; // 171
+  if(grafDispl[0].value != ds.pvT[0] || NEWBUTT) {
+      grafDispl[0].value = ds.pvT[0];
+      diagram(grafDispl[0]);
+  }
+  if(grafDispl[1].value != ds.pvT[1] || NEWBUTT) {
+      grafDispl[1].value = ds.pvT[1];
+      diagram(grafDispl[1]);
+  }
+  NEWBUTT = OFF;
+//  diagram(grafDispl[0]);
+//  diagram(grafDispl[1]);
+  Y_str = 240;
   //-------------------------------------------------------------------------------------------
   X_left = 30;
   GUI_WriteString(X_left, Y_str, "   рпхбюкIярэ пефхлс   ", Font_11x18, YELLOW, fillScreen);
