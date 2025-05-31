@@ -69,21 +69,18 @@ void displ_0(void){
   sprintf(buffTFT,"%8s", modeName[modeCell]);
   GUI_WriteString(190, Y_str, buffTFT, Font_11x18, BLACK, WHITE);
   Y_str = Y_str+26+15; //56
-  //----------------------------------------------------------------------------------------------
-//  sprintf(buffTFT,"%3u",checkSmoke);
-//  GUI_WriteString(3, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
   //----------------------
   X_left = 20;
   if(errors & 0x01) GUI_WriteString(X_left, Y_str, " œŒÃ»À ¿  ", Font_11x18, YELLOW, RED);
   else if(errors & ERR3) GUI_WriteString(X_left, Y_str, " œ≈–≈√–I¬ ", Font_11x18, YELLOW, RED);
   else if(errors & ERR5) GUI_WriteString(X_left, Y_str, "¬Iƒ’IÀ≈ÕÕﬂ", Font_11x18, YELLOW, RED);
-  else GUI_WriteString(X_left, Y_str, " ¬  ¿Ã≈–I ", Font_11x18, YELLOW, fillScreen);
-  
+  else GUI_WriteString(X_left, Y_str, "   ¿Ã≈–¿  ", Font_11x18, YELLOW, fillScreen);
+  //----------------------
   X_left = 180;
   if(errors & 0x02) GUI_WriteString(X_left, Y_str, " œŒÃ»À ¿  ", Font_11x18, YELLOW, RED);
   else if(errors & ERR4) GUI_WriteString(X_left, Y_str, " œ≈–≈√–I¬ ", Font_11x18, YELLOW, RED);
-  else GUI_WriteString(X_left, Y_str, "¬ œ–Œƒ” “I", Font_11x18, YELLOW, fillScreen);
-  
+  else GUI_WriteString(X_left, Y_str, "  œ–Œƒ” “ ", Font_11x18, YELLOW, fillScreen);
+  //----------------------
   if(grafDispl[0].value != ds.pvT[0] || NEWBUTT) {
       grafDispl[0].value = ds.pvT[0];
       diagram(grafDispl[0]);
@@ -93,8 +90,6 @@ void displ_0(void){
       diagram(grafDispl[1]);
   }
   NEWBUTT = OFF;
-//  diagram(grafDispl[0]);
-//  diagram(grafDispl[1]);
   Y_str = 240;
   //-------------------------------------------------------------------------------------------
   X_left = 30;
@@ -110,7 +105,17 @@ void displ_0(void){
   GUI_WriteString(165, Y_str, buffTFT, Font_11x18, BLACK, WHITE);
   Y_str = Y_str+18+15;  // 237
   
-  if(modeCell>1){
+  if(modeCell<3 && VENTIL && curTime>2 && curTime<12){
+    ticBeep = 10;
+    GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, RED);// Y_str = 344+56 = 400
+    if(modeCell) GUI_WriteString(70, Y_str+5, "«¿ –»…“≈ «¿—À€Õ »", Font_11x18, YELLOW, RED);
+    else GUI_WriteString(65, Y_str+5, "¬€ƒ –»…“≈ «¿—À€Õ »", Font_11x18, YELLOW, RED);
+    GUI_WriteString(110, Y_str+35, "‚ÂÌÚËÎˇˆ˚˙!", Font_11x18, YELLOW, RED);
+//    Y_str = Y_str+18+15; // 270
+  }
+  else if(modeCell<3 && VENTIL && curTime>2 && curTime==12) GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, fillScreen); 
+  else if(modeCell>1)
+  {
     if(modeCell==2){
       sensor = T3; 
       if(errors & 0x0008) GUI_WriteString(80, Y_str, "œŒÃ»À ¿ ƒ¿“◊» ¿", Font_11x18, YELLOW, RED);
@@ -135,27 +140,15 @@ void displ_0(void){
     GUI_WriteString(175, Y_str, buffTFT, Font_16x26, BLACK, WHITE);
     Y_str = Y_str+26+15;  // 311
   }
-  if(VENTIL){
+  
+  if(VENTIL && curTime > 12){
     if(errors & ERR8) GUI_WriteString(30, Y_str, "  Õ≈ œ–¿÷ﬁ› ¬≈Õ“»Àﬂ“Œ–  ", Font_11x18, YELLOW, RED);
     else {
       sprintf(buffTFT,"%12s: %4i Ó·/ı‚Î.", setName[4], speedData[set[VENT]][0]);
       GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-      }
-  }
-  Y_str = Y_str+18+10;  // 339
-  
-  if(modeCell<3 && VENTIL && curTime>2 && curTime<12){
-    ticBeep = 10;
-    GUI_FillRectangle(40, Y_str, lcddev.width - 80, 56, RED);// Y_str = 344+56 = 400
-    if(modeCell) GUI_WriteString(70, Y_str+5, "«¿ –»…“≈ «¿—À€Õ »", Font_11x18, YELLOW, RED);
-    else GUI_WriteString(65, Y_str+5, "¬€ƒ –»…“≈ «¿—À€Õ »", Font_11x18, YELLOW, RED);
-    GUI_WriteString(110, Y_str+35, "‚ÂÌÚËÎˇˆ˚˙!", Font_11x18, YELLOW, RED);
-  }
-  else GUI_FillRectangle(40, Y_str, lcddev.width - 80, 56, fillScreen); 
-//*********************************************
-//  sprintf(buffTFT,"onoff: 0x%04x ", onoff);
-//  GUI_WriteString(10, Y_bottom-20, buffTFT, Font_11x18, YELLOW, fillScreen);
-//*********************************************
+    }
+  }  
+  GUI_FillRectangle(0, 0, 1, 1, fillScreen);//???????????????????????????????????
 }
 
 //-------------------------------- —“¿Õ ¬€’Œƒ≤¬ ------------------------------------------------------
