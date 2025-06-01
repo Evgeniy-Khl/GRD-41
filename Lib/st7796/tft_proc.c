@@ -10,7 +10,7 @@ int16_t newval[MAX_SET];
 uint16_t maxVal, minVal;
 extern int8_t relaySet[8];
 extern int8_t analogSet[2];
-extern int16_t pvT[]; 
+extern int16_t pvT[];
 extern uint16_t set[MAX_SET], fillScreen;
 extern uint16_t speedData[MAX_SPEED][2];
 extern uint8_t displ_num, modeCell, ticBeep, show, Y_str, X_left, Y_top, Y_bottom, buttonAmount, resetDispl;
@@ -132,8 +132,8 @@ uint8_t contains(uint16_t touch_X, uint16_t touch_Y, uint8_t b){
  }
 
 // проверка попадания в верхнию часть экрана.
-uint8_t topDispl(uint16_t touch_Y){
-   if (touch_Y > 100) return 0;
+uint8_t topDispl(uint16_t touch_X, uint16_t touch_Y){
+   if (touch_Y > 80 || touch_X < 100 || touch_X > 250) return 0;
    else ticBeep = 30;
    return 1;
  }

@@ -72,7 +72,7 @@ const char* relayName[7]={"ПЫД","НАГРЫВ","ТАЙМЕР","ВОЛОГА","ЕЛЕКТРО","Кл.ДИМА","
 struct Ds ds;
 uint16_t set[INDEX], speedData[MAX_SPEED][2], errors, arhErrors[15];
 int16_t pvTH, pvRH, tmrCounter, resetDispl=0, displOff=DISPLAYOFF;
-uint16_t touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkTime, checkSmoke;
+uint16_t touch_x, touch_y, Y_str, X_left, Y_top, Y_bottom, fillScreen, color0, color1, checkSmoke, checkTime;
 uint8_t displ_num=0, modeCell, oldNumSet, buttonAmount, lost;
 uint8_t timer10ms, tmrVent, ticBeep, pwTriac, invers, dsplPW;
 uint8_t familycode[MAX_SENSOR][8];
@@ -245,15 +245,15 @@ int main(void)
     if(XPT2046_TouchPressed()&& checkTime>40){
       uint8_t butt_num;
       if(XPT2046_TouchGetCoordinates(&touch_x, &touch_y)){
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
+        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);// включение дисплея
         displOff=DISPLAYOFF;
         for (butt_num=0; butt_num<buttonAmount; butt_num++){
-            if(contains(touch_x, touch_y, butt_num)) break; // проверка попадания новой координаты в область кнопки
+            if(contains(touch_x, touch_y, butt_num)) break;     // проверка попадания новой координаты в область кнопки
         }
       }
       checkButtons(butt_num);                           // проверка нажатой кнопки
       if(displ_num==0 && !(WORK|VENTIL|PURGING)){
-        if(topDispl(touch_y)) {newval[0] = modeCell; newval[1]=-1; newval[2]=-1; displ_num = 4; butt_num = 10; resetDispl = 180; NEWBUTT = 1;} // ЗМІНА РЕЖИМУ
+        if(topDispl(touch_x, touch_y)) {newval[0] = modeCell; newval[1]=-1; newval[2]=-1; displ_num = 4; butt_num = 10; resetDispl = 180; NEWBUTT = 1;} // ЗМІНА РЕЖИМУ
       }
       checkTime = 0; CHECK = ON;
     }

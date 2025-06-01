@@ -73,7 +73,7 @@ void diagram(GrafDispl grafDispl){
   yellowValue = (grafDispl.sp + 5)*10; 
   redValue = (grafDispl.sp + 5 + 5)*10;
   maxtemp = redValue + redValue/5;
-  mintemp = greenValue - greenValue/2;
+  mintemp = greenValue/2;
   tmpval1 = map(greenValue, mintemp, maxtemp, 0, 240);
   tmpval0 = tmpval1-5;
   fillArc(grafDispl.xpos, grafDispl.ypos, 0, tmpval1/6, grafDispl.radius, grafDispl.radius, seg_w, BLUE);

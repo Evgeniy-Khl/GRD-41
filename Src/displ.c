@@ -157,7 +157,7 @@ void displ_1(void){
  char txt[10];
  uint16_t color_txt, color_box; 
     Y_str = Y_top+10;
-    if(NEWBUTT){ NEWBUTT = OFF; 
+    if(NEWBUTT){ NEWBUTT = OFF;
       GUI_Clear(fillScreen);
       GUI_WriteString(X_left+60, Y_str,"СТАН ВИХОДЫВ",Font_11x18,YELLOW,fillScreen);
       initializeButtons(4,1,40);// четире колонки; одна строка; высота 40
