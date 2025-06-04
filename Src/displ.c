@@ -83,11 +83,11 @@ void displ_0(void){
   //----------------------
   if(grafDispl[0].value != ds.pvT[0] || NEWBUTT) {
       grafDispl[0].value = ds.pvT[0];
-      diagram(grafDispl[0]);
+      diagram(grafDispl[0], color0);
   }
   if(grafDispl[1].value != ds.pvT[1] || NEWBUTT) {
       grafDispl[1].value = ds.pvT[1];
-      diagram(grafDispl[1]);
+      diagram(grafDispl[1], color1);
   }
   NEWBUTT = OFF;
   Y_str = 240;

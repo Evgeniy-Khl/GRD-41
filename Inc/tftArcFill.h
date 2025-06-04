@@ -22,6 +22,6 @@ void initArcFill(void);
 void loopArcFill(void);
 void fillArc(int x, int y, int start_angle, int seg_count, int rx, int ry, int w, unsigned int colour);
 unsigned int rainbow(uint8_t value);
-void diagram(GrafDispl grafDispl);
+void diagram(GrafDispl grafDispl, uint16_t color);
 
 #endif /* _TFTARCFILL_H */

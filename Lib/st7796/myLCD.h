@@ -51,7 +51,8 @@ extern SPI_HandleTypeDef hspi2;
 #define MAGENTA     0xF81F
 #define GREEN       0x07E0
 #define CYAN        0x7FFF
-#define YELLOW      0xFFE0
+#define YELLOW      0xFFE0      /* 255, 255,   0 */
+#define ORANGE      0xFDA0      /* 255, 180,   0 */
 #define BROWN 			0xBC40 //коричневый
 #define BRRED 			0xFC07 //коричнево-красный
 #define GRAY  			0x8430 //серый

@@ -59,7 +59,7 @@ void fillArc(int x, int y, int start_angle, int seg_count, int rx, int ry, int w
 }
 
 //#########################################################################
-void diagram(GrafDispl grafDispl){
+void diagram(GrafDispl grafDispl, uint16_t color){
   char tempStr[10]; // Буфер для строки температуры
   uint8_t seg_w = 20;
   uint16_t tmpval0,tmpval1, maxtemp, mintemp, greenValue, yellowValue, redValue;
@@ -81,7 +81,7 @@ void diagram(GrafDispl grafDispl){
   fillArc(grafDispl.xpos, grafDispl.ypos, tmpval0, (tmpval1-tmpval0)/6, grafDispl.radius, grafDispl.radius, seg_w, GREEN);
   tmpval0 = tmpval1-5;
   tmpval1 = map(redValue, mintemp, maxtemp, 0, 240);
-  fillArc(grafDispl.xpos, grafDispl.ypos, tmpval0, (tmpval1-tmpval0)/6, grafDispl.radius, grafDispl.radius, seg_w, YELLOW);
+  fillArc(grafDispl.xpos, grafDispl.ypos, tmpval0, (tmpval1-tmpval0)/6, grafDispl.radius, grafDispl.radius, seg_w, ORANGE);
   tmpval0 = tmpval1-5;
   tmpval1 = map(maxtemp, mintemp, maxtemp, 0, 240);
   fillArc(grafDispl.xpos, grafDispl.ypos, tmpval0, (tmpval1-tmpval0)/6, grafDispl.radius, grafDispl.radius, seg_w, RED);
@@ -96,7 +96,7 @@ void diagram(GrafDispl grafDispl){
   if(grafDispl.value<1000) sprintf(tempStr,"%2.1f$",(float)grafDispl.value/10);
   else if(grafDispl.value<1270) sprintf(tempStr,"%5d$", grafDispl.value/10);
   else sprintf(tempStr," ---  ");
-  GUI_WriteString(grafDispl.xpos, grafDispl.ypos, tempStr, Font_16x26, WHITE, BLACK);
+  GUI_WriteString(grafDispl.xpos, grafDispl.ypos, tempStr, Font_16x26, color, BLACK);
   grafDispl.xpos -= 16; grafDispl.ypos = grafDispl.ypos+48;
   sprintf(tempStr,"%3i.0$ ", grafDispl.sp);
   GUI_WriteString(grafDispl.xpos, grafDispl.ypos, tempStr, Font_16x26, BLACK, WHITE);

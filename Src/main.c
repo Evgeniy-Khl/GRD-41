@@ -312,7 +312,7 @@ int main(void)
         
         if(i16<=0){
           if(abs16<u16) color0 = GREEN;         // íîðìà
-          else if(abs16>=u16 && abs16<u16*2){errors|=ERR5; color0 = MAGENTA;} // Â²ÄÕ²ËÅÍÍß ÒÅÌÏÅÐÀÒÓÐÈ
+          else if(abs16>=u16 && abs16<u16*2){errors|=ERR5; color0 = ORANGE;} // Â²ÄÕ²ËÅÍÍß ÒÅÌÏÅÐÀÒÓÐÈ
           else {errors|=ERR3; color0 = RED;}    // ÏÅÐÅÃÐÅÂ Â ÊÀÌÅÐÅ
         }
         else {
@@ -329,7 +329,7 @@ int main(void)
         
         if(i16<=0){
           if(abs16<u16/2)color1 = GREEN;        // íîðìà
-          else if(abs16>=u16/2 && abs16<u16) color1 = MAGENTA;  // Â²ÄÕ²ËÅÍÍß ÒÅÌÏÅÐÀÒÓÐÈ
+          else if(abs16>=u16/2 && abs16<u16) color1 = ORANGE;  // Â²ÄÕ²ËÅÍÍß ÒÅÌÏÅÐÀÒÓÐÈ
           else {errors|=ERR4; color1 = RED;}    // ÏÅÐÅÃÐÅÂ Â ÏÐÎÄÓÊÒÅ
         }
         else {
