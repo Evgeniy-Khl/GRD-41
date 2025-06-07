@@ -11,7 +11,7 @@ union DataRam dataRAM;
 
 void PID_Init(PIDController *pid, uint16_t Kp, uint16_t Ki, uint16_t Kd) {
     pid->Kp = (float)Kp/10;
-    pid->Ki = (float)Ki/1000;
+    pid->Ki = (float)Ki/10000;
     pid->Kd = Kd;
 }
 

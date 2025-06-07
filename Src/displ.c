@@ -205,16 +205,16 @@ void displ_1(void){
     Y_str = Y_str+18+5;
     sprintf(buffTFT,"Out=%+5d; T=%3.1f; E=%+3d", pid.output, (float)ds.pvT[0]/10, pid.prev_error);
     GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"pPart=%+5d", pid.pPart);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"iPart=%6.3f", pid.iPart);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
-    Y_str = Y_str+18+5;
-    sprintf(buffTFT,"dPart=%+5d", pid.dPart);
-    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
 #endif
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"pPart=%8.3f", pid.pPart);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"iPart=%8.3f", pid.iPart);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"dPart=%+4d.0   ", pid.dPart);
+    GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
 }
 
 //--------- Õ¿À¿ÿ“”¬¿ÕÕﬂ ----------------------------------

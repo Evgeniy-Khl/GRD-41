@@ -222,16 +222,15 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim1);          /* ------  таймер 100√ц.  период  10 мс.  ----*/
   
   NEWBUTT = ON;
+  sprintf(buffTFT,"Kp=%2.1f; Ki=%1.4f; Kd=%3u;",pid.Kp,pid.Ki,pid.Kd);
+  GUI_WriteString(5, Y_str, buffTFT, Font_11x18, YELLOW, BLACK);
+  Y_str = Y_str+18+5;
   #ifdef MANUAL_CHECK
       sprintf(buffTFT,"WIDTH: %u; HEIGHT: %u",lcddev.width,lcddev.height);
       GUI_WriteString(5, Y_str, buffTFT, Font_11x18, YELLOW, BLACK);
       Y_str = Y_str+18+5;
-      sprintf(buffTFT,"Kp=%3u; Ki=%2.2f; Kd=%3u;",pid.Kp,pid.Ki,pid.Kd);
-      GUI_WriteString(5, Y_str, buffTFT, Font_11x18, YELLOW, BLACK);
-      Y_str = Y_str+18+5;
       ds.pvT[1]=220; ds.pvT[2]=150; ds.pvT[3]=200;
-      int8_t dpv1 = 2, dpv2 = 2, dpv3 = 2, count;
-      
+      int8_t dpv1 = 2, dpv2 = 2, dpv3 = 2, count;      
   #endif
   HAL_Delay(2000);
   /* USER CODE END 2 */
