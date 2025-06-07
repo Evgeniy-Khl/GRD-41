@@ -10,7 +10,7 @@ extern CRC_HandleTypeDef hcrc;
 union DataRam dataRAM;
 
 void PID_Init(PIDController *pid, uint16_t Kp, uint16_t Ki, uint16_t Kd) {
-    pid->Kp = Kp;
+    pid->Kp = (float)Kp/10;
     pid->Ki = (float)Ki/1000;
     pid->Kd = Kd;
 }
@@ -146,7 +146,7 @@ uint8_t initData(void){
     dataRAM.config.modeSet3[10]=5;  // Гистерезис (0.5 грд.)
     dataRAM.config.modeSet3[11]=0;  // Нагрев 0-прямое, 1-инвесное управление, 2-отключены аварийные звуковые сигналы
     
-    dataRAM.config.koff[0]=5;       // пропорциональный
+    dataRAM.config.koff[0]=50;      // пропорциональный
     dataRAM.config.koff[1]=70;      // интегральный
     dataRAM.config.koff[2]=30;      // дифференциальный
     

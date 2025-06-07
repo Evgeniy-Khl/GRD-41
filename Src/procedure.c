@@ -69,7 +69,7 @@ uint8_t UpdatePID(PIDController *pid, uint8_t cn){
   // Вычисление ошибки
   error = set[cn]*10 - ds.pvT[cn];
   // Пропорциональная составляющая
-  pid->pPart = error * pid->Kp;
+  pid->pPart = (float)error * pid->Kp;
   // Интегральная составляющая
   pid->iPart += (float)error * pid->Ki;// * dt;
   // Дифференциальная составляющая

@@ -153,9 +153,9 @@ struct Ds{
 extern struct Ds ds;
 
 typedef struct {
-    float Ki, iPart;  // Коэффициенты PID
-    int32_t pPart, dPart, prev_error, output;
-    uint16_t Kp, Kd;
+    float Ki, iPart, Kp, pPart;  // Коэффициенты PID
+    int32_t dPart, prev_error, output;
+    uint16_t Kd;
 } PIDController;
 
 extern PIDController pid;
