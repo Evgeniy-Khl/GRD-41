@@ -24,7 +24,7 @@ void startPrg(void)
   }
   else {          // после нажатия кнопки ПУСК
     VENTIL=ON; sendToI2c(speedData[set[VENT]][1]); tmrVent=20;// 20 сек. ожидания запуска вентилятора
-    ticBeep=100; errors=0; tmrCounter=2; checkSmoke=0; // (2сек.) произвольное значение задержки больше 0
+    pid.iPart=0; ticBeep=100; errors=0; tmrCounter=2; checkSmoke=0; // (2сек.) произвольное значение задержки больше 0
 //    if(set[TMR0]){INSIDE=OFF;}
 //    else if(ds18b20_amount>1) INSIDE=ON; // если есть датчик устанавливаем отсчет по температуре продукта.
     sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
