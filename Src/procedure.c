@@ -10,6 +10,58 @@ extern int16_t pvRH, tmrCounter;
 extern uint16_t speedData[MAX_SPEED][2];
 extern uint8_t familycode[MAX_SENSOR][8], ds18b20_amount, ticBeep, errors, tmrVent;
 
+/**
+  * @brief  Запускает процесс сушки с заданной продолжительностью.
+  * @param  total_seconds: Общее время сушки в секундах.
+  * @retval None
+  */
+void startProcess(uint32_t total_seconds)
+{
+  if (g_drying_process_active == 0)
+  {
+    g_remaining_drying_time_seconds = total_seconds;
+    g_drying_process_active = 1;
+
+    // Включаем доступ к области резервного питания
+    HAL_PWR_EnableBkUpAccess();
+
+    // Записываем "магическое число", чтобы при следующем старте знать, что процесс был прерван
+    // ИСПОЛЬЗУЕМ ПРАВИЛЬНОЕ ИМЯ ФУНКЦИИ
+    HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_DRYING_FLAG, DRYING_PROCESS_FLAG_MAGIC);
+
+    // Сохраняем начальное время
+    // ИСПОЛЬЗУЕМ ПРАВИЛЬНОЕ ИМЯ ФУНКЦИИ
+    HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, g_remaining_drying_time_seconds);
+
+    // Выключаем доступ для экономии энергии
+    HAL_PWR_DisableBkUpAccess();
+
+    printf("Drying process started for %lu seconds.\r\n", total_seconds);
+  }
+}
+
+/**
+  * @brief  Останавливает процесс сушки (штатное завершение).
+  * @retval None
+  */
+void stopProcess()
+{
+  g_drying_process_active = 0;
+  g_remaining_drying_time_seconds = 0;
+
+  // Включаем доступ к области резервного питания
+  HAL_PWR_EnableBkUpAccess();
+
+  // Сбрасываем флаг процесса и сохраненное время
+  // ИСПОЛЬЗУЕМ ПРАВИЛЬНОЕ ИМЯ ФУНКЦИИ
+  HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_DRYING_FLAG, 0x0000);
+  HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, 0x0000);
+
+  // Выключаем доступ
+  HAL_PWR_DisableBkUpAccess();
+  
+  printf("Drying process finished normally.\r\n");
+}
 union b2{
     uint16_t val;
     uint8_t data[2];
