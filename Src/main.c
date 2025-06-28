@@ -165,25 +165,7 @@ int main(void)
   MX_CRC_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  // -------------------------------------- КЛЮЧЕВАЯ ЛОГИКА ВОССТАНОВЛЕНИЯ ПОСЛЕ СБОЯ ПИТАНИЯ -----------------------------------
-
-  // Включаем доступ к Backup Domain, чтобы прочитать регистры
-  HAL_PWR_EnableBkUpAccess();
-  // Читаем регистр с флагом если "магическое число" на месте, значит, питание пропало во время сушки.
-  if (HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_DRYING_FLAG) == DRYING_PROCESS_FLAG_MAGIC){
-    // Восстанавливаем время.
-    uint32_t current_time_minutes = HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_REMAINING_TIME);
-    sTime.Hours = current_time_minutes/60;
-    sTime.Minutes = current_time_minutes%60;
-    NEWBUTT = 1; startPrg(1);
-
-//    printf("Power failure detected! Resuming drying process with %lu seconds remaining.\r\n", current_time_minutes);
-  }
-  else printf("No active process found. Ready to start.\r\n");
-
-  // Выключаем доступ к Backup Domain
-  HAL_PWR_DisableBkUpAccess();
-  // ------------------------------------------------- КОНЕЦ ЛОГИКИ ВОССТАНОВЛЕНИЯ ----------------------------------------------------
+  
   u16 = sendToI2c(0);//  отключение вентилятора
   
   HAL_GPIO_WritePin(Beep_GPIO_Port, Beep_Pin, GPIO_PIN_SET);
@@ -251,6 +233,26 @@ int main(void)
       ds.pvT[1]=220; ds.pvT[2]=150; ds.pvT[3]=200;
       int8_t dpv1 = 2, dpv2 = 2, dpv3 = 2, count;      
   #endif
+  // -------------------------------------- КЛЮЧЕВАЯ ЛОГИКА ВОССТАНОВЛЕНИЯ ПОСЛЕ СБОЯ ПИТАНИЯ -----------------------------------
+  // Читаем регистр с флагом если "магическое число" на месте, значит, питание пропало во время сушки.
+  if (HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_DRYING_FLAG) == DRYING_PROCESS_FLAG_MAGIC){
+    // Восстанавливаем время.
+    uint32_t current_time_minutes = HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_REMAINING_TIME);
+    sTime.Hours = current_time_minutes/60;
+    sTime.Minutes = current_time_minutes%60;
+    NEWBUTT = 1; startPrg(1);
+    GUI_WriteString(5, Y_str, "Виявлений збый живлення!", Font_11x18, RED, BLACK);
+    Y_str = Y_str+18+5;
+    sprintf(buffTFT,"Выдновлення з %u год. %u хв.",sTime.Hours, sTime.Minutes);
+    GUI_WriteString(5, Y_str, buffTFT, Font_11x18, YELLOW, BLACK);
+    Y_str = Y_str+18+5;
+    ticBeep=255;
+    HAL_Delay(10000);
+  } else {
+    GUI_WriteString(5, Y_str, "Звичайний старт!", Font_11x18, GREEN, BLACK);
+    Y_str = Y_str+18+5;
+  }
+  // ------------------------------------------------- КОНЕЦ ЛОГИКИ ВОССТАНОВЛЕНИЯ ----------------------------------------------------
   HAL_Delay(2000);
   /* USER CODE END 2 */
 

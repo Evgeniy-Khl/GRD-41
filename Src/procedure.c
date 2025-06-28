@@ -1,30 +1,27 @@
 #include "main.h"
 #include "..\Lib\st7796\myLCD.h"
+#include "tft_proc.h"
 #include "procedure.h"
 #include "nvRam.h"
 #include "rtc.h"
 
+extern char buffTFT[];
 extern I2C_HandleTypeDef hi2c1;
 extern uint16_t set[INDEX], color0, color1, checkSmoke;
 extern int16_t pvRH, tmrCounter;
 extern uint16_t speedData[MAX_SPEED][2];
 extern uint8_t familycode[MAX_SENSOR][8], ds18b20_amount, ticBeep, errors, tmrVent;
+extern uint16_t fillScreen, Y_str, X_left, Y_top, Y_bottom, color0, color1, set[INDEX], mainTimer;
 
 /**
   * @brief  Запускает процесс сушки с заданной продолжительностью.
   * @param  total_seconds: Общее время сушки в секундах.
   * @retval None
   */
-void startBackUp(uint32_t total_seconds){
-    // Включаем доступ к области резервного питания
-    HAL_PWR_EnableBkUpAccess();
+void startBackUp(void){
     // Записываем "магическое число", чтобы при следующем старте знать, что процесс был прерван
     HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_DRYING_FLAG, DRYING_PROCESS_FLAG_MAGIC);
-    // Сохраняем начальное время
     HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, 0x0000);
-    // Выключаем доступ для экономии энергии
-    HAL_PWR_DisableBkUpAccess();
-//    printf("Drying process started for %lu seconds.\r\n", total_seconds);
 }
 
 /**
@@ -32,20 +29,17 @@ void startBackUp(uint32_t total_seconds){
   * @retval None
   */
 void stopBackUp(void){
-  // Включаем доступ к области резервного питания
-  HAL_PWR_EnableBkUpAccess();
   // Сбрасываем флаг процесса и сохраненное время
   HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_DRYING_FLAG, 0x0000);
   HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, 0x0000);
-  // Выключаем доступ
-  HAL_PWR_DisableBkUpAccess();
-//  printf("Drying process finished normally.\r\n");
 }
 
 void newMitutesBackUp(uint32_t minutres){
-  HAL_PWR_EnableBkUpAccess();
   HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, minutres);
-  HAL_PWR_DisableBkUpAccess();
+  #ifdef MANUAL_CHECK
+    sprintf(buffTFT,"New minutres %4u хв.",minutres);
+    GUI_WriteString(5, Y_bottom-20, buffTFT, Font_11x18, WHITE, BLACK);
+  #endif
 }
 
 union b2{
@@ -59,15 +53,15 @@ void startPrg(uint8_t repair)
     portFlag.value = OFF; CHECK = ON; NEWBUTT=ON;   // если был в работе - все отключаем.
     sendToI2c(0);
     relayOut.value=OFF; color0 = WHITE; color1 = WHITE; ticBeep=100;
+    stopBackUp();
   }
   else {          // после нажатия кнопки ПУСК
     VENTIL=ON; sendToI2c(speedData[set[VENT]][1]); tmrVent=20;// 20 сек. ожидания запуска вентилятора
     pid.iPart=0; ticBeep=100; errors=0; tmrCounter=2; checkSmoke=0; // (2сек.) произвольное значение задержки больше 0
-//    if(set[TMR0]){INSIDE=OFF;}
-//    else if(ds18b20_amount>1) INSIDE=ON; // если есть датчик устанавливаем отсчет по температуре продукта.
     if(repair==0) {sTime.Hours=0; sTime.Minutes=0;}
     sTime.Seconds=0;
     HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+    startBackUp();
   }
 }
 

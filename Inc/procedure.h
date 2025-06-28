@@ -11,7 +11,7 @@
 // Это говорит другим файлам, что эти переменные существуют, но определены где-то еще (в нашем случае, в main.c)
 extern RTC_HandleTypeDef hrtc; // Также делаем видимым хэндлер RTC
 
-void startBackUp(uint32_t total_seconds);
+void startBackUp(void);
 void stopBackUp(void);
 void startPrg(uint8_t repair);
 void newMitutesBackUp(uint32_t minutres);
