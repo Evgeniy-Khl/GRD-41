@@ -15,59 +15,45 @@ extern uint8_t familycode[MAX_SENSOR][8], ds18b20_amount, ticBeep, errors, tmrVe
   * @param  total_seconds: ќбщее врем€ сушки в секундах.
   * @retval None
   */
-void startProcess(uint32_t total_seconds)
-{
-  if (g_drying_process_active == 0)
-  {
-    g_remaining_drying_time_seconds = total_seconds;
-    g_drying_process_active = 1;
-
+void startBackUp(uint32_t total_seconds){
     // ¬ключаем доступ к области резервного питани€
     HAL_PWR_EnableBkUpAccess();
-
     // «аписываем "магическое число", чтобы при следующем старте знать, что процесс был прерван
-    // »—ѕќЋ№«”≈ћ ѕ–ј¬»Ћ№Ќќ≈ »ћя ‘”Ќ ÷»»
     HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_DRYING_FLAG, DRYING_PROCESS_FLAG_MAGIC);
-
     // —охран€ем начальное врем€
-    // »—ѕќЋ№«”≈ћ ѕ–ј¬»Ћ№Ќќ≈ »ћя ‘”Ќ ÷»»
-    HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, g_remaining_drying_time_seconds);
-
+    HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, 0x0000);
     // ¬ыключаем доступ дл€ экономии энергии
     HAL_PWR_DisableBkUpAccess();
-
-    printf("Drying process started for %lu seconds.\r\n", total_seconds);
-  }
+//    printf("Drying process started for %lu seconds.\r\n", total_seconds);
 }
 
 /**
   * @brief  ќстанавливает процесс сушки (штатное завершение).
   * @retval None
   */
-void stopProcess()
-{
-  g_drying_process_active = 0;
-  g_remaining_drying_time_seconds = 0;
-
+void stopBackUp(void){
   // ¬ключаем доступ к области резервного питани€
   HAL_PWR_EnableBkUpAccess();
-
   // —брасываем флаг процесса и сохраненное врем€
-  // »—ѕќЋ№«”≈ћ ѕ–ј¬»Ћ№Ќќ≈ »ћя ‘”Ќ ÷»»
   HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_DRYING_FLAG, 0x0000);
   HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, 0x0000);
-
   // ¬ыключаем доступ
   HAL_PWR_DisableBkUpAccess();
-  
-  printf("Drying process finished normally.\r\n");
+//  printf("Drying process finished normally.\r\n");
 }
+
+void newMitutesBackUp(uint32_t minutres){
+  HAL_PWR_EnableBkUpAccess();
+  HAL_RTCEx_BKUPWrite(&hrtc, BKP_REG_REMAINING_TIME, minutres);
+  HAL_PWR_DisableBkUpAccess();
+}
+
 union b2{
     uint16_t val;
     uint8_t data[2];
   } mcp;
 
-void startPrg(void)
+void startPrg(uint8_t repair)
 {
   if(WORK|VENTIL|PURGING){
     portFlag.value = OFF; CHECK = ON; NEWBUTT=ON;   // если был в работе - все отключаем.
@@ -79,7 +65,8 @@ void startPrg(void)
     pid.iPart=0; ticBeep=100; errors=0; tmrCounter=2; checkSmoke=0; // (2сек.) произвольное значение задержки больше 0
 //    if(set[TMR0]){INSIDE=OFF;}
 //    else if(ds18b20_amount>1) INSIDE=ON; // если есть датчик устанавливаем отсчет по температуре продукта.
-    sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
+    if(repair==0) {sTime.Hours=0; sTime.Minutes=0;}
+    sTime.Seconds=0;
     HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
   }
 }

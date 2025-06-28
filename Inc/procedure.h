@@ -9,13 +9,12 @@
 
 // 3. Объявляем наши глобальные переменные с ключевым словом "extern"
 // Это говорит другим файлам, что эти переменные существуют, но определены где-то еще (в нашем случае, в main.c)
-extern volatile uint32_t g_remaining_drying_time_seconds;
-extern volatile uint8_t  g_drying_process_active;
 extern RTC_HandleTypeDef hrtc; // Также делаем видимым хэндлер RTC
 
-void startProcess(uint32_t total_seconds);
-void stopProcess(void);
-void startPrg(void);
+void startBackUp(uint32_t total_seconds);
+void stopBackUp(void);
+void startPrg(uint8_t repair);
+void newMitutesBackUp(uint32_t minutres);
 uint8_t Relay(int16_t err, uint8_t hst);
 uint8_t humidifier(uint8_t value);
 uint8_t UpdatePID(PIDController *pid, uint8_t cn);

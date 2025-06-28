@@ -28,8 +28,7 @@
 #include "displ.h"
 #include "nvRam.h"
 #include "tftArcFill.h"
-#include "stm32f1xx_hal_pwr.h"
-#include "stm32f1xx_hal_rtc_ex.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -60,9 +59,6 @@ TIM_HandleTypeDef htim1;
 /* USER CODE BEGIN PV */
 RTC_TimeTypeDef sTime;
 RTC_DateTypeDef sDate;
-
-volatile uint32_t g_remaining_drying_time_seconds = 0; // Оставшееся время сушки в секундах
-volatile uint8_t  g_drying_process_active = 0;         // Флаг, что процесс сушки сейчас идет
 
 char buffTFT[40];
 const char* modeName[4]={"СУШЫННЯ","ОБЖАРКА","ВАРЫННЯ","КОПЧЕННЯ"};
@@ -173,21 +169,17 @@ int main(void)
 
   // Включаем доступ к Backup Domain, чтобы прочитать регистры
   HAL_PWR_EnableBkUpAccess();
+  // Читаем регистр с флагом если "магическое число" на месте, значит, питание пропало во время сушки.
+  if (HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_DRYING_FLAG) == DRYING_PROCESS_FLAG_MAGIC){
+    // Восстанавливаем время.
+    uint32_t current_time_minutes = HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_REMAINING_TIME);
+    sTime.Hours = current_time_minutes/60;
+    sTime.Minutes = current_time_minutes%60;
+    NEWBUTT = 1; startPrg(1);
 
-  // Читаем регистр с флагом
-  if (HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_DRYING_FLAG) == DRYING_PROCESS_FLAG_MAGIC)
-  {
-    // Если "магическое число" на месте, значит, питание пропало во время сушки.
-    // Восстанавливаем оставшееся время.
-    g_remaining_drying_time_seconds = HAL_RTCEx_BKUPRead(&hrtc, BKP_REG_REMAINING_TIME);
-    g_drying_process_active = 1;
-
-//    printf("Power failure detected! Resuming drying process with %lu seconds remaining.\r\n", g_remaining_drying_time_seconds);
+//    printf("Power failure detected! Resuming drying process with %lu seconds remaining.\r\n", current_time_minutes);
   }
-  else
-  {
-    printf("No active process found. Ready to start.\r\n");
-  }
+  else printf("No active process found. Ready to start.\r\n");
 
   // Выключаем доступ к Backup Domain
   HAL_PWR_DisableBkUpAccess();

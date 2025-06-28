@@ -150,7 +150,7 @@ void checkButtons(uint8_t item){
     switch (displ_num){
       case 0://--------- СТАН КАМЕРИ -----------------------
         switch (item){
-          case 0: NEWBUTT = 1; startPrg(); break;
+          case 0: NEWBUTT = 1; startPrg(0); break;
           case 1: displ_num = 1; NEWBUTT = 1; numSet=0; break;  // Управление реле
           case 2: displ_num = 2; NEWBUTT = 1; numSet=0; break;  // Настройки
         }

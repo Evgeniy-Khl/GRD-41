@@ -7,6 +7,7 @@
 #include "rtc.h"
 #include "nvRam.h"
 #include "tftArcFill.h"
+#include "procedure.h"
 
 extern char buffTFT[];
 extern const char* setName[];
@@ -22,9 +23,7 @@ extern RTC_HandleTypeDef hrtc;
 extern RTC_TimeTypeDef sTime;
 extern RTC_DateTypeDef sDate;
 extern union DataRam dataRAM;
-
 extern int8_t relaySet[8],analogSet[2],analogOut[2];
-
 extern float flT0, dpv0;
 
 int16_t min(int16_t a, int16_t b ) {
@@ -54,8 +53,13 @@ void displ_0(void){
     drawButton(YELLOW, 1, "Керуван.");
     drawButton(CYAN, 2, "Налаштув.");
   }
+  uint8_t oldMinutes = sTime.Minutes;
   HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
   HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+  if(oldMinutes != sTime.Minutes){
+    uint32_t current_time_minutes = sTime.Hours*60 + sTime.Minutes;
+    newMitutesBackUp(current_time_minutes);
+  }
   X_left = 15;
   if(WORK) GUI_WriteString(X_left, Y_str, " ON  ", Font_16x26, BLACK, GREEN);
   else if(VENTIL) GUI_WriteString(X_left, Y_str, "VENT ", Font_16x26, BLACK, YELLOW);
