@@ -62,21 +62,26 @@ void fillArc(int x, int y, int start_angle, int seg_count, int rx, int ry, int w
 void diagram(GrafDispl grafDispl, uint16_t color){
   char tempStr[10]; // Буфер для строки температуры
   uint8_t seg_w = 20;
-  uint16_t tmpval0,tmpval1, maxtemp, mintemp, greenValue, yellowValue, redValue;
+  uint16_t tmpval0,tmpval1, maxtemp, mintemp, lightBlue, greenValue, yellowValue, redValue;
   if(grafDispl.xpos - grafDispl.radius < 0) grafDispl.xpos = grafDispl.radius;
   if(grafDispl.xpos + grafDispl.radius > lcddev.width) grafDispl.xpos = lcddev.width - grafDispl.radius;
   if(grafDispl.ypos - grafDispl.radius < 0) grafDispl.ypos  = grafDispl.radius;
   if(grafDispl.ypos + grafDispl.radius > lcddev.height) grafDispl.ypos = lcddev.height - grafDispl.radius;
   if(grafDispl.radius < 60) grafDispl.radius = 60;
   
-  greenValue = (grafDispl.sp - 1)*10; 
-  yellowValue = (grafDispl.sp + 5)*10; 
-  redValue = (grafDispl.sp + 5 + 5)*10;
-  maxtemp = redValue + redValue/5;
-  mintemp = greenValue/2;
-  tmpval1 = map(greenValue, mintemp, maxtemp, 0, 240);
-  tmpval0 = tmpval1-5;
+  lightBlue = grafDispl.sp * 10 - 50;    // 700-8 = 650
+  greenValue = grafDispl.sp * 10 - 10;   // 700-0 = 690
+  yellowValue = grafDispl.sp * 10 + 50;  // 700+4 = 750
+  redValue = grafDispl.sp * 10 + 50 + 50; // 700+12= 800
+  maxtemp = redValue + 160;
+  mintemp = lightBlue - 200;
+
+  tmpval1 = map(lightBlue, mintemp, maxtemp, 0, 240);
   fillArc(grafDispl.xpos, grafDispl.ypos, 0, tmpval1/6, grafDispl.radius, grafDispl.radius, seg_w, BLUE);
+  tmpval0 = tmpval1-5;
+  tmpval1 = map(greenValue, mintemp, maxtemp, 0, 240);
+  fillArc(grafDispl.xpos, grafDispl.ypos, tmpval0, (tmpval1-tmpval0)/6, grafDispl.radius, grafDispl.radius, seg_w, CYAN);
+  tmpval0 = tmpval1-5;
   tmpval1 = map(yellowValue, mintemp, maxtemp, 0, 240);
   fillArc(grafDispl.xpos, grafDispl.ypos, tmpval0, (tmpval1-tmpval0)/6, grafDispl.radius, grafDispl.radius, seg_w, GREEN);
   tmpval0 = tmpval1-5;
