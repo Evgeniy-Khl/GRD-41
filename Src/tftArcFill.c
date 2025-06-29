@@ -69,12 +69,12 @@ void diagram(GrafDispl grafDispl, uint16_t color){
   if(grafDispl.ypos + grafDispl.radius > lcddev.height) grafDispl.ypos = lcddev.height - grafDispl.radius;
   if(grafDispl.radius < 60) grafDispl.radius = 60;
   
-  lightBlue = grafDispl.sp * 10 - 50;    // 700-8 = 650
-  greenValue = grafDispl.sp * 10 - 10;   // 700-0 = 690
-  yellowValue = grafDispl.sp * 10 + 50;  // 700+4 = 750
-  redValue = grafDispl.sp * 10 + 50 + 50; // 700+12= 800
-  maxtemp = redValue + 160;
-  mintemp = lightBlue - 200;
+  lightBlue = grafDispl.sp * 10 - 50;     // 650
+  greenValue = grafDispl.sp * 10 - 10;    // 690
+  yellowValue = grafDispl.sp * 10 + 50;   // 750
+  redValue = grafDispl.sp * 10 + 50 + 50; // 800
+  maxtemp = redValue + 160;               // 960
+  mintemp = lightBlue - 200;              // 450
 
   tmpval1 = map(lightBlue, mintemp, maxtemp, 0, 240);
   fillArc(grafDispl.xpos, grafDispl.ypos, 0, tmpval1/6, grafDispl.radius, grafDispl.radius, seg_w, BLUE);
@@ -93,8 +93,8 @@ void diagram(GrafDispl grafDispl, uint16_t color){
 
   fillArc(grafDispl.xpos, grafDispl.ypos, 0, 40, grafDispl.radius-20, grafDispl.radius-20, seg_w, BLACK);
   tmpval0 = grafDispl.value;
-  if(tmpval0 < mintemp) tmpval0 = mintemp;
-  else if(tmpval0 > (maxtemp-30)) tmpval0 = (maxtemp-30);
+  if(tmpval0 < mintemp) tmpval0 = mintemp;                // 450
+  else if(tmpval0 > (maxtemp-30)) tmpval0 = (maxtemp-30); // 930
   tmpval1 = map(tmpval0, mintemp, maxtemp, 0, 240);
   fillArc(grafDispl.xpos, grafDispl.ypos, tmpval1, 1, grafDispl.radius-10, grafDispl.radius-10, seg_w+8, WHITE);
   grafDispl.xpos -= 39; grafDispl.ypos -= 13;

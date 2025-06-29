@@ -247,13 +247,22 @@ int main(void)
     GUI_WriteString(5, Y_str, buffTFT, Font_11x18, YELLOW, BLACK);
     Y_str = Y_str+18+5;
     ticBeep=255;
-    HAL_Delay(10000);
+    HAL_Delay(5000);
+    ticBeep=255;
+    HAL_Delay(5000);
   } else {
     GUI_WriteString(5, Y_str, "Звичайний старт!", Font_11x18, GREEN, BLACK);
     Y_str = Y_str+18+5;
   }
   // ------------------------------------------------- КОНЕЦ ЛОГИКИ ВОССТАНОВЛЕНИЯ ----------------------------------------------------
-  HAL_Delay(2000);
+  HAL_Delay(800);
+  temperature_check();
+  for (i16=0; i16<4; i16++){
+      sprintf(buffTFT,"Датчик N%u = %3.1f$ ", i16+1,(float)ds.pvT[i16]/10);
+      GUI_WriteString(5, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
+      Y_str = Y_str+18+5;
+  }
+  HAL_Delay(3000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
