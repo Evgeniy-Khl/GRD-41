@@ -262,6 +262,7 @@ int main(void)
       GUI_WriteString(5, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
       Y_str = Y_str+18+5;
   }
+  ticBeep=50;
   HAL_Delay(3000);
   /* USER CODE END 2 */
 
