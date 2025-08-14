@@ -61,7 +61,7 @@ RTC_TimeTypeDef sTime;
 RTC_DateTypeDef sDate;
 
 char buffTFT[40];
-const char* modeName[4]={"СУШЫННЯ","ОБЖАРКА","ВАРЫННЯ","КОПЧЕННЯ"};
+const char* modeName[4]={"СУШЫННЯ 1","СУШЫННЯ 2","КОПЧЕННЯ 1","КОПЧЕННЯ 2"};
 const char* setName[MAX_SET]={"t КАМЕРИ","t ПРОДУКТА","t ДИМА","ТРИВАЛЫСТЬ","ШВИДКЫСТЬ","ТАЙМ.ON","ТАЙМ.OFF","ЫНШЕ"};
 const char* otherName[MAX_OTHER]={"ПРОДУВАННЯ","АВАРЫЯ","ГЫСТЕРЕЗ","ОХОЛОДЖ.","Prop","Integ","Diff"};
 const char* relayName[7]={"ПЫД","НАГРЫВ","ТАЙМЕР","ВОЛОГА","ЕЛЕКТРО","Кл.ДИМА","Кл.ВОДИ"};
@@ -177,7 +177,7 @@ int main(void)
   LCD_Init(USE_VERTICAL0);
   GUI_Clear(fillScreen);
   if((lcddev.dir&1)==0) X_left = 20; else X_left = 100;
-  GUI_WriteString(35, Y_str, "GRD Max", Font_16x26, WHITE, fillScreen);
+  GUI_WriteString(35, Y_str, "GRD Fish", Font_16x26, WHITE, fillScreen);
   GUI_WriteString(165, Y_str+5, " v 4.1.5", Font_11x18, WHITE, fillScreen);
   Y_str = Y_str+18+35;
   
@@ -289,16 +289,16 @@ int main(void)
     }
     
     // ----------- УВЛАЖНИТЕЛЬ только в режиме варка modeCell==2 и TMON && TMOFF !=0 --------------------
-    if(WORK && modeCell==2){
-      if(set[TMON]!=0 && set[TMOFF]!=0){
-        if(timer10ms){                  // шаг отсчета интервала таймера 10 милисек.
-          timer10ms=0; 
-          HUMIDI=humidifier(HUMIDI);    // проверим выход на увлажнитель
-          invers = ~relayOut.value;
-          HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
-        }
-      }
-    }
+//    if(WORK && modeCell==2){
+//      if(set[TMON]!=0 && set[TMOFF]!=0){
+//        if(timer10ms){                  // шаг отсчета интервала таймера 10 милисек.
+//          timer10ms=0; 
+//          HUMIDI=humidifier(HUMIDI);    // проверим выход на увлажнитель
+//          invers = ~relayOut.value;
+//          HAL_I2C_Master_Transmit(&hi2c1,0x4E,&invers,1,1000);
+//        }
+//      }
+//    }
     
     //-------------- Начало проверки каждую 1 сек. -----------------------
     if(CHECK){ CHECK = OFF; errors=0;  //if(++temp>10) {temp=0; ++pvspeed; pvspeed&=7; ds.pvT[1] = speedData[pvspeed][0]; sendToI2c(speedData[pvspeed][1]);}
@@ -325,15 +325,16 @@ int main(void)
       //------------------------------------------- В РАБОТЕ -----------------------------------------------
       if(WORK){
         TIMER=ON;         // всегда включен в работу
-        if(modeCell==2){  // только в режиме варка modeCell==2
-          if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET){
-            if(++tmrWater>5) {tmrWater=5; WATER=ON;}
-          }
-          else {
-            if(--tmrWater<0) {tmrWater=0; WATER=OFF;}
-          }
-        }
-        else WATER=OFF;
+//        if(modeCell==2){  // only in "COOKING" mode modeCell==2
+//          if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET){
+//            if(++tmrWater>5) {tmrWater=5; WATER=ON;}
+//          }
+//          else {
+//            if(--tmrWater<0) {tmrWater=0; WATER=OFF;}
+//          }
+//        }
+//        else WATER=OFF;
+        WATER=OFF;
         //------------ устанавливаем color0 в соответсвии с отклонением ------------------------
         i16 = set[T0]*10 - ds.pvT[0];           // величина ошибки регулирования датчика 0
         uint16_t abs16 = abs(i16);
@@ -390,8 +391,8 @@ int main(void)
           case OFF: HEATER = OFF; break;
         }
         
-        //-------------------------- Только для режима КОПЧЕНИЯ ---------------------------------
-        if(modeCell==3){
+        //-------------------------- Only for "SMOKING 1" or "SMOKING 2" mode ---------------------------------
+        if(modeCell==2 || modeCell==3){ // only for "SMOKING 1" or "SMOKING 2" mode (modeCell==2, modeCell==3)
           ELECTRO = ignition(ELECTRO);
           i16 = set[T2]*10 - ds.pvT[2];   // величина ошибки регулирования датчика 2 (Дым)
           if(++checkSmoke>CHKSMOKE){      // (відхилення 2 грд.Ц) ТЕМПЕРАТУРЫ ДЫМА
@@ -406,17 +407,17 @@ int main(void)
         }
         
         //-------------------------- Только для режима ВАРЕНИЯ ---------------------------------
-        if(modeCell==2){
-          if(set[TMON]==0 || set[TMOFF]==0){
-            i16 = set[T3]*10 - ds.pvT[3];     // величина ошибки регулирования датчика 3 (Влажность)
-            u16 = Relay(i16, set[HIST]);      // ЧЕТВЕРТЫЙ датчик - датчик влажности
-            if(ds.pvT[0] < BEGINHUM) u16=OFF; // запрет увлажнения при температуре ниже 40 грд.
-            switch (u16){
-              case ON:  HUMIDI = ON;  break;
-              case OFF: HUMIDI = OFF; break;
-            }
-          }
-        }
+//        if(modeCell==2){
+//          if(set[TMON]==0 || set[TMOFF]==0){
+//            i16 = set[T3]*10 - ds.pvT[3];     // величина ошибки регулирования датчика 3 (Влажность)
+//            u16 = Relay(i16, set[HIST]);      // ЧЕТВЕРТЫЙ датчик - датчик влажности
+//            if(ds.pvT[0] < BEGINHUM) u16=OFF; // запрет увлажнения при температуре ниже 40 грд.
+//            switch (u16){
+//              case ON:  HUMIDI = ON;  break;
+//              case OFF: HUMIDI = OFF; break;
+//            }
+//          }
+//        }
 //        else HUMIDI = OFF;
 
 #ifdef MANUAL_CHECK

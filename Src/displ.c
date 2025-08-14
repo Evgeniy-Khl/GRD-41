@@ -111,23 +111,17 @@ void displ_0(void){
   GUI_WriteString(165, Y_str, buffTFT, Font_11x18, BLACK, WHITE);
   Y_str = Y_str+18+15;  // 237
   
-  if(modeCell<3 && VENTIL && curTime>2 && curTime<12){
+  if(modeCell<2 && VENTIL && curTime>2 && curTime<12){  // "DRYING 1" or "DRYING 2" mode is set (modeCell==0, modeCell==1)
     ticBeep = 10;
     GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, RED);// Y_str = 344+56 = 400
-    if(modeCell) GUI_WriteString(70, Y_str+5, "ÇÀÊĞÈÉÒÅ ÇÀÑËÛÍÊÈ", Font_11x18, YELLOW, RED);
-    else GUI_WriteString(65, Y_str+5, "ÂÛÄÊĞÈÉÒÅ ÇÀÑËÛÍÊÈ", Font_11x18, YELLOW, RED);
+    GUI_WriteString(65, Y_str+5, "ÂÛÄÊĞÈÉÒÅ ÇÀÑËÛÍÊÈ", Font_11x18, YELLOW, RED);
     GUI_WriteString(110, Y_str+35, "âåíòèëÿöûú!", Font_11x18, YELLOW, RED);
 //    Y_str = Y_str+18+15; // 270
   }
-  else if(modeCell<3 && VENTIL && curTime>2 && curTime==12) GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, fillScreen); 
+  else if(modeCell<2 && VENTIL && curTime>2 && curTime==12) GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, fillScreen); //"DRYING 1" or "DRYING 2" mode is set (modeCell==0, modeCell==1)
   else if(modeCell>1)
   {
-    if(modeCell==2){
-      sensor = T3; 
-      if(errors & 0x0008) GUI_WriteString(80, Y_str, "ÏÎÌÈËÊÀ ÄÀÒ×ÈÊÀ", Font_11x18, YELLOW, RED);
-      else GUI_WriteString(80, Y_str, "ÂÎËÎÃÈÉ ÄÀÒ×ÈÊ ", Font_11x18, YELLOW, fillScreen);
-    }
-    else if(modeCell==3){
+    if(modeCell==2 || modeCell==3){ // Only for "SMOKING 1" or "SMOKING 2" mode
       sensor = T2;
       if(errors & 0x0004) GUI_WriteString(30, Y_str, "    ÏÎÌÈËÊÀ ÄÀÒ×ÈÊÀ    ", Font_11x18, YELLOW, RED);
       else if(errors & ERR6){
