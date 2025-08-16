@@ -183,7 +183,7 @@ int main(void)
   
   i16 = initData();
   ds18b20_port_init();      // линия 1-Wire
-  ds18b20_checkSensor(4);   // check DS18B20 sensors
+  ds18b20_checkSensor(4);   // check DS18B20 sensors: only 4 pcs
  
   switch (i16){
   	case 0: GUI_WriteString(5, Y_str, "Ыныцыалызацыя успышна.", Font_11x18, GREEN, BLACK);	break;
@@ -257,7 +257,7 @@ int main(void)
   // ------------------------------------------------- КОНЕЦ ЛОГИКИ ВОССТАНОВЛЕНИЯ ----------------------------------------------------
   HAL_Delay(800);
   temperature_check();
-  for (i16=0; i16<4; i16++){
+  for (i16 = 0; i16 < ds18b20_amount; i16++){
       sprintf(buffTFT,"Датчик N%u = %3.1f$ ", i16+1,(float)ds.pvT[i16]/10);
       GUI_WriteString(5, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
       Y_str = Y_str+18+5;
