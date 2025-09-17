@@ -4,11 +4,15 @@
   * @file           : main.c
   * @brief          : GRD 4.1 inch 22.01.2025
   ******************************************************************************
+  * Get-FileHash e:\!PROJECTS\!STM32\2025\GRD_41\MDK-ARM\GRD_41\GRD_41.hex -Algorithm MD5
+  * E3A488628F88D120319E10E75909E258
   *
-  * Program Size: Code=33894 RO-data=11490 RW-data=236 ZI-data=3220  
+  * certutil -hashfile e:\!PROJECTS\!STM32\2025\GRD_41\MDK-ARM\GRD_41\GRD_41.hex SHA1
+  * 73d9f00bed49b9db9e2a9edb1e755c93237ff399
+  *
+  * Program Size: Code=33894 RO-data=11490 RW-data=236 ZI-data=3220  v. 4.1.5
+  * Program Size: Code=40810 RO-data=11778 RW-data=256 ZI-data=3224  v. 4.1.6
   * [0x08000000:0x0800B234] Memory Checksum: 0x0040CA39
-  * certutil -hashfile e:\!PROJECTS\!STM32\2025\GRD_40\MDK-ARM\GRD_40\GRD_40.hex SHA1
-  * d4f86b9297aaa9c98f087b2d9cfff38c926e7753
   *
   ******************************************************************************
   */
@@ -178,7 +182,7 @@ int main(void)
   GUI_Clear(fillScreen);
   if((lcddev.dir&1)==0) X_left = 20; else X_left = 100;
   GUI_WriteString(35, Y_str, "GRD Max", Font_16x26, WHITE, fillScreen);
-  GUI_WriteString(165, Y_str+5, " v 4.1.5", Font_11x18, WHITE, fillScreen);
+  GUI_WriteString(165, Y_str+5, " v 4.1.6", Font_11x18, WHITE, fillScreen);
   Y_str = Y_str+18+35;
   
   i16 = initData();

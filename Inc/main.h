@@ -118,7 +118,7 @@ void Error_Handler(void);
 #include <stdlib.h>
 
 
-#define MANUAL_CHECK
+//#define MANUAL_CHECK
 
 #ifdef MANUAL_CHECK
   #define CHKSMOKE  180 // (3 min.) waiting for smoke temperature check in sec.

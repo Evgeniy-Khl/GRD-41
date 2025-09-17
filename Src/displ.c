@@ -362,7 +362,7 @@ void displ_5(void){
     else if(i==1) sprintf(buffTFT,"%12s: %3i$", otherName[i], set[ALRM]); // "юбюпхъ"
     else if(i==2) sprintf(buffTFT,"%12s: %2.1f$", otherName[i], (float)set[HIST]/10); // "цхярепег"
     else if(i==3) sprintf(buffTFT,"%12s: %3i", otherName[i], set[CHILL]); // "нункндф."
-    else sprintf(buffTFT,"%12s: %3i", otherName[i], dataRAM.config.koff[i-4]); // "Prop","Integ","Diff"
+    else sprintf(buffTFT,"%12s: %3i", otherName[i], dataRAM.config.koff[modeCell][i-4]); // "Prop","Integ","Diff"
     if(i == numSet){color_txt = BLACK; color_box = WHITE;} else {color_txt = WHITE; color_box = BLACK;}
     GUI_WriteString(X_left, Y_str, buffTFT, Font_11x18, color_txt, color_box);
     Y_str = Y_str+18+5;
