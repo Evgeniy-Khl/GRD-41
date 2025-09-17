@@ -49,7 +49,7 @@ void setData(uint8_t m){
       speedData[i][x] = dataRAM.config.speedData[i][x];
     }
   }
-  PID_Init(&pid, dataRAM.config.koff[0], dataRAM.config.koff[1], dataRAM.config.koff[2]);
+  PID_Init(&pid, dataRAM.config.koff[m][0], dataRAM.config.koff[m][1], dataRAM.config.koff[m][2]);
   grafDispl[0].sp = set[T0];
   grafDispl[1].sp = set[T1];
 }
@@ -146,9 +146,21 @@ uint8_t initData(void){
     dataRAM.config.modeSet3[10]=5;  // Гистерезис (0.5 грд.)
     dataRAM.config.modeSet3[11]=0;  // Нагрев 0-прямое, 1-инвесное управление, 2-отключены аварийные звуковые сигналы
     
-    dataRAM.config.koff[0]=50;      // пропорциональный
-    dataRAM.config.koff[1]=70;      // интегральный
-    dataRAM.config.koff[2]=30;      // дифференциальный
+    dataRAM.config.koff[0][0]=50;      // пропорциональный
+    dataRAM.config.koff[0][1]=70;      // интегральный
+    dataRAM.config.koff[0][2]=30;      // дифференциальный
+    
+    dataRAM.config.koff[1][0]=40;      // пропорциональный
+    dataRAM.config.koff[1][1]=60;      // интегральный
+    dataRAM.config.koff[1][2]=20;      // дифференциальный
+    
+    dataRAM.config.koff[2][0]=30;      // пропорциональный
+    dataRAM.config.koff[2][1]=50;      // интегральный
+    dataRAM.config.koff[2][2]=40;      // дифференциальный
+    
+    dataRAM.config.koff[3][0]=20;      // пропорциональный
+    dataRAM.config.koff[3][1]=40;      // интегральный
+    dataRAM.config.koff[3][2]=50;      // дифференциальный
     
     for(i=0;i<8;i++){dataRAM.config.relaySet[i]=-1;}  // автоматическое управление
     for(i=0;i<2;i++){dataRAM.config.analogSet[i]=-1;} // автоматическое управление

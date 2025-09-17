@@ -17,7 +17,7 @@ struct Config {
     uint16_t modeSet1[INDEX];
     uint16_t modeSet2[INDEX];
     uint16_t modeSet3[INDEX];
-    uint16_t koff[3];
+    uint16_t koff[4][3];
     int8_t relaySet[8];   // relaySet[0..7]- ручное задание выхода;
     int8_t analogSet[2];  // analogSet[0;1]- ручное задание выхода;
     uint8_t familycode[MAX_SENSOR][8];

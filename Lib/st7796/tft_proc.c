@@ -264,7 +264,7 @@ void checkButtons(uint8_t item){
           case 2: if (--numSet<0) numSet = MAX_OTHER-1;	break;
           case 3: 
                   if(numSet<4) newval[numSet] = set[numSet+8];
-                  else newval[numSet] = dataRAM.config.koff[numSet-4];
+                  else newval[numSet] = dataRAM.config.koff[modeCell][numSet-4];
 				  displ_num = 6; NEWBUTT = 1; break;
         }
         item = 10;
@@ -301,7 +301,7 @@ void checkButtons(uint8_t item){
             GUI_FillRectangle(0, Y_top, lcddev.width, lcddev.height, fillScreen);
             GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, "ВИКОНАЮ ЗАПИС!", Font_11x18, GREEN, BLACK);
             if(numSet<4) set[numSet+8] = newval[numSet];     // установим новые значения
-            else dataRAM.config.koff[numSet-4] = newval[numSet];
+            else dataRAM.config.koff[modeCell][numSet-4] = newval[numSet];
             uint32_t er = writeData();        // запишем значения во FLASH
             if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "ПОМИЛКА!", Font_11x18, YELLOW, RED);
             else GUI_WriteString(lcddev.width/2-10,lcddev.height/2+20, "OK", Font_11x18, GREEN, BLACK);
