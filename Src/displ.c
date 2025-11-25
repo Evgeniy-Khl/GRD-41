@@ -53,15 +53,7 @@ void displ_0(void){
     drawButton(YELLOW, 1, "Керуван.");
     drawButton(CYAN, 2, "Налаштув.");
   }
-  //------------- BackUp -------------------
-  uint8_t oldMinutes = sTime.Minutes;
-  HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
-  HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
-  if(oldMinutes != sTime.Minutes && WORK){
-    uint32_t current_time_minutes = sTime.Hours*60 + sTime.Minutes;
-    newMitutesBackUp(current_time_minutes);
-  }
-  //----------------------------------------
+  
   X_left = 15;
   if(WORK) GUI_WriteString(X_left, Y_str, " ON  ", Font_16x26, BLACK, GREEN);
   else if(VENTIL) GUI_WriteString(X_left, Y_str, "VENT ", Font_16x26, BLACK, YELLOW);

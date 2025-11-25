@@ -181,8 +181,12 @@ int main(void)
   LCD_Init(USE_VERTICAL0);
   GUI_Clear(fillScreen);
   if((lcddev.dir&1)==0) X_left = 20; else X_left = 100;
+  #ifdef MANUAL_CHECK
+  GUI_WriteString(30, Y_str, "MANUAL CHECK", Font_16x26, ORANGE, fillScreen);
+  #else
   GUI_WriteString(35, Y_str, "GRD Max", Font_16x26, WHITE, fillScreen);
-  GUI_WriteString(165, Y_str+5, " v 4.1.6", Font_11x18, WHITE, fillScreen);
+  GUI_WriteString(165, Y_str+5, " v 4.1.7", Font_11x18, WHITE, fillScreen);
+  #endif
   Y_str = Y_str+18+35;
   
   i16 = initData();
@@ -467,6 +471,7 @@ int main(void)
             //------- далее продувка ---------
               sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
               HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+              stopBackUp();
           }
         }
         else if(ds18b20_amount==1){      // если только 1 датчик и продолжительность 0 то завершение по температуре камеры.          
@@ -476,6 +481,7 @@ int main(void)
             //------- далее продувка ---------
             sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
             HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+            stopBackUp();
           }
         }
         else if(ds18b20_amount>1){      // если датчиков много и продолжительность 0 то завершение по температуре среды.          
@@ -485,6 +491,7 @@ int main(void)
             //------- далее продувка ---------
             sTime.Hours=0; sTime.Minutes=0; sTime.Seconds=0;
             HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+            stopBackUp();
           }
         }
         
@@ -522,7 +529,14 @@ int main(void)
         }
       }
       if(errors) ALARM = ON; else ALARM = OFF;  // световой сигнал ошибки
-
+      //------------- BackUp -------------------
+      uint8_t oldMinutes = sTime.Minutes;
+      HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+      HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BIN);
+      if(oldMinutes != sTime.Minutes && WORK){
+        uint32_t current_time_minutes = sTime.Hours*60 + sTime.Minutes;
+        newMitutesBackUp(current_time_minutes);
+      }
       display();
     }
     /* USER CODE END WHILE */
