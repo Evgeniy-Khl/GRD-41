@@ -114,7 +114,7 @@ void displ_0(void){
   else if(modeCell<3 && VENTIL && curTime>2 && curTime==12) GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, fillScreen); 
   else if(modeCell>1)
   {
-    if(modeCell==2){
+    if(modeCell==0 || modeCell==2){
       sensor = T3; 
       if(errors & 0x0008) GUI_WriteString(80, Y_str, "онлхкйю дюрвхйю", Font_11x18, YELLOW, RED);
       else GUI_WriteString(80, Y_str, "бнкнцхи дюрвхй ", Font_11x18, YELLOW, fillScreen);
