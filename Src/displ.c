@@ -10,11 +10,6 @@
 #include "procedure.h"
 
 extern char buffTFT[];
-extern const char* setName[];
-extern const char* modeName[];
-extern const char* otherName[];
-extern const char* relayName[];
-extern const char* analogName[];
 extern uint8_t displ_num, modeCell, ds18b20_amount, ds18b20_num, familycode[][8], newDate, ticBeep, dsplPW;
 extern uint16_t speedData[MAX_SPEED][2], errors;
 extern uint16_t fillScreen, Y_str, X_left, Y_top, Y_bottom, color0, color1, set[INDEX], mainTimer, tmrCounter, checkSmoke;
@@ -37,21 +32,22 @@ int16_t max(int16_t a, int16_t b ) {
 //--------- ОСНОВНОЙ ЭКРАН ----------------------
 void displ_0(void){
   uint8_t sensor;
-  Y_str = Y_top+15;  // 15
+  Y_str = Y_top+15;
   const char* point[3] = {"  ","  ","  "};
   uint32_t curTime = sTime.Hours*3600 + sTime.Minutes*60 + sTime.Seconds;
+  
   if(WORK){
-//    if(INSIDE) point[1] = "->";
     if(set[TMR0]) point[2] = "->";
     else  point[0] = "->";
   }
+
   if(NEWBUTT){
     GUI_Clear(fillScreen);
-    initializeButtons(3,1,40);// 3 колонки; одна строка; высота 40
-    if(WORK|VENTIL|PURGING) drawButton(MAGENTA, 0, "СТОП");
-    else drawButton(GREEN, 0, "ПУСК");
-    drawButton(YELLOW, 1, "Керуван.");
-    drawButton(CYAN, 2, "Налаштув.");
+    initializeButtons(3,1,40);
+    if(WORK|VENTIL|PURGING) drawButton(MAGENTA, 0, (char*)STR_BTN_STOP);
+    else drawButton(GREEN, 0, (char*)STR_BTN_START);
+    drawButton(YELLOW, 1, (char*)STR_BTN_CONTROL);
+    drawButton(CYAN, 2, (char*)STR_BTN_SETTINGS);
   }
   
   X_left = 15;
@@ -63,22 +59,22 @@ void displ_0(void){
     color0 = WHITE; color1 = WHITE;
   }
   
-  GUI_WriteString(120, Y_str, "РЕЖИМ:", Font_11x18, YELLOW, fillScreen);
+  GUI_WriteString(120, Y_str, (char*)STR_MODE_LABEL, Font_11x18, YELLOW, fillScreen);
   sprintf(buffTFT,"%8s", modeName[modeCell]);
   GUI_WriteString(190, Y_str, buffTFT, Font_11x18, BLACK, WHITE);
-  Y_str = Y_str+26+15; //56
-  //----------------------
+  Y_str = Y_str+26+15; 
+
   X_left = 20;
-  if(errors & 0x01) GUI_WriteString(X_left, Y_str, " ПОМИЛКА  ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR3) GUI_WriteString(X_left, Y_str, " ПЕРЕГРIВ ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR5) GUI_WriteString(X_left, Y_str, "ВIДХIЛЕННЯ", Font_11x18, YELLOW, RED);
-  else GUI_WriteString(X_left, Y_str, "  КАМЕРА  ", Font_11x18, YELLOW, fillScreen);
-  //----------------------
+  if(errors & 0x01) GUI_WriteString(X_left, Y_str, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
+  else if(errors & ERR3) GUI_WriteString(X_left, Y_str, (char*)STR_OVERHEAT, Font_11x18, YELLOW, RED);
+  else if(errors & ERR5) GUI_WriteString(X_left, Y_str, (char*)STR_DEVIATION, Font_11x18, YELLOW, RED);
+  else GUI_WriteString(X_left, Y_str, (char*)STR_CAMERA, Font_11x18, YELLOW, fillScreen);
+
   X_left = 180;
-  if(errors & 0x02) GUI_WriteString(X_left, Y_str, " ПОМИЛКА  ", Font_11x18, YELLOW, RED);
-  else if(errors & ERR4) GUI_WriteString(X_left, Y_str, " ПЕРЕГРIВ ", Font_11x18, YELLOW, RED);
-  else GUI_WriteString(X_left, Y_str, "  ПРОДУКТ ", Font_11x18, YELLOW, fillScreen);
-  //----------------------
+  if(errors & 0x02) GUI_WriteString(X_left, Y_str, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
+  else if(errors & ERR4) GUI_WriteString(X_left, Y_str, (char*)STR_OVERHEAT, Font_11x18, YELLOW, RED);
+  else GUI_WriteString(X_left, Y_str, (char*)STR_PRODUCT, Font_11x18, YELLOW, fillScreen);
+
   if(grafDispl[0].value != ds.pvT[0] || NEWBUTT) {
       grafDispl[0].value = ds.pvT[0];
       diagram(grafDispl[0], color0);
@@ -89,46 +85,49 @@ void displ_0(void){
   }
   NEWBUTT = OFF;
   Y_str = 240;
-  //-------------------------------------------------------------------------------------------
+
   X_left = 30;
-  GUI_WriteString(X_left, Y_str, "   ТРИВАЛIСТЬ РЕЖИМУ   ", Font_11x18, YELLOW, fillScreen);
-  Y_str = Y_str+18+15; // 204
+  GUI_WriteString(X_left, Y_str, (char*)STR_DURATION, Font_11x18, YELLOW, fillScreen);
+  Y_str = Y_str+18+15; 
   if(WORK|PURGING){
     sprintf(buffTFT,"%2s %02u:%02u:%02u ", point[2], sTime.Hours, sTime.Minutes, sTime.Seconds);
     GUI_WriteString(15, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
   }
   uint16_t tmr = set[TMR0];
-  if(PURGING) {tmr = set[TMR1]; sprintf(buffTFT," %iхвл.%02iсек.", tmr/60, tmr%60);}
-  else sprintf(buffTFT," %iгод.%02iхвл.", tmr/60, tmr%60);
+  if(PURGING) {
+      tmr = set[TMR1]; 
+      sprintf(buffTFT," %i%s%02i%s", tmr/60, STR_TIME_UNIT_M, tmr%60, STR_TIME_UNIT_S);
+  }
+  else sprintf(buffTFT," %i%s%02i%s", tmr/60, STR_TIME_UNIT_H, tmr%60, STR_TIME_UNIT_M);
+  
   GUI_WriteString(165, Y_str, buffTFT, Font_11x18, BLACK, WHITE);
-  Y_str = Y_str+18+15;  // 237
+  Y_str = Y_str+18+15;  
   
   if(modeCell<3 && VENTIL && curTime>2 && curTime<12){
     ticBeep = 10;
-    GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, RED);// Y_str = 344+56 = 400
-    if(modeCell) GUI_WriteString(70, Y_str+5, "ЗАКРИЙТЕ ЗАСЛЫНКИ", Font_11x18, YELLOW, RED);
-    else GUI_WriteString(65, Y_str+5, "ВЫДКРИЙТЕ ЗАСЛЫНКИ", Font_11x18, YELLOW, RED);
-    GUI_WriteString(110, Y_str+35, "вентиляцыъ!", Font_11x18, YELLOW, RED);
-//    Y_str = Y_str+18+15; // 270
+    GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, RED);
+    if(modeCell) GUI_WriteString(70, Y_str+5, (char*)STR_CLOSE_DAMP, Font_11x18, YELLOW, RED);
+    else GUI_WriteString(65, Y_str+5, (char*)STR_OPEN_DAMP, Font_11x18, YELLOW, RED);
+    GUI_WriteString(110, Y_str+35, (char*)STR_VENT_LABEL, Font_11x18, YELLOW, RED);
   }
   else if(modeCell<3 && VENTIL && curTime>2 && curTime==12) GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, fillScreen); 
   else if(modeCell>1)
   {
     if(modeCell==0 || modeCell==2){
       sensor = T3; 
-      if(errors & 0x0008) GUI_WriteString(80, Y_str, "ПОМИЛКА ДАТЧИКА", Font_11x18, YELLOW, RED);
-      else GUI_WriteString(80, Y_str, "ВОЛОГИЙ ДАТЧИК ", Font_11x18, YELLOW, fillScreen);
+      if(errors & 0x0008) GUI_WriteString(80, Y_str, (char*)STR_SENSOR_ERR, Font_11x18, YELLOW, RED);
+      else GUI_WriteString(80, Y_str, (char*)STR_HUMID_SENS, Font_11x18, YELLOW, fillScreen);
     }
     else if(modeCell==3){
       sensor = T2;
-      if(errors & 0x0004) GUI_WriteString(30, Y_str, "    ПОМИЛКА ДАТЧИКА    ", Font_11x18, YELLOW, RED);
+      if(errors & 0x0004) GUI_WriteString(30, Y_str, (char*)STR_SENSOR_ERR, Font_11x18, YELLOW, RED);
       else if(errors & ERR6){
-        if(set[sensor]*10 > ds.pvT[sensor]) GUI_WriteString(30, Y_str, "ДИМ НИЗЬКОЪ ТЕМПЕРАТУРИ", Font_11x18, YELLOW, RED);
-        else  GUI_WriteString(30, Y_str, "ДИМ ВИСОКОЪ ТЕМПЕРАТУРИ", Font_11x18, YELLOW, RED);
+        if(set[sensor]*10 > ds.pvT[sensor]) GUI_WriteString(30, Y_str, (char*)STR_SMOKE_LOW, Font_11x18, YELLOW, RED);
+        else  GUI_WriteString(30, Y_str, (char*)STR_SMOKE_HIGH, Font_11x18, YELLOW, RED);
       }
-      else GUI_WriteString(30, Y_str, "       ДАТЧИК ДИМУ     ", Font_11x18, YELLOW, fillScreen);
+      else GUI_WriteString(30, Y_str, (char*)STR_SMOKE_SENS, Font_11x18, YELLOW, fillScreen);
     }
-    Y_str = Y_str+18+15; // 270
+    Y_str = Y_str+18+15; 
     
     if(ds.pvT[sensor]<1000) sprintf(buffTFT,"%3.1f$ ",(float)ds.pvT[sensor]/10);
     else if(ds.pvT[sensor]<1270) sprintf(buffTFT,"%5d$ ", ds.pvT[sensor]/10);
@@ -136,17 +135,17 @@ void displ_0(void){
     GUI_WriteString(55, Y_str, buffTFT, Font_16x26, WHITE, BLACK);
     sprintf(buffTFT,"%3i.0$ ", set[sensor]);
     GUI_WriteString(175, Y_str, buffTFT, Font_16x26, BLACK, WHITE);
-    Y_str = Y_str+26+15;  // 311
+    Y_str = Y_str+26+15; 
   }
   
   if(VENTIL && curTime > 12){
-    if(errors & ERR8) GUI_WriteString(30, Y_str, "  НЕ ПРАЦЮЭ ВЕНТИЛЯТОР  ", Font_11x18, YELLOW, RED);
+    if(errors & ERR8) GUI_WriteString(30, Y_str, (char*)STR_FAN_FAIL, Font_11x18, YELLOW, RED);
     else {
-      sprintf(buffTFT,"%12s: %4i об/хвл.", setName[4], speedData[set[VENT]][0]);
+      sprintf(buffTFT,"%12s: %4i %s", setName[4], speedData[set[VENT]][0], STR_SPEED_UNIT);
       GUI_WriteString(10, Y_str, buffTFT, Font_11x18, YELLOW, fillScreen);
     }
   }  
-  GUI_FillRectangle(0, 0, 1, 1, fillScreen);//???????????????????????????????????
+  GUI_FillRectangle(0, 0, 1, 1, fillScreen);
 }
 
 //-------------------------------- СТАН ВЫХОДІВ ------------------------------------------------------
@@ -157,10 +156,10 @@ void displ_1(void){
     Y_str = Y_top+10;
     if(NEWBUTT){ NEWBUTT = OFF;
       GUI_Clear(fillScreen);
-      GUI_WriteString(X_left+60, Y_str,"СТАН ВИХОДЫВ",Font_11x18,YELLOW,fillScreen);
-      initializeButtons(4,1,40);// четире колонки; одна строка; высота 40
-      drawButton(BLUE, 0, "Вихыд");
-      drawButton(YELLOW, 1, "Вибыр");
+      GUI_WriteString(X_left+60, Y_str, (char*)STR_STATUS_OUT, Font_11x18, YELLOW, fillScreen);
+      initializeButtons(4,1,40);
+      drawButton(BLUE, 0, (char*)STR_BTN_EXIT);
+      drawButton(YELLOW, 1, (char*)STR_BTN_SELECT);
       drawButton(MAGENTA, 2, "+");
       drawButton(CYAN, 3, "-");
     }
@@ -184,12 +183,14 @@ void displ_1(void){
     }
 //---- ВХОДЫ ----
     Y_str = Y_str+18+5;
-    GUI_WriteString(X_left+40,Y_str, "ВХЫД N1:", Font_11x18, WHITE, BLACK);
-    if(HAL_GPIO_ReadPin(Input0_GPIO_Port, Input0_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; // напряжение подано
+    sprintf(buffTFT, "%s1:", STR_INPUT);
+    GUI_WriteString(X_left+40,Y_str, buffTFT, Font_11x18, WHITE, BLACK);
+    if(HAL_GPIO_ReadPin(Input0_GPIO_Port, Input0_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; 
     GUI_FillRectangle(X_left+150,Y_str,30,18,color_box);
     Y_str = Y_str+18+5;
-    GUI_WriteString(X_left+40,Y_str, "ВХЫД N2:", Font_11x18, WHITE, BLACK);
-    if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; // напряжение подано
+    sprintf(buffTFT, "%s2:", STR_INPUT);
+    GUI_WriteString(X_left+40,Y_str, buffTFT, Font_11x18, WHITE, BLACK);
+    if(HAL_GPIO_ReadPin(Input1_GPIO_Port, Input1_Pin) == GPIO_PIN_RESET) color_box=YELLOW; else color_box=GRAY; 
     GUI_FillRectangle(X_left+150,Y_str,30,18,color_box);
 //==============================================================================================================
 #ifdef MANUAL_CHECK
@@ -225,36 +226,26 @@ void displ_2(void){
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
     initializeButtons(4,1,40);// четыре колонки; одна строка; высота 40
-    drawButton(BLUE, 0, "Вихыд");
+    drawButton(BLUE, 0, (char*)STR_BTN_EXIT);
     drawButton(GREEN, 1, "v");
     drawButton(GREEN, 2, "^");
-    drawButton(YELLOW, 3, "Вибыр");
+    drawButton(YELLOW, 3, (char*)STR_BTN_SELECT);
   }
   Y_str = Y_str+10;
   for (i=-1; i<MAX_SET; i++){
-    if(i==-1) sprintf(buffTFT,"       РЕЖИМ: %8s", modeName[modeCell]);
-    else if(i==3) sprintf(buffTFT,"%12s: %iгод.%02iхвл.", setName[i], set[TMR0]/60, set[TMR0]%60);  // "ТРИВАЛIСТЬ"
-    else if(i==4) sprintf(buffTFT,"%12s: %4i об/хвл.", setName[i], speedData[set[VENT]][0]);        // "ШВИДКIСТЬ"
-    else if(i==5){
-      if(set[TMON]){
-        // если ВАРКА (modeCell==2) задается в mсек.[от 0.1сек. до 10 сек.] (период 10 mсек.)
-        if(modeCell==2) flSet = (float)set[TMON]/10; else flSet = set[TMON];
-        sprintf(buffTFT,"%12s: %2.1fсек.", setName[i], flSet);                                // "ТАЙМ.ON","ТАЙМ.OFF" 
-      }
-      else sprintf(buffTFT,"%12s:", "-----");
+    if(i==-1) sprintf(buffTFT,"        %s %8s", STR_MODE_LABEL, modeName[modeCell]);
+    else if(i==3) sprintf(buffTFT,"%12s: %i%s%02i%s", setName[i], set[TMR0]/60, STR_TIME_UNIT_H, set[TMR0]%60, STR_TIME_UNIT_M);
+    else if(i==4) sprintf(buffTFT,"%12s: %4i %s", setName[i], speedData[set[VENT]][0], STR_SPEED_UNIT);
+    else if(i==5 || i==6){
+       if(set[i==5?TMON:TMOFF]){
+         if(modeCell==2) flSet = (float)set[i==5?TMON:TMOFF]/10; else flSet = set[i==5?TMON:TMOFF];
+         sprintf(buffTFT,"%12s: %2.1f%s", setName[i], flSet, STR_TIME_UNIT_S);
+       } else sprintf(buffTFT,"%12s:", "-----");
     }
-    else if(i==6){
-      if(set[TMOFF]){
-        // если ВАРКА (modeCell==2) задается в mсек.[от 0.1сек. до 10 сек.] (период 10 mсек.)
-        if(modeCell==2) flSet = (float)set[TMOFF]/10; else flSet = set[TMOFF];
-        sprintf(buffTFT,"%12s: %2.1fсек.", setName[i], flSet);                                // "ТАЙМ.ON","ТАЙМ.OFF" 
-      }
-      else sprintf(buffTFT,"%12s:", "-----");
-    }
-    else if(i==7) sprintf(buffTFT,"%12s:", setName[i]);                                       // "IНШЕ"
-    else {                                                                                    // "t КАМЕРИ","t ПРОДУКТА","t ДИМА"
-      if(modeCell==2 && i==2) {sensor = T3; strcpy(txt,"t ВОЛОГОГО");}                        // "ВАРIННЯ"
-      else if(modeCell==3 && i==2) {sensor = T2; sprintf(txt,"%12s",setName[i]);}             // "КОПЧЕННЯ"
+    else if(i==7) sprintf(buffTFT,"%12s:", setName[i]);
+    else {
+      if(modeCell==2 && i==2) {sensor = T3; strcpy(txt, STR_T_HUMID);}
+      else if(modeCell==3 && i==2) {sensor = T2; sprintf(txt,"%12s",setName[i]);}
       else {sensor = i; sprintf(txt,"%12s",setName[i]);}             
       if(set[sensor]){sprintf(buffTFT,"%12s: %3i$ ", txt, set[sensor]);} 
       else sprintf(buffTFT,"%12s:", "-----");
@@ -272,11 +263,11 @@ void displ_3(void){
   Y_str = Y_top; X_left = 5;
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
-    initializeButtons(4,2,40);// четыре колонки; две строки; высота 40
-    drawButton(BLUE, 0, "Отм.");
+    initializeButtons(4,2,40);
+    drawButton(BLUE, 0, (char*)STR_BTN_CANCEL);
     drawButton(GREEN, 1, "+1");
     drawButton(GREEN, 2, "-1");
-    drawButton(MAGENTA, 3, "Зап.");
+    drawButton(MAGENTA, 3, (char*)STR_BTN_SAVE);
     drawButton(YELLOW, 4, "+10");
     drawButton(YELLOW, 5, "-10");
     drawButton(CYAN, 6, "+50");
@@ -286,12 +277,12 @@ void displ_3(void){
   
   if(numSet<3){
     if(numSet==2){
-      if(modeCell==2) strcpy(txt,"t ВОЛОГОГО");   // "ВАРIННЯ"
-      else sprintf(txt,"%12s",setName[numSet]);   // "КОПЧЕННЯ"
+      if(modeCell==2) strcpy(txt, STR_T_HUMID);
+      else sprintf(txt,"%12s",setName[numSet]);
       GUI_WriteString(X_left+20, Y_str, txt, Font_11x18, WHITE, BLACK);
     }
     else {
-      sprintf(buffTFT,"%12s:", setName[numSet]);  // "СУШЫННЯ","ОБЖАРКА"
+      sprintf(buffTFT,"%12s:", setName[numSet]);
       GUI_WriteString(X_left+20, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
     }
     sprintf(buffTFT,"%3i$", newval[numSet]);
@@ -299,11 +290,11 @@ void displ_3(void){
     GUI_WriteString(X_left+180, Y_str, buffTFT, Font_16x26, WHITE, BLACK);
   }
   else {
-    if(numSet==3) sprintf(buffTFT,"%12s: %iгод.%02iхвл.", setName[numSet], newval[numSet]/60, newval[numSet]%60);
+    if(numSet==3) sprintf(buffTFT,"%12s: %i%s%02i%s", setName[numSet], newval[numSet]/60, STR_TIME_UNIT_H, newval[numSet]%60, STR_TIME_UNIT_M);
     else if(numSet==5 || numSet==6){
-      // если ВАРКА (modeCell==2) задается в mсек.[от 0.1сек. до 10 сек.] (период 10 mсек.)
+
       if(modeCell==2) flSet = (float)newval[numSet]/10; else flSet = newval[numSet];
-      sprintf(buffTFT,"%12s: %2.1fсек.", setName[numSet], flSet);                                // "ТАЙМ.ON" "ТАЙМ.OFF"
+      sprintf(buffTFT,"%12s: %2.1f%s", setName[numSet], flSet, STR_TIME_UNIT_S);
     }
     GUI_WriteString(X_left+20, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
   }
@@ -316,11 +307,11 @@ void displ_4(void){
   Y_str = Y_top; X_left = 5;
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
-    initializeButtons(4,1,40);// четыре колонки; одна строка; высота 40
-    drawButton(BLUE, 0, "Вихыд");
+    initializeButtons(4,1,40);
+    drawButton(BLUE, 0, (char*)STR_BTN_EXIT);
     drawButton(GREEN, 1, "v");
     drawButton(GREEN, 2, "^");
-    drawButton(YELLOW, 3, "Вибыр");
+    drawButton(YELLOW, 3, (char*)STR_BTN_SELECT);
   }
   if(newval[1]!=newval[0]){
     newval[1] = newval[0];
@@ -342,19 +333,19 @@ void displ_5(void){
   Y_str = Y_top; X_left = 5;
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
-    initializeButtons(4,1,40);// четыре колонки; одна строка; высота 40
-    drawButton(BLUE, 0, "Вихыд");
+    initializeButtons(4,1,40);
+    drawButton(BLUE, 0, (char*)STR_BTN_EXIT);
     drawButton(GREEN, 1, "v");
     drawButton(GREEN, 2, "^");
-    drawButton(YELLOW, 3, "Вибыр");
+    drawButton(YELLOW, 3, (char*)STR_BTN_SELECT);
   }
   Y_str = Y_str+10;
   for (i=0; i<MAX_OTHER; i++){
-    if(i==0) sprintf(buffTFT,"%12s: %3iсек.", otherName[i], set[TMR1]);   // "ПРОДУВАННЯ"
-    else if(i==1) sprintf(buffTFT,"%12s: %3i$", otherName[i], set[ALRM]); // "АВАРИЯ"
-    else if(i==2) sprintf(buffTFT,"%12s: %2.1f$", otherName[i], (float)set[HIST]/10); // "ГИСТЕРЕЗ"
-    else if(i==3) sprintf(buffTFT,"%12s: %3i", otherName[i], set[CHILL]); // "ОХОЛОДЖ."
-    else sprintf(buffTFT,"%12s: %3i", otherName[i], dataRAM.config.koff[modeCell][i-4]); // "Prop","Integ","Diff"
+    if(i==0) sprintf(buffTFT,"%12s: %3i%s", otherName[i], set[TMR1], STR_TIME_UNIT_S);
+    else if(i==1) sprintf(buffTFT,"%12s: %3i$", otherName[i], set[ALRM]);
+    else if(i==2) sprintf(buffTFT,"%12s: %2.1f$", otherName[i], (float)set[HIST]/10);
+    else if(i==3) sprintf(buffTFT,"%12s: %3i", otherName[i], set[CHILL]);
+    else sprintf(buffTFT,"%12s: %3i", otherName[i], dataRAM.config.koff[modeCell][i-4]);
     if(i == numSet){color_txt = BLACK; color_box = WHITE;} else {color_txt = WHITE; color_box = BLACK;}
     GUI_WriteString(X_left, Y_str, buffTFT, Font_11x18, color_txt, color_box);
     Y_str = Y_str+18+5;
@@ -366,11 +357,11 @@ void displ_6(void){
   Y_str = Y_top; X_left = 5;
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
-    initializeButtons(4,2,40);// четыре колонки; две строки; высота 40
-    drawButton(BLUE, 0, "Отм.");
+    initializeButtons(4,2,40);
+    drawButton(BLUE, 0, (char*)STR_BTN_CANCEL);
     drawButton(GREEN, 1, "+1");
     drawButton(GREEN, 2, "-1");
-    drawButton(MAGENTA, 3, "Зап.");
+    drawButton(MAGENTA, 3, (char*)STR_BTN_SAVE);
     drawButton(YELLOW, 4, "+10");
     drawButton(YELLOW, 5, "-10");
     drawButton(CYAN, 6, "+50");
@@ -380,10 +371,10 @@ void displ_6(void){
   sprintf(buffTFT,"%12s:", otherName[numSet]);
   GUI_WriteString(X_left+20, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
 
-  if(numSet==0) sprintf(buffTFT,"%3icek.", newval[numSet]);           // "ПРОДУВАННЯ"
-  else if(numSet==1) sprintf(buffTFT,"%3i$", newval[numSet]);         // "АВАРИЯ"
-  else if(numSet==2) sprintf(buffTFT,"%1.1f$", (float)newval[numSet]/10); // "ГИСТЕРЕЗ"
-  else sprintf(buffTFT,"%4i", newval[numSet]);                        // "ОХОЛОДЖ.","Prop","Integ"
+  if(numSet==0) sprintf(buffTFT,"%3i%s", newval[numSet], STR_TIME_UNIT_S);
+  else if(numSet==1) sprintf(buffTFT,"%3i$", newval[numSet]);
+  else if(numSet==2) sprintf(buffTFT,"%1.1f$", (float)newval[numSet]/10);
+  else sprintf(buffTFT,"%4i", newval[numSet]);
 
   Y_str = Y_str-4;
   GUI_WriteString(X_left+180, Y_str, buffTFT, Font_16x26, WHITE, BLACK);
@@ -396,15 +387,15 @@ void displ_7(void){
   Y_str = Y_top; X_left = 5;
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
-    initializeButtons(4,1,40);// четыре колонки; одна строка; высота 40
-    drawButton(BLUE, 0, "Вихыд");
+    initializeButtons(4,1,40);
+    drawButton(BLUE, 0, (char*)STR_BTN_EXIT);
     drawButton(GREEN, 1, "v");
-    drawButton(MAGENTA, 2, "Корек");
-    drawButton(YELLOW, 3, "Вибыр");
+    drawButton(MAGENTA, 2, (char*)STR_BTN_CORRECT);
+    drawButton(YELLOW, 3, (char*)STR_BTN_SELECT);
   }
   Y_str = Y_str+10;
   for (i=0; i<MAX_SPEED; i++){
-    sprintf(buffTFT,"%4u об/хвл.", speedData[i][0]);
+    sprintf(buffTFT,"%4u %s", speedData[i][0], STR_SPEED_UNIT);
     if(i == numSet){color_txt = BLACK; color_box = WHITE;} else {color_txt = WHITE; color_box = BLACK;}
     GUI_WriteString(X_left, Y_str, buffTFT, Font_11x18, color_txt, color_box);
     Y_str = Y_str+18+5;
@@ -416,14 +407,14 @@ void displ_8(void){
   Y_str = Y_top; X_left = 5;
   if(NEWBUTT){ NEWBUTT = OFF;
     GUI_Clear(fillScreen);
-    initializeButtons(4,1,40);// четыре колонки; одна строка; высота 40
-    drawButton(BLUE, 0, "Отм.");
+    initializeButtons(4,1,40);
+    drawButton(BLUE, 0, (char*)STR_BTN_CANCEL);
     drawButton(GREEN, 1, "+");
     drawButton(GREEN, 2, "-");
-    drawButton(MAGENTA, 3, "Зап.");
+    drawButton(MAGENTA, 3, (char*)STR_BTN_SAVE);
   }
   Y_str = Y_str+50;
-  sprintf(buffTFT,"Значення: 0x%03x выд.один.", newval[0]);
+  sprintf(buffTFT,"%s 0x%03x %s", STR_VALUE, newval[0], STR_UNIT_STEPS);
   GUI_WriteString(X_left+20, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
 }
 

@@ -253,47 +253,52 @@ void temperature_check(){
 void ds18b20_checkSensor(uint8_t sensors){
   uint8_t errors=0, i, num, x, ok;
   uint16_t point_color=WHITE;
-  for(i=0;i<sensors;i++){
-    if(familycode[i][7]==0) errors++;   // пустой CRC
-    else {                              // код заполнен
+
+  for(i=0; i<sensors; i++){
+    if(familycode[i][7]==0) errors++;   
+    else {                               
       if(ds18b20_ReadStratcpad(i)) ds18b20_amount++;
       else {
-        sprintf(buffTFT,"Датчик N%u выдсутный!",i+1);
+        sprintf(buffTFT, STR_SENS_MISSING, i+1);
         GUI_WriteString(5, Y_str, buffTFT, Font_11x18, RED, YELLOW);
         Y_str = Y_str+18+5;
-        familycode[i][7]=0; errors++;   // но датчик не подключен
+        familycode[i][7]=0; errors++;   
       }
     }
   }
+
   if(errors){
-    GUI_WriteString(5+10, Y_str, "Потрыбно додати датчикыв!", Font_11x18, MAGENTA, BLACK);
+    GUI_WriteString(5+10, Y_str, (char*)STR_SENS_ADD, Font_11x18, MAGENTA, BLACK);
     Y_str = Y_str+18+5;
-    GUI_WriteString(3, Y_str, "Зараз выдключыть усы датчики", Font_11x18, WHITE, BLACK);
+    GUI_WriteString(3, Y_str, (char*)STR_SENS_DISCONN, Font_11x18, WHITE, BLACK);
     HAL_Delay(5000);
     GUI_Clear(fillScreen);
     Y_str = 5;
-    for(num=0;num<sensors;){
-      if(familycode[num][7]==0){            // пустой CRC
-        sprintf(buffTFT,"Пыдключыть тыкы датчик N%u",num+1);
+
+    for(num=0; num<sensors; ){
+      if(familycode[num][7]==0){            
+        sprintf(buffTFT, STR_SENS_CONN_ONE, num+1);
         GUI_WriteString(5, Y_str, buffTFT, Font_11x18, point_color, BLACK);
         HAL_Delay(3000);
-        if(ds18b20_addCode(num)){           // код cчитался
+
+        if(ds18b20_addCode(num)){           
           Y_str = Y_str+18+5; x=0;
-          sprintf(buffTFT,"Датчик N%u прочитаний.",num+1);
+          sprintf(buffTFT, STR_SENS_READ_OK, num+1);
           GUI_WriteString(5, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
           Y_str = Y_str+18+5;
           sprintf(buffTFT,"%02X %02X %02X %02X %02X %02X %02X %02X",
                            familycode[num][0], familycode[num][1], familycode[num][2], familycode[num][3],
                            familycode[num][4], familycode[num][5], familycode[num][6], familycode[num][7]);
           GUI_WriteString(5, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
+
           //-- проверяю эксклюзивность этого датчика
           ok = 1;
-          for(i=0;i<sensors;i++){
-            if(num!=i){   // исключаем проверку своего же кода
+          for(i=0; i<sensors; i++){
+            if(num!=i){   
               if(familycode[num][7]==familycode[i][7]){
                 familycode[num][7]=0; ok = 0;
                 Y_str = Y_str+18+5;
-                sprintf(buffTFT,"Це датчик N%u потрыбен ынший!",i+1);
+                sprintf(buffTFT, STR_SENS_ANOTHER, i+1);
                 GUI_WriteString(5, Y_str, buffTFT, Font_11x18, MAGENTA, BLACK);
                 HAL_Delay(3000);
                 GUI_Clear(fillScreen);
@@ -302,32 +307,32 @@ void ds18b20_checkSensor(uint8_t sensors){
               }
             }
           }
+
           if(ok){
             ds18b20_amount++;
             Y_str = Y_str+18+5;
-            sprintf(buffTFT,"Датчик N%u готовий до роботи. ",num+1);
+            sprintf(buffTFT, STR_SENS_READY, num+1);
             GUI_WriteString(5, Y_str, buffTFT, Font_11x18, GREEN, BLACK);
             Y_str = Y_str+18+5;
-            GUI_WriteString(3, Y_str, "Тепер выд'эднайте цей датчик", Font_11x18, WHITE, BLACK);
+            GUI_WriteString(3, Y_str, (char*)STR_SENS_DISC_ONE, Font_11x18, WHITE, BLACK);
             num++; x=0; point_color=WHITE;
             HAL_Delay(5000);
             GUI_Clear(fillScreen);
             Y_str = 5;
           }
         }
-        else {           // код не читается
+        else {           
           x++;
           switch (x){
-            case 1: point_color=YELLOW; break;  // начинаем сердится
-            case 2: point_color=MAGENTA; break; // очень сердимся
-            case 3: point_color=RED; break;     // последнее предупреждение
-            default: point_color=WHITE; x=0;    // релакс
-                      if(num==3){ // если уже записаны 3 датчика, а четвертого не подключают то ...
-                        for(uint8_t i=0;i<8;i++){
-                          familycode[num][i]=familycode[num-1][i];     // копирруем familycode 3 датчика
+            case 1: point_color=YELLOW; break;  
+            case 2: point_color=MAGENTA; break; 
+            case 3: point_color=RED; break;     
+            default: point_color=WHITE; x=0;    
+                      if(num==3){ 
+                        for(uint8_t i=0; i<8; i++){
+                          familycode[num][i]=familycode[num-1][i];     
                         }
-                        
-                        num++;  // и представляем что это четвертый датчик
+                        num++;  
                       }
             break;
           }
@@ -335,25 +340,29 @@ void ds18b20_checkSensor(uint8_t sensors){
       }
       else num++;
     }  
-    for(uint8_t i=0;i<sensors;i++){
-      for(uint8_t x=0;x<8;x++){
+
+    for(uint8_t i=0; i<sensors; i++){
+      for(uint8_t x=0; x<8; x++){
         dataRAM.config.familycode[i][x] = familycode[i][x];
       }
     }
+
     GUI_Clear(fillScreen);
-    GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, "ВИКОНАЮ ЗАПИС!", Font_11x18, GREEN, BLACK);
-    uint32_t er = writeData();        // запишем значения во FLASH
-    if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "ПОМИЛКА!", Font_11x18, YELLOW, RED);
-    else GUI_WriteString(lcddev.width/2-10,lcddev.height/2-20, "OK", Font_11x18, GREEN, BLACK);
+    GUI_WriteString(lcddev.width/2-90, lcddev.height/2-60, (char*)STR_FLASH_WRITE, Font_11x18, GREEN, BLACK);
+    
+    uint32_t er = writeData();        
+    if(er) GUI_WriteString(lcddev.width/2-40, lcddev.height/2-20, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
+    else GUI_WriteString(lcddev.width/2-10, lcddev.height/2-20, "OK", Font_11x18, GREEN, BLACK);
+    
     HAL_Delay(1000);
     GUI_Clear(fillScreen);
-    GUI_WriteString(3, Y_str+60, "Тепер пыдключыть усы датчики", Font_11x18, WHITE, BLACK);
+    GUI_WriteString(3, Y_str+60, (char*)STR_SENS_CONNECT, Font_11x18, WHITE, BLACK);
     HAL_Delay(5000);
     GUI_Clear(fillScreen);
     Y_str = 5;
   }
   else {
-    GUI_WriteString(5, Y_str, "Усы датчики пыдключены.", Font_11x18, GREEN, BLACK);
+    GUI_WriteString(5, Y_str, (char*)STR_SENS_ALL_OK, Font_11x18, GREEN, BLACK);
     Y_str = Y_str+18+5;
   }
 }
