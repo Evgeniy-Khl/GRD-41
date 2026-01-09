@@ -215,7 +215,7 @@ void checkButtons(uint8_t item){
           break;
           case 3: 
             GUI_FillRectangle(0, Y_top, lcddev.width, lcddev.height, fillScreen);
-            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, "ВИКОНАЮ ЗАПИС!", Font_11x18, GREEN, BLACK);
+            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, (char*)STR_FLASH_WRITE, Font_11x18, GREEN, BLACK);
             if(numSet==2){
               if(modeCell==3) set[T2] = newval[numSet];     // температура (Дым)
               if(modeCell==2) set[T3] = newval[numSet];     // температура (Влажный)
@@ -225,7 +225,7 @@ void checkButtons(uint8_t item){
             else if(numSet==6) set[TMOFF] = newval[numSet]; // Таймер OFF
             else set[numSet] = newval[numSet];     // температура T0, T1
             uint32_t er = writeData();        // запишем значения во FLASH
-            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "ПОМИЛКА!", Font_11x18, YELLOW, RED);
+            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
             else GUI_WriteString(lcddev.width/2-10,lcddev.height/2+20, "OK", Font_11x18, GREEN, BLACK);
             HAL_Delay(1000);
             displ_num = 2; NEWBUTT = 1; break;
@@ -243,11 +243,11 @@ void checkButtons(uint8_t item){
           case 2: if(--newval[0]<0) newval[0] = MAX_MODE-1;	break;
           case 3: 
             GUI_FillRectangle(0, Y_top, lcddev.width, lcddev.height, fillScreen);
-            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, "ВИКОНАЮ ЗАПИС!", Font_11x18, GREEN, BLACK);
+            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, (char*)STR_FLASH_WRITE, Font_11x18, GREEN, BLACK);
             modeCell = newval[0];
             setData(modeCell);                // установим новые значения
             uint32_t er = writeData();        // запишем значения во FLASH
-            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "ПОМИЛКА!", Font_11x18, YELLOW, RED);
+            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
             else GUI_WriteString(lcddev.width/2-10,lcddev.height/2+20, "OK", Font_11x18, GREEN, BLACK);
             HAL_Delay(1000);
             if(newval[2]==-1) {displ_num = 0; newval[2] = 0;}
@@ -299,11 +299,11 @@ void checkButtons(uint8_t item){
           break;
           case 3: 
             GUI_FillRectangle(0, Y_top, lcddev.width, lcddev.height, fillScreen);
-            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, "ВИКОНАЮ ЗАПИС!", Font_11x18, GREEN, BLACK);
+            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, (char*)STR_FLASH_WRITE, Font_11x18, GREEN, BLACK);
             if(numSet<4) set[numSet+8] = newval[numSet];     // установим новые значения
             else dataRAM.config.koff[modeCell][numSet-4] = newval[numSet];
             uint32_t er = writeData();        // запишем значения во FLASH
-            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "ПОМИЛКА!", Font_11x18, YELLOW, RED);
+            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
             else GUI_WriteString(lcddev.width/2-10,lcddev.height/2+20, "OK", Font_11x18, GREEN, BLACK);
             HAL_Delay(1000);
             displ_num = 5; NEWBUTT = 1; break;
@@ -322,7 +322,7 @@ void checkButtons(uint8_t item){
             break;
           case 3: 
             GUI_FillRectangle(0, Y_top, lcddev.width, lcddev.height, fillScreen);
-            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, "ВИКОНАЮ ЗАПИС!", Font_11x18, GREEN, BLACK);
+            GUI_WriteString(lcddev.width/2-90,lcddev.height/2-60, (char*)STR_FLASH_WRITE, Font_11x18, GREEN, BLACK);
             set[VENT] = numSet;     // установим новые значения
             for(uint8_t i=0;i<MAX_SPEED;i++){
               for(uint8_t x=0;x<2;x++){
@@ -331,7 +331,7 @@ void checkButtons(uint8_t item){
             }
             if(WORK|VENTIL|PURGING) sendToI2c(speedData[set[VENT]][1]);
             uint32_t er = writeData();        // запишем значения во FLASH
-            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, "ПОМИЛКА!", Font_11x18, YELLOW, RED);
+            if(er) GUI_WriteString(lcddev.width/2-40,lcddev.height/2-20, (char*)STR_ERROR, Font_11x18, YELLOW, RED);
             else GUI_WriteString(lcddev.width/2-10, lcddev.height/2+20, "OK", Font_11x18, GREEN, BLACK);
             HAL_Delay(1000);
             displ_num = 2; NEWBUTT = 1; numSet = oldNumSet; break;
