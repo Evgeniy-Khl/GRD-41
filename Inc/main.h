@@ -32,6 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "lang.h"
 #include "stm32f1xx_hal_pwr.h"
 #include "stm32f1xx_hal_rtc_ex.h"
 /* USER CODE END Includes */

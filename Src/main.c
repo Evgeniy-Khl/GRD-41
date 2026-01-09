@@ -65,10 +65,6 @@ RTC_TimeTypeDef sTime;
 RTC_DateTypeDef sDate;
 
 char buffTFT[40];
-const char* modeName[4]={"СУШЫННЯ","ОБЖАРКА","ВАРЫННЯ","КОПЧЕННЯ"};
-const char* setName[MAX_SET]={"t КАМЕРИ","t ПРОДУКТА","t ДИМА","ТРИВАЛЫСТЬ","ШВИДКЫСТЬ","ТАЙМ.ON","ТАЙМ.OFF","ЫНШЕ"};
-const char* otherName[MAX_OTHER]={"ПРОДУВАННЯ","АВАРЫЯ","ГЫСТЕРЕЗ","ОХОЛОДЖ.","Prop","Integ","Diff"};
-const char* relayName[7]={"ПЫД","НАГРЫВ","ТАЙМЕР","ВОЛОГА","ЕЛЕКТРО","Кл.ДИМА","Кл.ВОДИ"};
 //const char* analogName[2]={"ВЕНТИЛ.","ЫНШЕ"};
 //        2.00V        3.15V        4.30V        5.45V        6.60V        7.75V        8.90V        10.00V
 //={{1000,0x2F4},{1200,0x4A6},{1400,0x658},{1600,0x80A},{1800,0x9BC},{2000,0xB6E},{2200,0xD20},{2400,0xFFF}};//d=434->1.15V
@@ -194,10 +190,10 @@ int main(void)
   ds18b20_checkSensor(4);   // check DS18B20 sensors: only 4 pcs
  
   switch (i16){
-  	case 0: GUI_WriteString(5, Y_str, "Ыныцыалызацыя успышна.", Font_11x18, GREEN, BLACK);	break;
-  	case 1: GUI_WriteString(5, Y_str, "Первинна ыныцыалызацыя.", Font_11x18, YELLOW, BLACK);	break;
-    case 3: GUI_WriteString(5, Y_str, "Помилки читання FLASH!", Font_11x18, YELLOW, RED);	break;
-  	default:GUI_WriteString(5, Y_str, "Невыдома помилка!", Font_11x18, MAGENTA, BLACK);	break;
+  	case 0: GUI_WriteString(5, Y_str, STR_INIT_OK, Font_11x18, GREEN, BLACK);	break;
+  	case 1: GUI_WriteString(5, Y_str, STR_INIT_FIRST, Font_11x18, YELLOW, BLACK);	break;
+    case 3: GUI_WriteString(5, Y_str, STR_ERR_FLASH, Font_11x18, YELLOW, RED);	break;
+  	default:GUI_WriteString(5, Y_str, STR_ERR_UNKNOWN, Font_11x18, MAGENTA, BLACK);	break;
   }
   Y_str = Y_str+18+5;
   
@@ -215,7 +211,7 @@ int main(void)
     for(uint8_t i=0;i<ds18b20_amount;i++) ds.pvT[i]=1999;
     ds18b20_Convert_T();
   }
-  sprintf(buffTFT,"Датчикыв температури: %d шт.",ds18b20_amount);
+  sprintf(buffTFT, STR_SENSORS_COUNT, ds18b20_amount);
   GUI_WriteString(5, Y_str, buffTFT, Font_11x18, CYAN, BLACK);
   Y_str = Y_str+18+5;
   
@@ -249,9 +245,9 @@ int main(void)
     sTime.Hours = current_time_minutes/60;
     sTime.Minutes = current_time_minutes%60;
     NEWBUTT = 1; startPrg(1);
-    GUI_WriteString(5, Y_str, "Виявлений збый живлення!", Font_11x18, RED, BLACK);
+    GUI_WriteString(5, Y_str, STR_PWR_FAIL, Font_11x18, RED, BLACK);
     Y_str = Y_str+18+5;
-    sprintf(buffTFT,"Выдновлення з %u год. %u хв.",sTime.Hours, sTime.Minutes);
+    sprintf(buffTFT, STR_RESTORING, sTime.Hours, sTime.Minutes);
     GUI_WriteString(5, Y_str, buffTFT, Font_11x18, YELLOW, BLACK);
     Y_str = Y_str+18+5;
     ticBeep=255;
@@ -259,14 +255,14 @@ int main(void)
     ticBeep=255;
     HAL_Delay(5000);
   } else {
-    GUI_WriteString(5, Y_str, "Звичайний старт!", Font_11x18, GREEN, BLACK);
+    GUI_WriteString(5, Y_str, STR_NORMAL_START, Font_11x18, GREEN, BLACK);
     Y_str = Y_str+18+5;
   }
   // ------------------------------------------------- КОНЕЦ ЛОГИКИ ВОССТАНОВЛЕНИЯ ----------------------------------------------------
   HAL_Delay(800);
   temperature_check();
   for (i16 = 0; i16 < ds18b20_amount; i16++){
-      sprintf(buffTFT,"Датчик N%u = %3.1f$ ", i16+1,(float)ds.pvT[i16]/10);
+      sprintf(buffTFT, STR_SENSOR_N, i16+1, (float)ds.pvT[i16]/10);
       GUI_WriteString(5, Y_str, buffTFT, Font_11x18, WHITE, BLACK);
       Y_str = Y_str+18+5;
   }
