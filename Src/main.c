@@ -13,6 +13,7 @@
   * Program Size: Code=33894 RO-data=11490 RW-data=236 ZI-data=3220  v. 4.1.5
   * Program Size: Code=40810 RO-data=11778 RW-data=256 ZI-data=3224  v. 4.1.6
   * [0x08000000:0x0800B234] Memory Checksum: 0x0040CA39
+  * Program Size: Code=40970 RO-data=11778 RW-data=256 ZI-data=3224  v. 4.1.7
   *
   ******************************************************************************
   */
@@ -277,7 +278,7 @@ int main(void)
     Y_str = 5; X_left = 5;
     //-------------------------- ТАЧСКРИН ---------------------------------------
     if(XPT2046_TouchPressed()&& checkTime>40){
-      uint8_t butt_num;
+      uint8_t butt_num = 10;
       if(XPT2046_TouchGetCoordinates(&touch_x, &touch_y)){
         HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);// включение дисплея
         displOff=DISPLAYOFF;
