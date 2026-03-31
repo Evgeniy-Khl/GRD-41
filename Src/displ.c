@@ -102,7 +102,7 @@ void displ_0(void){
   
   GUI_WriteString(165, Y_str, buffTFT, Font_11x18, BLACK, WHITE);
   Y_str = Y_str+18+15;  
-  
+  // ================== Red Transparency ==============
   if(modeCell<3 && VENTIL && curTime>2 && curTime<12){
     ticBeep = 10;
     GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, RED);
@@ -110,9 +110,9 @@ void displ_0(void){
     else GUI_WriteString(65, Y_str+5, (char*)STR_OPEN_DAMP, Font_11x18, YELLOW, RED);
     GUI_WriteString(110, Y_str+35, (char*)STR_VENT_LABEL, Font_11x18, YELLOW, RED);
   }
+  // =================== Black rectangle ==============
   else if(modeCell<3 && VENTIL && curTime>2 && curTime==12) GUI_FillRectangle(42, Y_str, lcddev.width - 75, 60, fillScreen); 
-  else if(modeCell>1)
-  {
+  else {
     if(modeCell==0 || modeCell==2){
       sensor = T3; 
       if(errors & 0x0008) GUI_WriteString(80, Y_str, (char*)STR_SENSOR_ERR, Font_11x18, YELLOW, RED);
@@ -128,16 +128,17 @@ void displ_0(void){
       else GUI_WriteString(30, Y_str, (char*)STR_SMOKE_SENS, Font_11x18, YELLOW, fillScreen);
     }
     Y_str = Y_str+18+15; 
-    
-    if(ds.pvT[sensor]<1000) sprintf(buffTFT,"%3.1f$ ",(float)ds.pvT[sensor]/10);
-    else if(ds.pvT[sensor]<1270) sprintf(buffTFT,"%5d$ ", ds.pvT[sensor]/10);
-    else sprintf(buffTFT," ---  ");
-    GUI_WriteString(55, Y_str, buffTFT, Font_16x26, WHITE, BLACK);
-    sprintf(buffTFT,"%3i.0$ ", set[sensor]);
-    GUI_WriteString(175, Y_str, buffTFT, Font_16x26, BLACK, WHITE);
-    Y_str = Y_str+26+15; 
+    if(modeCell != 1){
+      if(ds.pvT[sensor]<1000) sprintf(buffTFT,"%3.1f$ ",(float)ds.pvT[sensor]/10);
+      else if(ds.pvT[sensor]<1270) sprintf(buffTFT,"%5d$ ", ds.pvT[sensor]/10);
+      else sprintf(buffTFT," ---  ");
+      GUI_WriteString(55, Y_str, buffTFT, Font_16x26, WHITE, BLACK);
+      sprintf(buffTFT,"%3i.0$ ", set[sensor]);
+      GUI_WriteString(175, Y_str, buffTFT, Font_16x26, BLACK, WHITE);
+      Y_str = Y_str+26+15;
+    }
   }
-  
+ // ========================================================================================== 
   if(VENTIL && curTime > 12){
     if(errors & ERR8) GUI_WriteString(30, Y_str, (char*)STR_FAN_FAIL, Font_11x18, YELLOW, RED);
     else {
